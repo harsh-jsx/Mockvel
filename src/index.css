@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/public/fonts/NeueMontreal-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/public/fonts/FoundersGrotesk-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "hbue";
+  src: url("/public/fonts/hbue.woff2") format("woff2");
+}
+
+@theme {
+  --font-neue: "Neue Montreal", sans-serif;
+  --font-founders: "Founders Grotesk", sans-serif;
+  --font-hbue: "hbue", sans-serif;
+}
+
+body {
+  color: white;
+}
+
+.home-bg {
+  filter: brightness(30%);
+  z-index: -99999;
+  top: 0;
+  left: 0;
+  position: fixed;
+}
