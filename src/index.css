@@ -20,13 +20,12 @@
 }
 
 body {
-  color: white;
+  color: #1f2937;
+  background-color: white;
 }
 
-.home-bg {
-  filter: brightness(30%);
-  z-index: -99999;
-  top: 0;
-  left: 0;
-  position: fixed;
+:root {
+  --color-primary: #0081c9;
+  --color-secondary: #efbf04;
+  --color-tertiary: #0081c9;
 }

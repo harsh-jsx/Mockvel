@@ -1,0 +1,127 @@
+/* BrandCarousel.css - place next to the component and import it */
+
+:root {
+  --bg: #ffffff;
+  --panel: #f9fafb;
+  --muted: rgba(0, 0, 0, 0.05);
+}
+
+/* Root */
+.brand-carousel-root {
+  background: #ffffff;
+  color: #111827;
+  padding: 56px 24px;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Container to limit width */
+.container-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Title */
+.carousel-title {
+  font-family: "Neue Montreal", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-weight: 700;
+  font-size: clamp(24px, 4vw, 40px);
+  text-align: center;
+  margin: 6px 0 28px;
+  letter-spacing: 0.05em;
+  color: #111827;
+}
+
+/* rows stack */
+.rows-stack {
+  display: grid;
+  gap: 20px;
+}
+
+/* Mask to soft-fade edges */
+.row-mask {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 0;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+}
+
+/* track */
+.track {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  will-change: transform;
+}
+
+/* group (one set of logos) */
+.logos-group {
+  display: inline-flex;
+  gap: 48px;
+  align-items: center;
+  padding: 6px 0;
+}
+
+/* each logo wrapper */
+.logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px; /* ensures spacing on small screens */
+  transform-origin: center;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* logo image */
+.brand-img {
+  height: 54px;
+  max-width: 220px;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: opacity 160ms ease, transform 160ms ease;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 6px 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* hover micro effect applied by Framer Motion rather than CSS but keep small hover fallback */
+.logo-wrap:hover .brand-img {
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* responsive tuning */
+@media (max-width: 900px) {
+  .logo-wrap {
+    min-width: 140px;
+  }
+  .brand-img {
+    height: 44px;
+  }
+}
+
+@media (max-width: 520px) {
+  .logo-wrap {
+    min-width: 120px;
+    gap: 18px;
+  }
+  .brand-img {
+    height: 36px;
+  }
+}
