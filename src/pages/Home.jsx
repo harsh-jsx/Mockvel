@@ -1,15 +1,28 @@
 import React from "react";
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import RotatingText from "../components/RotatingText";
 import Intro from "../components/Intro";
 import BrandCarousel from "../components/BrandCarousel";
+import RotatingTalents from "../components/RotatingTalents";
 
 const Home = () => {
   const vid =
     "https://player.vimeo.com/progressive_redirect/playback/1072496641/rendition/720p/file.mp4?loc=external&log_user=0&signature=3a0150619aca07ea99ee2b61f7803c9e400b48c8f9580921f80b20ee4bdd20ee";
   const homeRef = useRef(null);
+  const videoRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: homeRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Parallax effects - more dominant movement
+  const videoY = useTransform(scrollYProgress, [0, 1], ["0%", "80%"]);
+  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.4]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   useEffect(() => {
     const home = homeRef.current;
@@ -67,21 +80,32 @@ const Home = () => {
   return (
     <>
       <AnimatePresence mode="wait">
-        <div className="relative h-screen w-full overflow-hidden">
-          <video
+        <div ref={homeRef} className="relative h-screen w-full overflow-hidden">
+          <motion.video
+            ref={videoRef}
             className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              y: videoY,
+              scale: videoScale,
+            }}
             autoPlay
             playsInline
             preload="auto"
             muted
             loop
             src={vid}
-          ></video>
+          ></motion.video>
           {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-black/40"></div>
-          <div
-            ref={homeRef}
-            className="h-screen w-full flex items-start justify-center flex-col gap-5 relative z-10"
+          <motion.div
+            className="absolute inset-0 bg-black/40 z-10"
+            style={{ opacity: contentOpacity }}
+          ></motion.div>
+          <motion.div
+            className="h-screen w-full flex items-start justify-center flex-col gap-5 relative z-20"
+            style={{
+              y: contentY,
+              opacity: contentOpacity,
+            }}
           >
             <motion.div
               className="max-w-6xl mx-auto px-6 w-full"
@@ -161,11 +185,12 @@ const Home = () => {
                 </motion.button>
               </motion.div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </AnimatePresence>
       <Intro />
       <BrandCarousel />
+      <RotatingTalents />
     </>
   );
 };

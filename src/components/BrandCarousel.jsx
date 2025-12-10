@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
-import { MotionConfig, motion } from "framer-motion";
+import { MotionConfig, motion, useScroll, useTransform } from "framer-motion";
 import "./BrandCarousel.css";
 
 /**
@@ -194,21 +194,50 @@ const Row = ({ logos, speed = 18, reverse = false, rowIndex = 0 }) => {
 };
 
 export default function BrandCarousel() {
+  const ref = useRef(null);
+  const bgRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // Parallax effects - more dominant movement
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
   return (
     <MotionConfig transition={{ duration: 0.6 }}>
-      <section className="brand-carousel-root">
-        <div className="container-inner">
-          <h2 className="carousel-title text-gray-900 text-2xl font-bold mb-4 uppercase tracking-wider font-neue">
+      <motion.section
+        ref={ref}
+        className="brand-carousel-root relative overflow-hidden"
+      >
+        {/* Background parallax layer */}
+        <motion.div
+          ref={bgRef}
+          className="absolute inset-0 bg-white"
+          style={{
+            y: bgY,
+            scale: bgScale,
+          }}
+        />
+        <div className="container-inner relative z-10">
+          <motion.h2
+            className="carousel-title text-gray-900 text-2xl font-bold mb-4 uppercase tracking-wider font-neue"
+            style={{ y: titleY }}
+          >
             Trusted brands
-          </h2>
+          </motion.h2>
 
-          <div className="rows-stack">
+          <motion.div className="rows-stack" style={{ y: contentY }}>
             <Row logos={ROW1} speed={50} reverse={false} rowIndex={1} />
-            <Row logos={ROW2} speed={60} reverse={false} rowIndex={2} />
+            <Row logos={ROW2} speed={60} reverse={true} rowIndex={2} />
             <Row logos={ROW3} speed={55} reverse={false} rowIndex={3} />
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </MotionConfig>
   );
 }
