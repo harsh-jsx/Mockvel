@@ -4,6 +4,7 @@ import { servicesData } from "../constants";
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { motion } from "framer-motion";
 const Services = () => {
   const text = `We create stunning digital experiences
     that elevate your brand and drive results
@@ -50,9 +51,16 @@ const Services = () => {
         >
           <div className="flex items-center justify-between gap-4 font-light">
             <div className="flex flex-col gap-6">
-              <h2 className="text-[1.2vw] lg:text-[5.5vw] font-founders">
-                {service.title}
-              </h2>
+              <div className="flex items-center gap-4">
+                <h2 className="text-[1.2vw] lg:text-[5.5vw] font-founders">
+                  {service.title}
+                </h2>
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-20 h-20"
+                />
+              </div>
               <p className="text-[2vw] leading-relaxed font-neue tracking-widest lg:text-2xl text-white/60 text-pretty">
                 {service.description}
               </p>
@@ -70,6 +78,14 @@ const Services = () => {
                     )}
                   </div>
                 ))}
+                <motion.div
+                  className="button w-[20vw] bg-white text-black px-4 py-2 rounded-lg font-founders text-sm md:text-base uppercase tracking-wider relative overflow-hidden group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <span className="relative z-10">Learn More</span>
+                </motion.div>
               </div>
             </div>
           </div>

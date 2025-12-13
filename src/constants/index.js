@@ -2,6 +2,8 @@
 export const servicesData = [
   {
     title: "Web Design & Development",
+    image:
+      "https://www.pikpng.com/pngl/b/82-827034_open-haldiram-logo-png-clipart.png",
     description:
       "Your digital presence deserves a stunning, high-performance website. We craft custom web experiences with modern design, responsive layouts, and seamless functionality—ensuring your brand stands out and converts visitors into customers.",
     items: [
@@ -21,6 +23,8 @@ export const servicesData = [
   },
   {
     title: "Social Media Marketing (SMMA)",
+    image:
+      "https://www.pikpng.com/pngl/b/82-827034_open-haldiram-logo-png-clipart.png",
     description:
       "Growing your brand shouldn't be a guessing game. We create strategic social media campaigns, manage your online presence, and leverage proven content strategies to keep your audience engaged and your business growing—adapting to trends while maintaining your brand voice.",
     items: [
@@ -40,6 +44,8 @@ export const servicesData = [
   },
   {
     title: "Brand Strategy & Consulting",
+    image:
+      "https://www.pikpng.com/pngl/b/82-827034_open-haldiram-logo-png-clipart.png",
     description:
       "A strong brand identity can make or break your business. We develop comprehensive brand strategies, create cohesive visual identities, and establish brand guidelines that ensure consistent messaging across all platforms and touchpoints.",
     items: [
@@ -59,6 +65,8 @@ export const servicesData = [
   },
   {
     title: "Performance Optimization",
+    image:
+      "https://www.pikpng.com/pngl/b/82-827034_open-haldiram-logo-png-clipart.png",
     description:
       "Slow websites and poor engagement kill conversions. We optimize site speed, improve user experience, and implement conversion tracking to ensure your digital assets perform at peak efficiency and deliver measurable results.",
     items: [

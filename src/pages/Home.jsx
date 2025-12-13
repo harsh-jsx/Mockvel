@@ -8,8 +8,8 @@ import BrandCarousel from "../components/BrandCarousel";
 import RotatingTalents from "../components/RotatingTalents";
 import Services from "../components/Services";
 import CaseStudiesScroller from "../components/CaseStudiesScroller";
-import Testimonials from "../components/Testimonials";
 import Faq from "../components/Faq";
+import VideoTestimonials from "../components/VideoTestimonials";
 const Home = () => {
   const vid =
     "https://player.vimeo.com/progressive_redirect/playback/1072496641/rendition/720p/file.mp4?loc=external&log_user=0&signature=3a0150619aca07ea99ee2b61f7803c9e400b48c8f9580921f80b20ee4bdd20ee";
@@ -200,7 +200,7 @@ const Home = () => {
       <Services />
 
       <CaseStudiesScroller />
-      {/* <Testimonials /> */}
+      <VideoTestimonials />
       <Faq />
     </>
   );
