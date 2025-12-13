@@ -72,6 +72,7 @@ const Testimonials = () => {
   const [index, setIndex] = useState(0);
   const [perView, setPerView] = useState(3);
   const containerRef = useRef(null);
+  const viewportRef = useRef(null);
   const intervalRef = useRef(null);
   const scrollTriggerRef = useRef(null);
   const prevStylesRef = useRef({
@@ -88,6 +89,7 @@ const Testimonials = () => {
     damping: 18,
     mass: 0.8,
   });
+  const [viewportWidth, setViewportWidth] = useState(0);
 
   useEffect(() => {
     const resize = () => {
@@ -108,16 +110,37 @@ const Testimonials = () => {
 
   useEffect(() => {
     intervalRef.current && clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides);
-    }, 4500);
+    if (slides > 1) {
+      intervalRef.current = setInterval(() => {
+        setIndex((prev) => (prev + 1) % slides);
+      }, 4200);
+    }
     return () => clearInterval(intervalRef.current);
   }, [slides]);
 
+  // measure viewport width for pixel translations
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const measure = () => setViewportWidth(el.clientWidth);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
+
   // animate carousel position
   useEffect(() => {
-    translateX.set(-index * (100 / perView));
-  }, [index, perView, translateX]);
+    if (!viewportWidth) return;
+    const gapPx = 24; // gap-6
+    const cardWidth = (viewportWidth - gapPx * (perView - 1)) / perView;
+    const offsetPx = -index * (cardWidth + gapPx);
+    translateX.set(offsetPx);
+  }, [index, perView, translateX, viewportWidth]);
 
   // Light mode takeover when this section enters
   useEffect(() => {
