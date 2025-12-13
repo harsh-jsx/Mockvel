@@ -6,7 +6,9 @@ import RotatingText from "../components/RotatingText";
 import Intro from "../components/Intro";
 import BrandCarousel from "../components/BrandCarousel";
 import RotatingTalents from "../components/RotatingTalents";
-
+import Services from "../components/Services";
+import CaseStudiesScroller from "../components/CaseStudiesScroller";
+import Testimonials from "../components/Testimonials";
 const Home = () => {
   const vid =
     "https://player.vimeo.com/progressive_redirect/playback/1072496641/rendition/720p/file.mp4?loc=external&log_user=0&signature=3a0150619aca07ea99ee2b61f7803c9e400b48c8f9580921f80b20ee4bdd20ee";
@@ -80,7 +82,10 @@ const Home = () => {
   return (
     <>
       <AnimatePresence mode="wait">
-        <div ref={homeRef} className="relative h-screen w-full overflow-hidden">
+        <div
+          ref={homeRef}
+          className="relative bg-black h-screen w-full overflow-hidden"
+        >
           <motion.video
             ref={videoRef}
             className="absolute inset-0 w-full h-full object-cover"
@@ -191,6 +196,10 @@ const Home = () => {
       <Intro />
       <BrandCarousel />
       <RotatingTalents />
+      <Services />
+
+      <CaseStudiesScroller />
+      <Testimonials />
     </>
   );
 };

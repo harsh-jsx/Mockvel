@@ -7,14 +7,14 @@ import PageTransition from "./components/PageTransition";
 
 const AppContent = () => {
   return (
-    <>
+    <div className="bg-black">
       <Navbar />
       <PageTransition>
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
       </PageTransition>
-    </>
+    </div>
   );
 };
 
