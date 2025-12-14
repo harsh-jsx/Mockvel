@@ -10,6 +10,7 @@ import Services from "../components/Services";
 import CaseStudiesScroller from "../components/CaseStudiesScroller";
 import Faq from "../components/Faq";
 import VideoTestimonials from "../components/VideoTestimonials";
+import WhyChooseUs from "../components/WhyChooseUs";
 import InsightsPage from "../components/InsightsPage";
 
 const Home = () => {
@@ -197,10 +198,11 @@ const Home = () => {
         </div>
       </AnimatePresence>
       <Intro />
+      <WhyChooseUs />
+
       <BrandCarousel />
       <RotatingTalents />
       <Services />
-
       <CaseStudiesScroller />
       <VideoTestimonials />
       <Faq />
