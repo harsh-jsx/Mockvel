@@ -147,6 +147,15 @@ const Faq = () => {
           />
         ))}
       </div>
+
+      <h1 className="text-[6vw] text-center font-founders font-bold text-slate-900">
+        Ready to build something bold?
+      </h1>
+      <div className="flex items-center justify-center">
+        <button className="bg-black text-white px-8 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300">
+          Get in touch
+        </button>
+      </div>
     </section>
   );
 };

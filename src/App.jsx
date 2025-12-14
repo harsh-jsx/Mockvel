@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import PageTransition from "./components/PageTransition";
-
+import MockvelFooter from "./components/Footer";
 const AppContent = () => {
   return (
     <div className="bg-black">
@@ -14,6 +14,7 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
         </Routes>
       </PageTransition>
+      <MockvelFooter />
     </div>
   );
 };

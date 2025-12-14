@@ -30,7 +30,7 @@ const Services = () => {
     <section id="services" className="min-h-screen bg-black rounded-t-4xl">
       <AnimatedHeaderSection
         subTitle={"Web Design & Social Media Marketing"}
-        title={"Services"}
+        title={"Case Studies"}
         text={text}
         textColor={"text-white"}
         withScrollTrigger={true}
