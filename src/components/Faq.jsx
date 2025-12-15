@@ -124,7 +124,7 @@ const Faq = () => {
       className="relative overflow-hidden bg-white px-6 py-16 sm:px-10 lg:px-16"
     >
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_10%,rgba(79,70,229,0.06),transparent_32%),radial-gradient(circle_at_88%_12%,rgba(16,185,129,0.07),transparent_30%)]" />
-      <div className="absolute inset-0 -z-10 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:120px_120px]" />
+      <div className="absolute inset-0 -z-10 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-size-[120px_120px]" />
 
       <div className="faq-header flex flex-col items-center text-center gap-3">
         <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
@@ -151,11 +151,31 @@ const Faq = () => {
       <h1 className="text-[6vw] text-center font-founders font-bold text-slate-900">
         Ready to build something bold?
       </h1>
-      <div className="flex items-center justify-center gap-10">
+      <div className="flex items-center justify-center gap-10 relative">
         <button className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300">
           Yes
         </button>
-        <button className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300">
+        <button
+          className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300 hover:text-black transition-all duration-300"
+          style={{
+            transform: `translate(${(Math.random() * 40 - 20).toFixed(1)}px, ${(
+              Math.random() * 30 -
+              15
+            ).toFixed(1)}px)`,
+          }}
+          onMouseEnter={(e) => {
+            const btn = e.currentTarget;
+            const dx = Math.random() * 120 - 60;
+            const dy = Math.random() * 60 - 30;
+            btn.style.transform = `translate(${dx}px, ${dy}px)`;
+          }}
+          onClick={(e) => {
+            const btn = e.currentTarget;
+            const dx = Math.random() * 140 - 110;
+            const dy = Math.random() * 70 - 35;
+            btn.style.transform = `translate(${dx}px, ${dy}px)`;
+          }}
+        >
           No
         </button>
       </div>

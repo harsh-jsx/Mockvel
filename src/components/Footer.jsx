@@ -49,20 +49,20 @@ export default function MockvelFooter() {
   return (
     <footer
       ref={footerRef}
-      className="relative bg-black text-white px-8 md:px-16 pt-28 pb-16 overflow-hidden"
+      className="relative bg-linear-to-br from-[#0a0a14] via-[#0c0824] to-[#0f0b2d] text-white px-8 md:px-16 pt-24 pb-16 overflow-hidden"
     >
       {/* subtle ambient gradient */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-white/5 blur-[180px]" />
+        <div className="absolute bottom-[-30%] right-[-20%] w-[720px] h-[720px] bg-[#5b4bff]/15 blur-[220px]" />
+        <div className="absolute top-12 left-10 w-3 h-3 rounded-full bg-white shadow-[0_0_30px_rgba(255,255,255,0.6)]" />
       </div>
 
       {/* CTA */}
       <div className="relative z-10 mb-24">
         <div className="flex items-center gap-6 footer-reveal font-founders">
           <h2 className="text-[clamp(3rem,8vw,6.5rem)] font-semibold tracking-tight leading-none">
-            Let’s build
-            <br />
-            something bold
+            MOCKVEL
           </h2>
 
           <a
@@ -136,7 +136,7 @@ export default function MockvelFooter() {
       </div>
 
       {/* Footer bottom */}
-      <div className="relative z-10 mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between gap-6 text-xs text-white/40">
+      <div className="relative z-10 mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between gap-6 text-xs text-white/40">
         <p>© {new Date().getFullYear()} Mockvel. All rights reserved.</p>
         <div className="flex gap-6">
           <a href="/privacy" className="hover:text-white transition-colors">

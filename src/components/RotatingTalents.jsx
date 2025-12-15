@@ -216,8 +216,6 @@ export default function RotatingTalents() {
       >
         <h1 className="text-[10vw] md:text-[9vw] font-extrabold font-founders leading-tight max-w-3xl drop-shadow-md">
           Meet Our Clients
-          <br />
-          Stars
         </h1>
 
         <p className="mt-5 max-w-xl text-gray-300 font-neue text-[4vw] md:text-2xl">
@@ -225,8 +223,8 @@ export default function RotatingTalents() {
           success for each one.
         </p>
 
-        <button className="mt-8 px-6 py-3 rounded-lg font-hbue bg-linear-to-r from-purple-600 to-violet-500 text-white font-medium shadow-xl hover:scale-105 transform transition">
-          Show All Talents
+        <button className="mt-8 px-6 py-3 rounded-lg font-neue text-[3vw] md:text-2xl bg-linear-to-r from-purple-600 to-violet-500 text-white font-medium shadow-xl hover:scale-105 transform transition">
+          View All Clients
         </button>
 
         <div
