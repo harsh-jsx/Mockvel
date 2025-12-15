@@ -29,3 +29,12 @@ body {
   --color-secondary: #efbf04;
   --color-tertiary: #0081c9;
 }
+.noise {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}

@@ -151,9 +151,12 @@ const Faq = () => {
       <h1 className="text-[6vw] text-center font-founders font-bold text-slate-900">
         Ready to build something bold?
       </h1>
-      <div className="flex items-center justify-center">
-        <button className="bg-black text-white px-8 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300">
-          Get in touch
+      <div className="flex items-center justify-center gap-10">
+        <button className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300">
+          Yes
+        </button>
+        <button className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300">
+          No
         </button>
       </div>
     </section>

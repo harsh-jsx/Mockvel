@@ -106,7 +106,7 @@ const Home = () => {
           ></motion.video>
           {/* Dark overlay for text readability */}
           <motion.div
-            className="absolute inset-0 bg-black/40 z-10"
+            className="absolute inset-0 bg-black/60 z-10"
             style={{ opacity: contentOpacity }}
           ></motion.div>
           <motion.div
@@ -123,7 +123,7 @@ const Home = () => {
               animate="visible"
             >
               <motion.h1
-                className="text-5xl md:text-7xl font-bold text-white mb-8 font-hbue"
+                className="text-[15vw] md:text-[5vw] leading-tight font-bold text-white font-hbue"
                 variants={itemVariants}
               >
                 We Create <br /> Eye Opening <br />{" "}
@@ -133,7 +133,7 @@ const Home = () => {
                 />
               </motion.h1>
               <motion.p
-                className="text-lg text-white font-neue items-center mb-8 max-w-2xl leading-relaxed"
+                className="text-[4vw] md:text-2xl text-white font-neue items-center mb-8 max-w-2xl leading-relaxed"
                 variants={itemVariants}
               >
                 We are a team of creatives who are passionate about creating
@@ -141,7 +141,7 @@ const Home = () => {
               </motion.p>
               <motion.div variants={buttonVariants}>
                 <motion.button
-                  className="group relative bg-white text-gray-900 py-3 px-12 rounded-lg font-semibold font-neue text-sm uppercase tracking-wider overflow-hidden transition-all duration-300"
+                  className="group relative overflow-hidden rounded-full border border-white/20 bg-white/90 px-12 py-3 font-neue text-sm font-semibold uppercase tracking-[0.18em] text-gray-900 shadow-lg shadow-purple-500/10 backdrop-blur transition duration-300"
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"
@@ -149,33 +149,18 @@ const Home = () => {
                     console.log("Learn More clicked");
                   }}
                 >
-                  <span className="relative z-10 flex items-center gap-2">
-                    Learn More
-                    <motion.svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      initial={{ x: 0 }}
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </motion.svg>
-                  </span>
-                  <motion.div
-                    className="absolute inset-0 bg-gray-900 text-white"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <span className="absolute inset-0 flex items-center justify-center gap-2 z-10">
+                  <div className="absolute inset-0 bg-linear-to-r from-purple-500/15 via-white/50 to-purple-500/15 opacity-0 transition duration-300 group-hover:opacity-100" />
+                  <div className="absolute inset-[-50%] bg-white/25 blur-3xl opacity-0 transition duration-500 group-hover:opacity-100" />
+                  <span className="relative z-10 flex items-center gap-3">
+                    <span className="transition duration-300 group-hover:translate-x-1">
                       Learn More
+                    </span>
+                    <motion.span
+                      initial={{ x: 0 }}
+                      whileHover={{ x: 6 }}
+                      transition={{ duration: 0.25 }}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 text-white shadow-inner shadow-black/40 transition group-hover:bg-black"
+                    >
                       <svg
                         className="w-4 h-4"
                         fill="none"
@@ -189,8 +174,15 @@ const Home = () => {
                           d="M17 8l4 4m0 0l-4 4m4-4H3"
                         />
                       </svg>
-                    </span>
-                  </motion.div>
+                    </motion.span>
+                  </span>
+                  <motion.div
+                    className="absolute inset-0 bg-gray-900"
+                    initial={{ x: "-110%" }}
+                    whileHover={{ x: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    style={{ mixBlendMode: "multiply" }}
+                  />
                 </motion.button>
               </motion.div>
             </motion.div>
@@ -205,8 +197,9 @@ const Home = () => {
       <Services />
       <CaseStudiesScroller />
       <VideoTestimonials />
-      <Faq />
       <InsightsPage />
+
+      <Faq />
     </>
   );
 };

@@ -30,7 +30,7 @@ const Services = () => {
     <section id="services" className="min-h-screen bg-black rounded-t-4xl">
       <AnimatedHeaderSection
         subTitle={"Web Design & Social Media Marketing"}
-        title={"Case Studies"}
+        title={"Services"}
         text={text}
         textColor={"text-white"}
         withScrollTrigger={true}
@@ -55,11 +55,6 @@ const Services = () => {
                 <h2 className="text-[1.2vw] lg:text-[5.5vw] font-founders">
                   {service.title}
                 </h2>
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-20 h-20"
-                />
               </div>
               <p className="text-[2vw] leading-relaxed font-neue tracking-widest lg:text-2xl text-white/60 text-pretty">
                 {service.description}
@@ -78,14 +73,6 @@ const Services = () => {
                     )}
                   </div>
                 ))}
-                <motion.div
-                  className="button w-[20vw] bg-white text-black px-4 py-2 rounded-lg font-founders text-sm md:text-base uppercase tracking-wider relative overflow-hidden group"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <span className="relative z-10">Learn More</span>
-                </motion.div>
               </div>
             </div>
           </div>

@@ -50,7 +50,7 @@ const VideoTestimonials = () => {
           100% { transform: translateX(-50%); }
         }
       `}</style>
-      <h1 className="text-[8vw] font-bold text-center font-founders text-black">
+      <h1 className="text-[6vw] font-bold text-center font-founders text-black">
         Video Testimonials
       </h1>
       <div className="relative overflow-hidden">
@@ -72,30 +72,30 @@ const VideoTestimonials = () => {
             return (
               <div
                 key={`${video.id}-${idx}`}
-                className="w-[260px] sm:w-[320px] lg:w-[360px] shrink-0 px-3"
+                className="w-[220px] sm:w-[320px] lg:w-[420px] shrink-0 px-2 sm:px-3"
               >
-                <div className="relative overflow-hidden rounded-[22px] shadow-lg group">
+                <div className="relative overflow-hidden rounded-[24px] sm:rounded-[30px] shadow-lg group">
                   <img
                     src={thumb}
                     alt={video.title}
                     className="w-full h-full aspect-video object-cover transform transition duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/20 to-transparent" />
-                  <div className="absolute inset-0 flex flex-col justify-end p-4 text-white">
-                    <div className="flex items-center gap-3">
+                  <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4 text-white">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <button
-                        className="w-14 h-14 rounded-full bg-[#f4b000] text-black font-bold flex items-center justify-center shadow-lg transform transition duration-300 group-hover:scale-110"
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#f4b000] text-black font-bold flex items-center justify-center shadow-lg transform transition duration-300 group-hover:scale-110"
                         onClick={() => window.open(video.url, "_blank")}
                         aria-label={`Play ${video.title}`}
                       >
                         ▶
                       </button>
                       <div className="leading-tight">
-                        <p className="text-lg font-semibold uppercase drop-shadow">
+                        <p className="text-sm sm:text-lg font-semibold uppercase drop-shadow">
                           {video.title}
                         </p>
                         {video.subtitle && (
-                          <p className="text-sm font-medium text-[#f4b000] uppercase drop-shadow">
+                          <p className="text-xs sm:text-sm font-medium text-[#f4b000] uppercase drop-shadow">
                             {video.subtitle}
                           </p>
                         )}

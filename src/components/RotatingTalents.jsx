@@ -214,13 +214,13 @@ export default function RotatingTalents() {
         className="relative z-30 flex flex-col items-center text-center px-6 md:px-0"
         style={{ y: contentY, opacity: contentOpacity }}
       >
-        <h1 className="text-4xl md:text-6xl font-extrabold font-hbue leading-tight max-w-3xl drop-shadow-md">
-          Meet Our Shining
+        <h1 className="text-[10vw] md:text-[9vw] font-extrabold font-founders leading-tight max-w-3xl drop-shadow-md">
+          Meet Our Clients
           <br />
           Stars
         </h1>
 
-        <p className="mt-5 max-w-xl text-gray-300 font-neue ">
+        <p className="mt-5 max-w-xl text-gray-300 font-neue text-[4vw] md:text-2xl">
           We exclusively manage 50+ top talents, driving consistent growth and
           success for each one.
         </p>

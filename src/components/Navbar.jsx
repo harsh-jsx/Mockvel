@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-
+import logo from "/public/mockvellogo.png";
 const NAV_LINKS = [
   { label: "About us", href: "#About" },
   { label: "Services", href: "#services" },
@@ -108,8 +108,8 @@ const Navbar = () => {
         transition={{ duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }}
         className={`fixed top-0 left-0 w-full z-999 transition-all duration-500 ease-out ${
           scrolled
-            ? "bg-white/95 backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] py-5"
-            : "bg-white py-7"
+            ? "bg-white/95 backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] py-3"
+            : "bg-white py-4"
         }`}
       >
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between font-neue">
@@ -122,19 +122,11 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <span className="relative z-10">Mockvel</span>
-            <motion.span
-              className="absolute inset-0 rounded-full bg-[#efbf04]/10 blur-3xl -z-10"
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            ></motion.span>
+            <img
+              src={logo}
+              alt="logo"
+              className="h-14 sm:h-16 lg:h-20 w-auto object-contain -my-1"
+            />
           </motion.a>
 
           <motion.nav

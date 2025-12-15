@@ -224,12 +224,9 @@ export default function BrandCarousel() {
           }}
         />
         <div className="container-inner relative z-10">
-          <motion.h2
-            className="carousel-title text-gray-900 text-2xl font-bold mb-4 uppercase tracking-wider font-neue"
-            style={{ y: titleY }}
-          >
-            Trusted brands
-          </motion.h2>
+          <h1 className="text-black text-[6vw] font-bold  uppercase tracking-wider text-center font-founders">
+            Awards
+          </h1>
 
           <motion.div className="rows-stack" style={{ y: contentY }}>
             <Row logos={ROW1} speed={50} reverse={false} rowIndex={1} />

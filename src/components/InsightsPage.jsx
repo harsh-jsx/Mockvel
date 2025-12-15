@@ -91,12 +91,12 @@ export default function InsightsPage() {
         className="bg-black text-white min-h-screen px-8 md:px-16 py-24"
       >
         {/* Header */}
-        <div className="flex items-center justify-between mb-16">
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight">
+        <div className="flex items-center gap-10 mb-16">
+          <h1 className="text-[6vw] font-semibold tracking-tight font-founders">
             Insights
           </h1>
 
-          <div className="flex gap-2 bg-white/5 rounded-full p-1">
+          <div className="flex gap-2 text-[3vw] bg-white/5 rounded-full px-10">
             {["media", "blogs"].map((type) => (
               <button
                 key={type}

@@ -26,18 +26,6 @@ const cards = [
     title: "VI-John",
     image: "https://creativefuel.io/assets/work/Vi-john/Vi-john-cover.jpg",
   },
-  {
-    title: "VI-John",
-    image: "https://creativefuel.io/assets/work/Vi-john/Vi-john-cover.jpg",
-  },
-  {
-    title: "VI-John",
-    image: "https://creativefuel.io/assets/work/Vi-john/Vi-john-cover.jpg",
-  },
-  {
-    title: "VI-John",
-    image: "https://creativefuel.io/assets/work/Vi-john/Vi-john-cover.jpg",
-  },
 ];
 
 const CaseStudiesScroller = () => {
