@@ -1,240 +1,85 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import { MotionConfig, motion, useScroll, useTransform } from "framer-motion";
-import "./BrandCarousel.css";
+import { motion } from "framer-motion";
+import "./AwardsMarquee.css";
 
-/**
- * Awwwards-level 3-row brand carousel.
- * - Row 1: scrolls right -> (visually enters from left and moves right)
- * - Row 2: scrolls left  <-
- * - Row 3: scrolls right ->
- *
- * Implementation details:
- * - Each row duplicates its set of logos to create a seamless loop.
- * - GSAP animates the track continuously; on resize it recalculates and restarts.
- * - Framer Motion handles entrance reveal and per-logo hover micro-interactions.
- */
-
-/* --- Dummy inline SVG logos (data URIs). Replace with actual src when ready --- */
-const makeDummyLogo = (text, color = "#111827", bg = "#ffffff") => {
-  const svg = encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='70'>
-      <rect rx='14' width='100%' height='100%' fill='${bg}' stroke='#e5e7eb' stroke-width='1'/>
-      <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
-            font-family='Neue Montreal, Inter, Arial' font-size='18' fill='${color}' font-weight='600'>
-        ${text}
-      </text>
-    </svg>`
-  );
-  return `data:image/svg+xml;utf8,${svg}`;
-};
-
-const ROW1 = [
-  makeDummyLogo("Chemist & Play", "#111827", "#ffffff"),
-  makeDummyLogo("Typsy Beauty", "#111827", "#ffffff"),
-  makeDummyLogo("MARS", "#111827", "#ffffff"),
-  makeDummyLogo("RENÉE", "#111827", "#ffffff"),
-  makeDummyLogo("ORGATRÈ", "#111827", "#ffffff"),
+/* Replace these with real award SVGs or PNGs */
+const AWARDS = [
+  "https://webskitters.com/landing-pages/images-ln/The-Economic-Times.png",
+  "https://webskitters.com/landing-pages/images-ln/trust-img2.webp",
+  "https://webskitters.com/landing-pages/images-ln/trust-img3.webp",
+  "https://webskitters.com/landing-pages/images-ln/trust-img4.webp",
+  "https://webskitters.com/landing-pages/images-ln/trust-img5.webp",
+  "https://webskitters.com/landing-pages/images-ln/The-Economic-Times.png",
 ];
 
-const ROW2 = [
-  makeDummyLogo("DE", "#1e3a8a", "#ffffff"),
-  makeDummyLogo("ZEROHARM", "#1e3a8a", "#ffffff"),
-  makeDummyLogo("bake", "#1e3a8a", "#ffffff"),
-  makeDummyLogo("CARBAMIDE", "#1e3a8a", "#ffffff"),
-  makeDummyLogo("ZLADE", "#1e3a8a", "#ffffff"),
-];
-
-const ROW3 = [
-  makeDummyLogo("Brand A", "#efbf04", "#111827"),
-  makeDummyLogo("Brand B", "#efbf04", "#111827"),
-  makeDummyLogo("Brand C", "#efbf04", "#111827"),
-  makeDummyLogo("Brand D", "#efbf04", "#111827"),
-  makeDummyLogo("Brand E", "#efbf04", "#111827"),
-];
-
-const Row = ({ logos, speed = 18, reverse = false, rowIndex = 0 }) => {
+export default function AwardsMarquee() {
   const trackRef = useRef(null);
-  const containerRef = useRef(null);
   const tlRef = useRef(null);
 
   useEffect(() => {
     const track = trackRef.current;
-    const container = containerRef.current;
-    if (!track || !container) return;
+    if (!track) return;
 
-    // Wait for images to load and DOM to settle
-    const initAnimation = () => {
-      const firstGroup = track.querySelector(".logos-group");
-      if (!firstGroup) return;
+    const group = track.querySelector(".logos-group");
+    if (!group) return;
 
-      const firstHalfWidth = firstGroup.offsetWidth;
-      if (firstHalfWidth === 0) return;
+    const width = group.offsetWidth;
+    if (!width) return;
 
-      // Kill existing timeline
-      if (tlRef.current) {
-        tlRef.current.kill();
-        tlRef.current = null;
-      }
+    gsap.set(track, { x: 0 });
 
-      // Calculate duration based on speed (speed = pixels per second)
-      // Lower speed value = faster animation
-      const duration = Math.max(10, firstHalfWidth / speed);
+    tlRef.current = gsap.to(track, {
+      x: -width,
+      duration: width / 40, // speed control
+      ease: "none",
+      repeat: -1,
+    });
 
-      // Set initial position
-      gsap.set(track, { x: 0 });
-
-      // For moving right (reverse=false): track moves left (negative x)
-      // For moving left (reverse=true): track moves right (positive x)
-      const targetX = reverse ? firstHalfWidth : -firstHalfWidth;
-
-      // Create seamless infinite animation
-      tlRef.current = gsap.to(track, {
-        x: targetX,
-        ease: "none",
-        duration: duration,
-        repeat: -1,
-        immediateRender: false,
-      });
-    };
-
-    // Small delay to ensure DOM is ready
-    const timeoutId = setTimeout(() => {
-      initAnimation();
-    }, 100);
-
-    // Handle resize
-    const resizeHandler = () => {
-      if (tlRef.current) {
-        tlRef.current.kill();
-        tlRef.current = null;
-      }
-      setTimeout(() => {
-        initAnimation();
-      }, 100);
-    };
-
-    window.addEventListener("resize", resizeHandler);
-
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener("resize", resizeHandler);
-      if (tlRef.current) {
-        tlRef.current.kill();
-        tlRef.current = null;
-      }
-    };
-  }, [logos, speed, reverse, rowIndex]);
-
-  // Framer Motion variants for logos
-  const item = {
-    rest: { scale: 1, rotate: 0 },
-    hover: {
-      scale: 1.06,
-      rotate: -2,
-      transition: { type: "spring", stiffness: 300, damping: 18 },
-    },
-  };
+    return () => tlRef.current?.kill();
+  }, []);
 
   return (
-    <div
-      className={`row-container ${reverse ? "reverse" : ""}`}
-      ref={containerRef}
-    >
-      <div className="row-mask">
-        <div className="track" ref={trackRef}>
-          {/* First copy */}
-          <div className="logos-group">
-            {logos.map((src, i) => (
-              <motion.div
-                key={`a-${i}`}
-                className="logo-wrap"
-                initial="rest"
-                whileHover="hover"
-                animate="rest"
-                variants={item}
-                title={`Brand ${i + 1}`}
-              >
-                <motion.img
-                  src={src}
-                  alt={`brand-${i}`}
-                  className="brand-img"
-                  draggable={false}
-                  loading="eager"
-                />
-              </motion.div>
-            ))}
-          </div>
+    <section className="awards-section">
+      <div className="awards-card font-founders">
+        {/* Left text */}
+        <div className="awards-text">
+          <h1 className=" text-[3.5vw] tracking-tight leading-tight text-black">
+            Our Certificates
+          </h1>
+          <h3 className="text-black">
+            Trusted By <br /> Brands
+          </h3>
+        </div>
 
-          {/* Duplicate copy */}
-          <div className="logos-group" aria-hidden="true">
-            {logos.map((src, i) => (
-              <motion.div
-                key={`b-${i}`}
-                className="logo-wrap"
-                initial="rest"
-                whileHover="hover"
-                animate="rest"
-                variants={item}
-              >
+        {/* Divider */}
+        <div className="divider" />
+
+        {/* Logos */}
+        <div className="marquee-mask">
+          <div className="marquee-track" ref={trackRef}>
+            {/* First copy */}
+            <div className="logos-group">
+              {AWARDS.map((src, i) => (
                 <motion.img
+                  key={`a-${i}`}
                   src={src}
-                  alt={`brand-${i}-dup`}
-                  className="brand-img"
-                  draggable={false}
-                  loading="eager"
+                  alt="award"
+                  className="award-logo"
+                  whileHover={{ scale: 1.05 }}
                 />
-              </motion.div>
-            ))}
+              ))}
+            </div>
+
+            {/* Duplicate */}
+            <div className="logos-group" aria-hidden>
+              {AWARDS.map((src, i) => (
+                <img key={`b-${i}`} src={src} alt="" className="award-logo" />
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default function BrandCarousel() {
-  const ref = useRef(null);
-  const bgRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  // Parallax effects - more dominant movement
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-
-  return (
-    <MotionConfig transition={{ duration: 0.6 }}>
-      <motion.section
-        ref={ref}
-        className="brand-carousel-root relative overflow-hidden"
-      >
-        {/* Background parallax layer */}
-        <motion.div
-          ref={bgRef}
-          className="absolute inset-0 bg-white"
-          style={{
-            y: bgY,
-            scale: bgScale,
-          }}
-        />
-        <div className="container-inner relative z-10">
-          <h1 className="text-black text-[6vw] font-bold  uppercase tracking-wider text-center font-founders">
-            Awards
-          </h1>
-
-          <motion.div className="rows-stack" style={{ y: contentY }}>
-            <Row logos={ROW1} speed={50} reverse={false} rowIndex={1} />
-            <Row logos={ROW2} speed={60} reverse={true} rowIndex={2} />
-            <Row logos={ROW3} speed={55} reverse={false} rowIndex={3} />
-          </motion.div>
-        </div>
-      </motion.section>
-    </MotionConfig>
+    </section>
   );
 }
