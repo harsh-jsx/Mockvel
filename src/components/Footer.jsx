@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import logo from "/public/mockvellogo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -62,7 +63,11 @@ export default function MockvelFooter() {
       <div className="relative z-10 mb-24">
         <div className="flex items-center gap-6 footer-reveal font-founders">
           <h2 className="text-[clamp(3rem,8vw,6.5rem)] font-semibold tracking-tight leading-none">
-            MOCKVEL
+            <img
+              src={logo}
+              alt="logo"
+              className="h-14 sm:h-16 lg:h-20 w-auto object-contain -my-1 invert"
+            />
           </h2>
 
           <a
