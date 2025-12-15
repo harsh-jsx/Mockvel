@@ -66,7 +66,7 @@ export default function MockvelFooter() {
             <img
               src={logo}
               alt="logo"
-              className="h-14 sm:h-16 lg:h-20 w-auto object-contain -my-1 invert"
+              className="h-14 sm:h-16 lg:h-20 w-auto object-contain -my-1"
             />
           </h2>
 
