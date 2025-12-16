@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
 import logo from "/public/mockvellogo.png";
+
 const NAV_LINKS = [
   { label: "About us", href: "#About" },
   { label: "Services", href: "#services" },
@@ -11,328 +17,171 @@ const NAV_LINKS = [
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hoveredLink, setHoveredLink] = useState(null);
-  const [scrolled, setScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [isCompact, setIsCompact] = useState(false);
+
+  const lastScrollY = useRef(0);
   const location = useLocation();
   const navigate = useNavigate();
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  /* ---------------- Scroll behavior ---------------- */
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const delta = latest - lastScrollY.current;
 
+    // Hide / show
+    if (latest > 120 && delta > 5) setIsHidden(true);
+    if (delta < -5) setIsHidden(false);
+
+    // Compact mode
+    setIsCompact(latest > 60);
+
+    lastScrollY.current = latest;
+  });
+
+  /* ---------------- Body lock for mobile menu ---------------- */
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
   }, [isMenuOpen]);
-
-  useEffect(() => {
-    if (!isMenuOpen) return;
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") setIsMenuOpen(false);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isMenuOpen]);
-
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   const handleSmoothScroll = (hash) => {
-    const target = document.querySelector(hash);
-    if (target) {
-      window.history.replaceState(null, "", hash);
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    const el = document.querySelector(hash);
+    if (!el) return;
+    window.history.replaceState(null, "", hash);
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleNavClick = (href) => {
     setIsMenuOpen(false);
 
     if (href.startsWith("#")) {
-      if (location.pathname !== "/") {
-        navigate(`/${href}`);
-      } else {
-        handleSmoothScroll(href);
-      }
+      if (location.pathname !== "/") navigate(`/${href}`);
+      else handleSmoothScroll(href);
       return;
     }
 
     navigate(href);
   };
 
-  const navVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
-    },
-  };
-
-  const logoVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
-    },
-  };
-
   return (
-    <AnimatePresence>
+    <>
+      {/* ================= DESKTOP NAVBAR ================= */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }}
-        className={`fixed top-0 left-0 w-full z-999 transition-all duration-500 ease-out ${
-          scrolled
-            ? "bg-white/95 backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] py-3"
-            : "bg-white py-4"
-        }`}
+        animate={{
+          y: isHidden ? -120 : 0,
+          opacity: 1,
+        }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="fixed top-0 left-0 w-full z-999"
       >
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between font-neue">
-          <motion.a
-            href="/"
-            className="text-xl tracking-[0.3em] uppercase text-gray-900 font-semibold relative"
-            variants={logoVariants}
-            initial="hidden"
-            animate="visible"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            <img
-              src={logo}
-              alt="logo"
-              className="h-14 sm:h-16 lg:h-20 w-auto object-contain -my-1"
-            />
-          </motion.a>
+        <motion.div
+          animate={{
+            paddingTop: isCompact ? 10 : 18,
+            paddingBottom: isCompact ? 10 : 18,
+            backdropFilter: "blur(3px)",
+          }}
+          className="
+            mx-auto px-6
+            text-gray-300
+            rounded-4xl
+            transition-all
+          "
+        >
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <motion.a
+              href="/"
+              className="block"
+              animate={{ scale: isCompact ? 0.85 : 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <img
+                src={logo}
+                alt="logo"
+                className="h-14 lg:h-16 w-auto object-contain"
+              />
+            </motion.a>
 
-          <motion.nav
-            className="hidden lg:flex items-center gap-8"
-            variants={navVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {NAV_LINKS.map((link, index) => (
-              <motion.button
-                type="button"
-                key={link.label}
-                onClick={() => handleNavClick(link.href)}
-                onMouseEnter={() => setHoveredLink(index)}
-                onMouseLeave={() => setHoveredLink(null)}
-                className="relative uppercase tracking-[0.2em] text-sm bg-transparent overflow-hidden"
-                variants={itemVariants}
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-              >
-                <motion.span
-                  className={`relative z-10 ${
-                    hoveredLink === index ? "text-gray-900" : "text-gray-600"
-                  }`}
-                  animate={{
-                    color: hoveredLink === index ? "#111827" : "#4b5563",
-                  }}
-                  transition={{ duration: 0.3 }}
+            {/* Desktop Nav */}
+            <nav className="hidden lg:flex items-center gap-10">
+              {NAV_LINKS.map((link) => (
+                <motion.button
+                  key={link.label}
+                  onClick={() => handleNavClick(link.href)}
+                  className="
+                    uppercase tracking-[0.25em] text-sm
+                    text-gray-300 hover:text-gray-300
+                    transition-colors
+                  "
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.15 }}
                 >
                   {link.label}
-                </motion.span>
-                <motion.span
-                  className="absolute left-0 -bottom-1 h-[2px] w-full bg-linear-to-r from-transparent via-gray-900 to-transparent"
-                  initial={{ scaleX: 0 }}
-                  animate={{
-                    scaleX: hoveredLink === index ? 1 : 0,
-                  }}
-                  transition={{
-                    duration: 0.4,
-                    ease: [0.6, -0.05, 0.01, 0.99],
-                  }}
-                  style={{ originX: 0 }}
-                />
-                <motion.div
-                  className="absolute inset-0 bg-gray-100 rounded-lg"
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{
-                    scale: hoveredLink === index ? 1 : 0,
-                    opacity: hoveredLink === index ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.button>
-            ))}
-            <motion.button
-              data-cursor="magnet primary"
-              onClick={() => navigate("/contact")}
-              className="ml-6 uppercase tracking-[0.25em] text-sm border border-gray-900/30 px-5 py-2 rounded-full relative overflow-hidden group text-gray-900"
-              variants={itemVariants}
-              whileHover={{ scale: 1.05, borderColor: "#111827" }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.span
-                className="relative z-10"
-                animate={{
-                  color: "#111827",
-                }}
+                </motion.button>
+              ))}
+
+              <button
+                onClick={() => navigate("/contact")}
+                className="
+                  ml-6 px-6 py-2 rounded-full
+                  border border-gray-300/30
+                  uppercase tracking-[0.25em] text-sm
+                  hover:bg-gray-300 hover:text-gray-900
+                  transition-all
+                "
               >
                 Start a project
-              </motion.span>
-              <motion.div
-                className="absolute inset-0 bg-gray-100 rounded-full"
-                initial={{ scale: 0, opacity: 0 }}
-                whileHover={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.button>
-          </motion.nav>
+              </button>
+            </nav>
 
-          <motion.button
-            className="lg:hidden p-3 rounded-full border border-gray-900/20 text-gray-900"
-            onClick={toggleMenu}
-            aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
-            aria-expanded={isMenuOpen}
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-            whileHover={{ scale: 1.1, borderColor: "#111827" }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-          >
-            <AnimatePresence mode="wait">
-              {isMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <FiX size={22} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <FiMenu size={22} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
-        </div>
+            {/* Mobile toggle */}
+            <button
+              className="lg:hidden p-3 rounded-full border border-black/20"
+              onClick={() => setIsMenuOpen((p) => !p)}
+            >
+              {isMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+            </button>
+          </div>
+        </motion.div>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* ================= MOBILE MENU ================= */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="lg:hidden fixed inset-0 z-998"
+            className="fixed inset-0 z-998 bg-white/90 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
           >
-            <motion.div
-              className="absolute inset-0 bg-white/95 backdrop-blur-3xl"
-              onClick={() => setIsMenuOpen(false)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            ></motion.div>
-
-            <motion.div
-              className="absolute inset-x-4 top-24 rounded-3xl border border-gray-200 bg-white p-8 shadow-2xl"
-              initial={{ y: 20, opacity: 0, scale: 0.95 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 20, opacity: 0, scale: 0.95 }}
-              transition={{
-                duration: 0.4,
-                ease: [0.6, -0.05, 0.01, 0.99],
-              }}
-            >
-              <motion.div
-                className="flex flex-col gap-6 text-gray-900"
-                variants={navVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {NAV_LINKS.map((link, index) => (
-                  <motion.button
-                    type="button"
-                    key={link.label}
-                    onClick={() => handleNavClick(link.href)}
-                    className="text-2xl uppercase tracking-[0.25em] flex items-center justify-between text-left relative overflow-hidden group"
-                    variants={itemVariants}
-                    whileHover={{ x: 5 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="relative z-10">{link.label}</span>
-                    <motion.span
-                      className="text-sm text-gray-500 relative z-10"
-                      whileHover={{ x: 3, y: -3 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      ↗
-                    </motion.span>
-                    <motion.div
-                      className="absolute inset-0 bg-gray-100 rounded-lg"
-                      initial={{ scaleX: 0 }}
-                      whileHover={{ scaleX: 1 }}
-                      transition={{ duration: 0.3 }}
-                      style={{ originX: 0 }}
-                    />
-                  </motion.button>
-                ))}
-                <motion.button
-                  type="button"
-                  onClick={() => handleNavClick("/contact")}
-                  className="mt-4 w-full rounded-2xl border border-gray-900/40 py-4 uppercase tracking-[0.3em] text-sm relative overflow-hidden text-gray-900"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.02, borderColor: "#111827" }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.2 }}
+            <div className="flex flex-col items-center justify-center h-full gap-8">
+              {NAV_LINKS.map((link) => (
+                <button
+                  key={link.label}
+                  onClick={() => handleNavClick(link.href)}
+                  className="text-2xl uppercase tracking-[0.3em]"
                 >
-                  <motion.span className="relative z-10">
-                    Start a project
-                  </motion.span>
-                  <motion.div
-                    className="absolute inset-0 bg-gray-100 rounded-2xl"
-                    initial={{ scale: 0 }}
-                    whileHover={{ scale: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </motion.button>
-              </motion.div>
-            </motion.div>
+                  {link.label}
+                </button>
+              ))}
+
+              <button
+                onClick={() => handleNavClick("/contact")}
+                className="
+                  mt-6 px-8 py-4 rounded-full
+                  border border-black
+                  uppercase tracking-[0.3em]
+                "
+              >
+                Start a project
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </AnimatePresence>
+    </>
   );
 };
 

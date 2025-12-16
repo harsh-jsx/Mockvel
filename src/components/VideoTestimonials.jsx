@@ -53,6 +53,7 @@ const VideoTestimonials = () => {
       <h1 className="text-[6vw] font-bold text-center font-founders text-black">
         Video Testimonials
       </h1>
+
       <div className="relative overflow-hidden">
         <div className="absolute left-0 top-0 h-full w-24 sm:w-32 bg-linear-to-r from-white via-white to-transparent pointer-events-none z-10" />
         <div className="absolute right-0 top-0 h-full w-24 sm:w-32 bg-linear-to-l from-white via-white to-transparent pointer-events-none z-10" />

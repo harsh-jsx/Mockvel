@@ -12,6 +12,7 @@ import Faq from "../components/Faq";
 import VideoTestimonials from "../components/VideoTestimonials";
 import WhyChooseUs from "../components/WhyChooseUs";
 import InsightsPage from "../components/InsightsPage";
+import Home2 from "../components/Home2";
 
 const Home = () => {
   const vid =
@@ -85,6 +86,8 @@ const Home = () => {
 
   return (
     <>
+      <Home2 />
+
       <AnimatePresence mode="wait">
         <div
           ref={homeRef}
