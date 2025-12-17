@@ -2,13 +2,14 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import logo from "/public/mockvellogo.png";
-
+import { useContactPopup } from "../hooks/useContactPopup";
+import ContactPopup from "./ContactPopup";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function MockvelFooter() {
   const footerRef = useRef(null);
   const columnsRef = useRef([]);
-
+  const { open, openPopup, closePopup } = useContactPopup();
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -58,7 +59,6 @@ export default function MockvelFooter() {
         <div className="absolute bottom-[-30%] right-[-20%] w-[720px] h-[720px] bg-[#5b4bff]/15 blur-[220px]" />
         <div className="absolute top-12 left-10 w-3 h-3 rounded-full bg-white shadow-[0_0_30px_rgba(255,255,255,0.6)]" />
       </div>
-
       {/* CTA */}
       <div className="relative z-10 mb-24">
         <div className="flex items-center gap-6 footer-reveal font-founders">
@@ -71,7 +71,7 @@ export default function MockvelFooter() {
           </h2>
 
           <a
-            href="/contact"
+            onClick={openPopup}
             className="group relative flex items-center justify-center w-16 h-16 rounded-full border border-white/30 transition-all hover:border-white"
           >
             <span className="absolute inset-0 rounded-full bg-white scale-0 group-hover:scale-100 transition-transform duration-300" />
@@ -81,7 +81,6 @@ export default function MockvelFooter() {
           </a>
         </div>
       </div>
-
       {/* Content grid */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 text-sm font-neue">
         {[
@@ -139,7 +138,6 @@ export default function MockvelFooter() {
           </div>
         ))}
       </div>
-
       {/* Footer bottom */}
       <div className="relative z-10 mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between gap-6 text-xs text-white/40">
         <p>© {new Date().getFullYear()} Mockvel. All rights reserved.</p>
@@ -151,7 +149,8 @@ export default function MockvelFooter() {
             Terms
           </a>
         </div>
-      </div>
+      </div>{" "}
+      <ContactPopup open={open} onClose={closePopup} />
     </footer>
   );
 }

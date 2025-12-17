@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { useContactPopup } from "../hooks/useContactPopup";
+import ContactPopup from "./ContactPopup";
 gsap.registerPlugin(ScrollTrigger);
 
 // Counter animation component
@@ -95,7 +96,7 @@ const Intro = () => {
   const videoContainerRef = useRef(null);
   const statsRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
-
+  const { open, openPopup, closePopup } = useContactPopup();
   const thumbnailUrl =
     "https://mockvel.com/wp-content/uploads/2025/11/IMG-20250427-WA0020-1024x348.jpg";
   const vidUrl =
@@ -280,7 +281,10 @@ const Intro = () => {
               className="animate-fade-up"
               style={{ animationDelay: "0.8s", opacity: 0 }}
             >
-              <button className="group relative px-10 py-5 bg-transparent border border-foreground/20 rounded-full overflow-hidden transition-all duration-500 hover:border-primary/50">
+              <button
+                onClick={openPopup}
+                className="group relative px-10 py-5 bg-transparent border border-foreground/20 rounded-full overflow-hidden transition-all duration-500 hover:border-primary/50"
+              >
                 <span className="relative z-10 text-foreground font-medium tracking-wide uppercase text-sm flex items-center gap-3 transition-colors duration-500 group-hover:text-primary">
                   Learn More
                   <svg
@@ -347,20 +351,20 @@ const Intro = () => {
               ref={statsRef}
               className="mt-24 lg:mt-32 pt-16 border-t border-border/50"
             >
-              <div className="grid sm:grid-cols-3 gap-8">
+              <div className="grid grid-cols-3 gap-4 md:gap-8">
                 {stats.map((stat, i) => (
                   <div
                     key={stat.label}
-                    className="stat-card p-8 rounded-2xl transition-all duration-500 hover:-translate-y-2"
+                    className="stat-card p-4 md:p-8 rounded-2xl transition-all duration-500 hover:-translate-y-2"
                   >
-                    <div className="text-5xl md:text-6xl lg:text-7xl font-display text-foreground mb-4">
+                    <div className="text-2xl md:text-6xl lg:text-7xl font-display text-foreground mb-2 md:mb-4">
                       <AnimatedCounter
                         target={stat.value}
                         suffix={stat.suffix}
                         duration={2 + i * 0.3}
                       />
                     </div>
-                    <div className="text-muted-foreground text-sm uppercase tracking-wider">
+                    <div className="text-muted-foreground text-xs md:text-sm uppercase tracking-wider">
                       {stat.label}
                     </div>
                   </div>
@@ -414,6 +418,7 @@ const Intro = () => {
           </div>
         </div>
       )}
+      <ContactPopup open={open} onClose={closePopup} />
     </section>
   );
 };

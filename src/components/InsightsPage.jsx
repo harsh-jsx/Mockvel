@@ -92,7 +92,7 @@ export default function InsightsPage() {
       >
         {/* Header */}
         <div className="flex items-center gap-10 mb-16">
-          <h1 className="text-[6vw] font-semibold tracking-tight font-founders">
+          <h1 className="text-[10vw] md:text-[6vw] font-semibold tracking-tight font-founders">
             Insights
           </h1>
 

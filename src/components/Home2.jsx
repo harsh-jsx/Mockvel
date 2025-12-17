@@ -1,5 +1,6 @@
 import { useRef } from "react";
-
+import { useContactPopup } from "../hooks/useContactPopup";
+import ContactPopup from "./ContactPopup";
 const OsmoIcon = ({ className = "" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -137,11 +138,20 @@ const LaptopVideo = ({ src }) => {
   );
 };
 
-const HeroButton = ({ children }) => (
-  <button className="inline-flex items-center justify-center h-12 px-8 text-base font-medium rounded-xl bg-primary text-white hover:bg-primary/80 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300">
-    {children}
-  </button>
-);
+const HeroButton = ({ children }) => {
+  const { open, openPopup, closePopup } = useContactPopup();
+  return (
+    <>
+      <button
+        onClick={openPopup}
+        className="inline-flex items-center justify-center h-12 px-8 text-base font-medium rounded-xl bg-primary text-white hover:bg-primary/80 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+      >
+        {children}
+      </button>
+      <ContactPopup open={open} onClose={closePopup} />
+    </>
+  );
+};
 
 const Home2 = () => {
   const videoSrc =

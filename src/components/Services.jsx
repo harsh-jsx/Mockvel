@@ -59,18 +59,18 @@ const Services = () => {
           <div className="flex items-center justify-between gap-4 font-light">
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-4">
-                <h2 className="text-[1.2vw] lg:text-[5.5vw] font-founders">
+                <h2 className="text-[8vw] md:text-[5.5vw] lg:text-[5.5vw] font-founders">
                   {service.title}
                 </h2>
               </div>
-              <p className="text-[2vw] leading-relaxed font-neue tracking-widest lg:text-2xl text-white/60 text-pretty">
+              <p className="text-[3vw] md:text-[2vw] leading-relaxed font-neue tracking-widest lg:text-2xl text-white/60 text-pretty">
                 {service.description}
               </p>
-              <div className="flex flex-col gap-2 text-[2vw] sm:gap-4 lg:text-3xl text-white/80">
+              <div className="flex flex-col gap-2 text-[2vw] md:text-[3vw] sm:gap-4 lg:text-3xl text-white/80">
                 {service.items.map((item, itemIndex) => (
                   <div key={`item-${index}-${itemIndex}`}>
-                    <h3 className="flex text-[2vw] font-neue">
-                      <span className="mr-12 text-[2vw] text-white/30">
+                    <h3 className="flex text-[5vw] md:text-[3vw]  font-neue">
+                      <span className="mr-12 text-[5vw] md:text-[3vw] text-white/30">
                         0{itemIndex + 1}
                       </span>
                       {item.title}

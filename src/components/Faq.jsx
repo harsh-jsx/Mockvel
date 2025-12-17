@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FiPlus, FiMinus } from "react-icons/fi";
+import { useContactPopup } from "../hooks/useContactPopup";
+import ContactPopup from "./ContactPopup";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,9 +67,10 @@ const FaqItem = React.forwardRef(({ item, isOpen, onToggle, idx }, ref) => (
 FaqItem.displayName = "FaqItem";
 
 const Faq = () => {
-  const [open, setOpen] = useState(0);
+  const [openn, setOpen] = useState(0);
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
+  const { open, openPopup, closePopup } = useContactPopup();
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -145,8 +148,8 @@ const Faq = () => {
             key={item.q}
             item={item}
             idx={i}
-            isOpen={open === i}
-            onToggle={() => setOpen(open === i ? -1 : i)}
+            isOpen={openn === i}
+            onToggle={() => setOpen(openn === i ? -1 : i)}
             ref={(el) => (cardsRef.current[i] = el)}
           />
         ))}
@@ -156,7 +159,10 @@ const Faq = () => {
         Ready to build something bold?
       </h1>
       <div className="flex items-center justify-center gap-10 relative">
-        <button className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300">
+        <button
+          onClick={openPopup}
+          className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300"
+        >
           Yes
         </button>
         <button
@@ -183,6 +189,7 @@ const Faq = () => {
           No
         </button>
       </div>
+      <ContactPopup open={open} onClose={closePopup} />
     </section>
   );
 };
