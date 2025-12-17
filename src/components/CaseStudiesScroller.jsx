@@ -22,10 +22,6 @@ const cards = [
     title: "Svish",
     image: "https://creativefuel.io/assets/work/Svish/Svish-cover.jpg",
   },
-  {
-    title: "VI-John",
-    image: "https://creativefuel.io/assets/work/Vi-john/Vi-john-cover.jpg",
-  },
 ];
 
 const CaseStudiesScroller = () => {

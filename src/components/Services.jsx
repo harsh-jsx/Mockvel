@@ -17,12 +17,19 @@ const Services = () => {
 
       gsap.from(el, {
         y: 200,
+        duration: 1,
+        ease: "circ.out",
         scrollTrigger: {
           trigger: el,
           start: "top 80%",
+          end: "top 30%",
+          scrub: true,
+          snap: {
+            snapTo: 1, // 👈 one snap per card
+            duration: 0.5,
+            ease: "power2.out",
+          },
         },
-        duration: 1,
-        ease: "circ.out",
       });
     });
   }, []);

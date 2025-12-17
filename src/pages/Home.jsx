@@ -25,6 +25,7 @@ const Home = () => {
       <Intro />
       <WhyChooseUs />
       <ClientsMarquee />
+
       <BrandCarousel />
       {/* <RotatingTalents /> */}
       <Services />
