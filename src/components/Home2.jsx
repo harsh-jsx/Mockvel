@@ -24,27 +24,78 @@ const LaptopVideo = ({ src }) => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const rx = (y / rect.height - 0.5) * -8;
-    const ry = (x / rect.width - 0.5) * 10;
+    const rx = (y / rect.height - 0.5) * -6 + 12;
+    const ry = (x / rect.width - 0.5) * 8;
 
     frameRef.current.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
   };
 
   const reset = () => {
     if (!frameRef.current) return;
-    frameRef.current.style.transform = "rotateX(0deg) rotateY(0deg)";
+    frameRef.current.style.transform = "rotateX(12deg) rotateY(0deg)";
   };
 
   return (
-    <div className="relative mt-16 md:mt-24 perspective-container">
+    <div className="relative mt-16 md:mt-24" style={{ perspective: "1500px" }}>
+      {/* Background glow layer - behind everything */}
+      <div className="absolute inset-0 -z-10">
+        {/* Top center glow */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 -top-32 w-[800px] h-[400px] blur-[100px] opacity-60"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, hsl(270 100% 50% / 0.8), transparent 70%)",
+          }}
+        />
+
+        {/* Left side glow */}
+        <div
+          className="absolute -left-32 top-1/2 -translate-y-1/2 w-[400px] h-[600px] blur-[80px] opacity-70"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, hsl(260 100% 60% / 0.9), transparent 70%)",
+          }}
+        />
+
+        {/* Right side glow */}
+        <div
+          className="absolute -right-32 top-1/2 -translate-y-1/2 w-[400px] h-[600px] blur-[80px] opacity-70"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, hsl(280 100% 55% / 0.9), transparent 70%)",
+          }}
+        />
+
+        {/* Bottom glow */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 -bottom-40 w-[1000px] h-[300px] blur-[100px] opacity-50"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, hsl(265 100% 55% / 0.7), transparent 70%)",
+          }}
+        />
+      </div>
+
+      {/* Laptop frame */}
       <div
         ref={frameRef}
         onMouseMove={handleMove}
         onMouseLeave={reset}
-        className="relative w-[85vw] max-w-[1000px] aspect-video rounded-2xl md:rounded-3xl bg-device-frame overflow-hidden device-transform device-glow border border-border/50"
+        className="relative w-[85vw] max-w-[1000px] mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden transition-transform duration-300 ease-out"
+        style={{
+          transform: "rotateX(12deg) rotateY(0deg)",
+          transformStyle: "preserve-3d",
+          background: "linear-gradient(135deg, hsl(0 0% 15%), hsl(0 0% 8%))",
+          boxShadow: `
+            0 0 0 1px hsl(0 0% 20% / 0.5),
+            0 25px 50px -12px hsl(0 0% 0% / 0.8),
+            0 0 80px -20px hsl(270 100% 50% / 0.3),
+            inset 0 1px 0 hsl(0 0% 100% / 0.05)
+          `,
+        }}
       >
-        <div className="absolute inset-0 p-1 md:p-2">
-          <div className="w-full h-full rounded-xl md:rounded-2xl overflow-hidden bg-background">
+        <div className="absolute inset-0 p-1.5 md:p-2">
+          <div className="w-full h-full rounded-xl md:rounded-2xl overflow-hidden bg-black">
             <video
               src={src}
               autoPlay
@@ -56,48 +107,31 @@ const LaptopVideo = ({ src }) => {
           </div>
         </div>
 
+        {/* Glass reflection overlay */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-30"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(135deg, hsl(0 0% 100% / 0.1) 0%, transparent 50%)",
+              "linear-gradient(135deg, hsl(0 0% 100% / 0.08) 0%, transparent 40%)",
+          }}
+        />
+
+        {/* Edge highlight */}
+        <div
+          className="absolute inset-0 pointer-events-none rounded-2xl md:rounded-3xl"
+          style={{
+            boxShadow: "inset 0 0 0 1px hsl(0 0% 100% / 0.1)",
           }}
         />
       </div>
 
+      {/* Additional ambient glow layers for depth */}
       <div
-        className="absolute inset-x-0 -bottom-20 h-64 blur-3xl animate-glow-pulse pointer-events-none"
+        className="absolute left-1/2 -translate-x-1/2 top-0 w-[120%] h-full -z-10 blur-[60px] opacity-40"
         style={{
           background:
-            "linear-gradient(90deg, hsl(260 100% 65% / 0.9), hsl(280 100% 70% / 0.3), hsl(260 100% 65% / 0.9))",
+            "radial-gradient(ellipse 80% 50% at 50% 50%, hsl(270 100% 50% / 0.5), transparent)",
         }}
-      />
-      <div
-        className="absolute inset-x-0 bottom-20 h-64 blur-3xl animate-glow-pulse pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(90deg, hsl(260 100% 65% / 0.9), hsl(280 100% 70% / 0.3), hsl(260 100% 65% / 0.9))",
-        }}
-      />
-      <div
-        className="absolute inset-x-0 -top-40 h-64 blur-3xl animate-glow-pulse pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(90deg, hsl(260 100% 65% / 0.1), hsl(280 100% 70% / 0.4), hsl(260 100% 65% / 0.1))",
-        }}
-      />
-      <div
-        className="absolute -left-20 top-1/2 -translate-y-1/2 w-40 h-80 blur-3xl opacity-30 pointer-events-none"
-        style={{ background: "hsl(260 100% 65% / 0.6)" }}
-      />
-      <div
-        className="absolute -left-20 top-1/2 -translate-y-1/2 w-40 h-80 blur-3xl opacity-30 pointer-events-none"
-        style={{ background: "hsl(260 100% 65% / 0.6)" }}
-      />
-
-      <div
-        className="absolute -right-20 top-1/2 -translate-y-1/2 w-40 h-80 blur-3xl opacity-30 pointer-events-none"
-        style={{ background: "hsl(280 100% 70% / 0.6)" }}
       />
     </div>
   );
@@ -114,10 +148,10 @@ const Home2 = () => {
     "https://framerusercontent.com/assets/lTxxGNobUSpzb85wovscwKXUP0.mp4";
 
   return (
-    <div className="bg-black text-white  min-h-screen overflow-hidden flex flex-col items-center">
+    <div className="bg-black text-white min-h-screen overflow-hidden flex flex-col items-center">
       <section className="w-full flex flex-col items-center pt-24 md:pt-32 pb-32 px-6">
         <div className="flex flex-col text-white items-center text-center">
-          <h1 className="hero-text flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white">
             <span className="text-white">Dev</span>
 
             {/* Highlighted word */}
@@ -128,29 +162,32 @@ const Home2 = () => {
               </span>
             </span>
 
-            <OsmoIcon className="w-12 h-12 md:w-16 md:h-16 text-primary glow-effect" />
+            <OsmoIcon className="w-12 h-12 md:w-16 md:h-16 text-primary" />
 
             <span className="text-white">by Mockvel</span>
           </h1>
         </div>
 
-        <p className="hero-subtitle mt-6 md:mt-8 ">
-          Platform packed with <span className="span-highlight">Webflow</span> &{" "}
-          <span className="span-highlight">HTML</span> resources, icons, easings
-          and a page transition course
+        <p className="text-lg md:text-xl text-gray-400 mt-6 md:mt-8 text-center max-w-2xl">
+          Platform packed with{" "}
+          <span className="text-white bg-white/10 px-2 py-0.5 rounded">
+            Webflow
+          </span>{" "}
+          &{" "}
+          <span className="text-white bg-white/10 px-2 py-0.5 rounded">
+            HTML
+          </span>{" "}
+          resources, icons, easings and a page transition course
         </p>
 
-        <div className="mt-8 md:mt-10 " style={{ animationDelay: "0.5s" }}>
-          <HeroButton className="text-white font-founders">
-            View Our Campaigns
-          </HeroButton>
+        <div className="mt-8 md:mt-10">
+          <HeroButton>View Our Campaigns</HeroButton>
         </div>
 
-        <div className="" style={{ animationDelay: "0.7s" }}>
-          <LaptopVideo src={videoSrc} />
-        </div>
+        <LaptopVideo src={videoSrc} />
       </section>
 
+      {/* Fixed background effects */}
       <div
         className="fixed inset-0 pointer-events-none overflow-hidden"
         style={{ zIndex: -1 }}

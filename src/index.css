@@ -159,3 +159,9 @@ body {
 .glow-effect {
   filter: drop-shadow(0 0 10px rgba(104, 64, 255, 0.5));
 }
+
+.vidd {
+  transform-origin: center;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-in-out;
+}
