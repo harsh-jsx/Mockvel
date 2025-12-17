@@ -114,14 +114,11 @@ const Home2 = () => {
     "https://framerusercontent.com/assets/lTxxGNobUSpzb85wovscwKXUP0.mp4";
 
   return (
-    <div className="bg-background min-h-screen overflow-hidden flex flex-col items-center">
+    <div className="bg-black text-white  min-h-screen overflow-hidden flex flex-col items-center">
       <section className="w-full flex flex-col items-center pt-24 md:pt-32 pb-32 px-6">
-        <div
-          className="flex flex-col items-center text-center opacity-0 animate-fade-up"
-          style={{ animationDelay: "0.1s" }}
-        >
+        <div className="flex flex-col text-white items-center text-center">
           <h1 className="hero-text flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white">
-            <span>Dev</span>
+            <span className="text-white">Dev</span>
 
             {/* Highlighted word */}
             <span className="relative inline-block">
@@ -133,30 +130,23 @@ const Home2 = () => {
 
             <OsmoIcon className="w-12 h-12 md:w-16 md:h-16 text-primary glow-effect" />
 
-            <span>by Mockvel</span>
+            <span className="text-white">by Mockvel</span>
           </h1>
         </div>
 
-        <p
-          className="hero-subtitle mt-6 md:mt-8 opacity-0 animate-fade-up"
-          style={{ animationDelay: "0.3s" }}
-        >
+        <p className="hero-subtitle mt-6 md:mt-8 ">
           Platform packed with <span className="span-highlight">Webflow</span> &{" "}
           <span className="span-highlight">HTML</span> resources, icons, easings
           and a page transition course
         </p>
 
-        <div
-          className="mt-8 md:mt-10 opacity-0 animate-fade-up"
-          style={{ animationDelay: "0.5s" }}
-        >
-          <HeroButton>View Our Campaigns</HeroButton>
+        <div className="mt-8 md:mt-10 " style={{ animationDelay: "0.5s" }}>
+          <HeroButton className="text-white font-founders">
+            View Our Campaigns
+          </HeroButton>
         </div>
 
-        <div
-          className="opacity-0 animate-fade-up"
-          style={{ animationDelay: "0.7s" }}
-        >
+        <div className="" style={{ animationDelay: "0.7s" }}>
           <LaptopVideo src={videoSrc} />
         </div>
       </section>
