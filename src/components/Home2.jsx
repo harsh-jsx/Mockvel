@@ -120,9 +120,19 @@ const Home2 = () => {
           className="flex flex-col items-center text-center opacity-0 animate-fade-up"
           style={{ animationDelay: "0.1s" }}
         >
-          <h1 className="hero-text flex flex-wrap items-center justify-center gap-3 md:gap-4">
-            <span>Dev Toolkit</span>
+          <h1 className="hero-text flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white">
+            <span>Dev</span>
+
+            {/* Highlighted word */}
+            <span className="relative inline-block">
+              <span className="absolute inset-0 bg-primary -skew-x-6 rounded-md"></span>
+              <span className="relative px-3 md:px-4 font-semibold">
+                Toolkit
+              </span>
+            </span>
+
             <OsmoIcon className="w-12 h-12 md:w-16 md:h-16 text-primary glow-effect" />
+
             <span>by Mockvel</span>
           </h1>
         </div>
