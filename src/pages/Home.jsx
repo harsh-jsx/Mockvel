@@ -25,7 +25,7 @@ const Home = () => {
       <WhyChooseUs />
 
       <BrandCarousel />
-      <RotatingTalents />
+      {/* <RotatingTalents /> */}
       <Services />
       <CaseStudiesScroller />
       <VideoTestimonials />

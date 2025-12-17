@@ -343,36 +343,35 @@ const Intro = () => {
               {/* Corner accent */}
               <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-primary/30 rounded-2xl -z-10" />
             </div>
-
+            <div
+              ref={statsRef}
+              className="mt-24 lg:mt-32 pt-16 border-t border-border/50"
+            >
+              <div className="grid sm:grid-cols-3 gap-8">
+                {stats.map((stat, i) => (
+                  <div
+                    key={stat.label}
+                    className="stat-card p-8 rounded-2xl transition-all duration-500 hover:-translate-y-2"
+                  >
+                    <div className="text-5xl md:text-6xl lg:text-7xl font-display text-foreground mb-4">
+                      <AnimatedCounter
+                        target={stat.value}
+                        suffix={stat.suffix}
+                        duration={2 + i * 0.3}
+                      />
+                    </div>
+                    <div className="text-muted-foreground text-sm uppercase tracking-wider">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
             {/* Floating label */}
           </div>
         </div>
 
         {/* Stats section */}
-        <div
-          ref={statsRef}
-          className="mt-24 lg:mt-32 pt-16 border-t border-border/50"
-        >
-          <div className="grid sm:grid-cols-3 gap-8">
-            {stats.map((stat, i) => (
-              <div
-                key={stat.label}
-                className="stat-card p-8 rounded-2xl transition-all duration-500 hover:-translate-y-2"
-              >
-                <div className="text-5xl md:text-6xl lg:text-7xl font-display text-foreground mb-4">
-                  <AnimatedCounter
-                    target={stat.value}
-                    suffix={stat.suffix}
-                    duration={2 + i * 0.3}
-                  />
-                </div>
-                <div className="text-muted-foreground text-sm uppercase tracking-wider">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Video Modal */}

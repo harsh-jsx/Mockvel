@@ -36,7 +36,7 @@ const LaptopVideo = ({ src }) => {
   };
 
   return (
-    <div className="relative mt-16 md:mt-24" style={{ perspective: "1500px" }}>
+    <div className="relative mt-10 md:mt-10" style={{ perspective: "1500px" }}>
       {/* Background glow layer - behind everything */}
       <div className="absolute inset-0 -z-10">
         {/* Top center glow */}
@@ -138,7 +138,7 @@ const LaptopVideo = ({ src }) => {
 };
 
 const HeroButton = ({ children }) => (
-  <button className="inline-flex items-center justify-center h-12 px-8 text-base font-medium rounded-xl bg-primary text-white hover:bg-primary/80 hover:scale-105 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300">
+  <button className="inline-flex items-center justify-center h-12 px-8 text-base font-medium rounded-xl bg-primary text-white hover:bg-primary/80 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300">
     {children}
   </button>
 );
@@ -151,7 +151,7 @@ const Home2 = () => {
     <div className="bg-black text-white min-h-screen overflow-hidden flex flex-col items-center">
       <section className="w-full flex flex-col items-center pt-24 md:pt-32 pb-32 px-6">
         <div className="flex flex-col text-white items-center text-center">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white hover:scale-105 transition-all duration-300 py-10">
             <span className="text-white">Dev</span>
 
             {/* Highlighted word */}
@@ -180,7 +180,7 @@ const Home2 = () => {
           resources, icons, easings and a page transition course
         </p>
 
-        <div className="mt-8 md:mt-10">
+        <div className="mt-4 md:mt-5 hover:scale-105 transition-all duration-300">
           <HeroButton>View Our Campaigns</HeroButton>
         </div>
 
