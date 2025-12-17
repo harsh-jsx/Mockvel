@@ -26,6 +26,10 @@ const faqs = [
     q: "Do you offer ongoing support?",
     a: "We stay on for optimization, new launches, and reporting so momentum never stalls after go-live.",
   },
+  {
+    q: "Do you offer ongoing support?",
+    a: "We stay on for optimization, new launches, and reporting so momentum never stalls after go-live.",
+  },
 ];
 
 const FaqItem = React.forwardRef(({ item, isOpen, onToggle, idx }, ref) => (

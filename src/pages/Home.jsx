@@ -13,6 +13,7 @@ import VideoTestimonials from "../components/VideoTestimonials";
 import WhyChooseUs from "../components/WhyChooseUs";
 import InsightsPage from "../components/InsightsPage";
 import Home2 from "../components/Home2";
+import ClientsMarquee from "../components/ClientsMarquee";
 
 const Home = () => {
   const homeRef = useRef(null);
@@ -23,7 +24,7 @@ const Home = () => {
 
       <Intro />
       <WhyChooseUs />
-
+      <ClientsMarquee />
       <BrandCarousel />
       {/* <RotatingTalents /> */}
       <Services />
