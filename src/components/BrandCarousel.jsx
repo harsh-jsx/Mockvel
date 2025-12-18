@@ -107,7 +107,7 @@ const BrandCarousel = () => {
     return () => ctx.revert();
   }, []);
 
-  const headingText = "Trusted By Industry Leaders";
+  const headingText = "Industry Leaders Trust Us. The Numbers Prove Why";
 
   return (
     <>
@@ -137,7 +137,7 @@ const BrandCarousel = () => {
 
             {/* Main heading */}
             <div ref={headingRef} className="overflow-hidden">
-              <h2 className="font-display text-[8vw] md:text-[6vw] lg:text-[4.5vw] leading-[1.1] tracking-tight">
+              <h2 className="font-display text-[8vw] md:text-[6vw] lg:text-[4.8vw] leading-[1.1] tracking-tight">
                 {headingText.split("").map((char, i) => (
                   <span
                     key={i}
@@ -154,8 +154,9 @@ const BrandCarousel = () => {
 
             {/* Subtext */}
             <p className="mt-6 text-muted-foreground text-lg max-w-2xl mx-auto">
-              Award-winning work recognized by the world's most prestigious
-              design and business organizations
+              Credibility isn't claimed. It's earned one delivered project, one
+              happy client, one referral at a time. Six years in, the scoreboard
+              speaks for itself.
             </p>
           </div>
 

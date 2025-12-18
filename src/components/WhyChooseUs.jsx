@@ -53,27 +53,27 @@ const AnimatedCounter = ({ target, suffix = "", duration = 2 }) => {
 
 const reasons = [
   {
-    title: "Design That Converts",
-    desc: "We don't design for aesthetics alone. Every layout, interaction, and transition is engineered to drive attention, retention, and action.",
+    title: "Talk Straight, Move Fast, Deliver Results",
+    desc: "Zero jargon. Zero excuses. You'll always know what we're doing, why we're doing it, and what it's costing you. Radical transparency isn't a buzzword here it's how we operate.",
   },
   {
-    title: "Performance First",
-    desc: "Lightweight animations, optimized assets, and clean architecture ensure fast load times and smooth experiences across devices.",
+    title: "We've Already Made Your Mistakes",
+    desc: "369 projects means we've seen every possible disaster and solved it. You get the wisdom without the tuition fee. Learn from our scars, not yours.",
   },
   {
-    title: "Motion With Purpose",
-    desc: "No unnecessary effects. Every animation communicates hierarchy, intent, or feedback — never distraction.",
+    title: "One Team. No Outsourcing. No Excuses.",
+    desc: "Your project isn't going to some freelancer in another timezone. Our 35-person in-house team owns it start to finish. Accountability lives here.",
   },
   {
-    title: "Built to Scale",
-    desc: "From MVPs to high-traffic platforms, our systems are structured to grow without rewrites or performance debt.",
+    title: "Zero Client Complaints in 24 Months",
+    desc: "Not zero issues. Zero complaints. We fix it before you notice.",
   },
 ];
 
 const stats = [
-  { value: 120, suffix: "+", label: "Projects Delivered" },
-  { value: 3.2, suffix: "s", label: "Avg Load Time" },
-  { value: 99, suffix: "%", label: "Client Retention" },
+  { value: 30, suffix: "Cr +", label: "Revenue Generated for Client" },
+  { value: 3, suffix: "X", label: "Average ROI" },
+  { value: 6, suffix: "%", label: "Sigma Quality Standards" },
 ];
 const headingText = "Trusted By Industry Leaders";
 
@@ -137,9 +137,11 @@ export default function WhyChooseUs() {
             </p>
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.1] mb-10">
-              We build experiences that
+              What Makes Us Different &
               <br />
-              <span className="text-white/70">perform, scale, and last.</span>
+              <span className="text-white/70">
+                Why It Matters To Your Business .
+              </span>
             </h2>
 
             <div className="flex items-center gap-8 opacity-60 hover:opacity-80 transition-opacity">

@@ -188,14 +188,14 @@ const Intro = () => {
 
   const stats = [
     { value: 3.4, suffix: "x", label: "Campaign ROI" },
-    { value: 180, suffix: "+", label: "Projects Shipped" },
-    { value: 62, suffix: "", label: "Client NPS" },
+    { value: 369, suffix: "+", label: "Projects Shipped" },
+    { value: 101, suffix: "%", label: "Satisfaction Rate" },
   ];
 
   const features = [
-    "Performance-first creative and media",
-    "Full-funnel storytelling across channels",
-    "Fast experiments, clear reporting, real results",
+    "we optimize for your bottom line, not our portfolio",
+    "From scrappy startup launches to enterprise rebrands ..we've been in the trenches, and we know what works",
+    "Our clients don't just stick around. They refer us. That's the only score that matters",
   ];
 
   return (
@@ -256,9 +256,19 @@ const Intro = () => {
                 className="text-muted-foreground text-lg leading-relaxed max-w-xl animate-fade-up"
                 style={{ animationDelay: "0.4s", opacity: 0 }}
               >
-                We build brand experiences that blend strategy, design, and
-                performance marketing. From launch to scale, our team partners
-                with you to ship campaigns, content, and products that convert.
+                Who We Are We started MOCKVEL because we were tired of seeing
+                good businesses fail at marketing. Not because their product was
+                weak. Not because their team wasn't talented. But because they
+                hired agencies that cared more about looking clever than
+                delivering results. So we built something different. A team that
+                thinks like entrepreneurs because most of us are. We understand
+                cash flow anxiety. We know what it's like when a campaign flops.
+                We've sat in those meetings where you're wondering if this
+                month's marketing spend was worth it. That's why we don't do
+                vanity metrics or pretty decks that go nowhere. We do marketing
+                that moves your business forward whether that's more customers,
+                better positioning, or finally breaking into a market you've
+                been eyeing.
               </p>
             </div>
 

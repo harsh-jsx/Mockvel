@@ -276,17 +276,19 @@ export default function ClientsMarquee() {
 
           {/* Heading */}
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-center mb-4">
-            <span className="italic">Our Clients:</span> Leading
+            <span className="italic">
+              Our MOCKVEL Family: They Took a Bet on Us.
+            </span>
           </h2>
           <h3 className="text-3xl md:text-4xl lg:text-5xl font-display text-center text-white/60 mb-8">
-            Brands That Trust Us
+            We Made Them Winners.
           </h3>
 
           {/* Subtitle */}
           <p className="text-center text-gray-400 max-w-2xl mx-auto mb-16 text-sm md:text-base leading-relaxed">
-            Discover the top brands and businesses that choose us as their
-            partner. We are proud to work with industry leaders and innovative
-            companies across diverse sectors.
+            93% of them renew. Not because of contracts, but because the work
+            speaks. From scrappy startups to market leaders they stuck around
+            because we delivered when it counted.
           </p>
         </div>
 

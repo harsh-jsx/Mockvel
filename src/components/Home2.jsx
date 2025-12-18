@@ -162,32 +162,33 @@ const Home2 = () => {
       <section className="w-full flex flex-col items-center pt-24 md:pt-32 pb-32 px-6">
         <div className="flex flex-col text-white items-center text-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white hover:scale-105 transition-all duration-300 py-10">
-            <span className="text-white">Dev</span>
+            <span className="text-white">Every </span>
 
             {/* Highlighted word */}
             <span className="relative inline-block">
               <span className="absolute inset-0 bg-primary -skew-x-6 rounded-md"></span>
               <span className="relative px-3 md:px-4 font-semibold">
-                Toolkit
+                Entrepreneur's
               </span>
             </span>
 
             <OsmoIcon className="w-12 h-12 md:w-16 md:h-16 text-primary" />
 
-            <span className="text-white">by Mockvel</span>
+            <span className="text-white">Choice</span>
           </h1>
         </div>
 
         <p className="text-lg md:text-xl text-gray-400 mt-6 md:mt-8 text-center max-w-2xl">
-          Platform packed with{" "}
+          You're not looking for an agency. You're looking for
           <span className="text-white bg-white/10 px-2 py-0.5 rounded">
-            Webflow
+            growth,
           </span>{" "}
           &{" "}
           <span className="text-white bg-white/10 px-2 py-0.5 rounded">
-            HTML
+            Digital partners
           </span>{" "}
-          resources, icons, easings and a page transition course
+          that understand your P&L, respect your budget, and deliver results
+          ..not excuses
         </p>
 
         <div className="mt-4 md:mt-5 hover:scale-105 transition-all duration-300">
