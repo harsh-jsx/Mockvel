@@ -1,0 +1,18 @@
+New Contact Form Submission - MOCKVEL
+
+CONTACT INFORMATION
+-------------------
+Name: {{firstName}} {{lastName}}
+Email: {{email}}
+Phone: {{phone}}
+Company: {{company}}
+
+PROJECT DETAILS
+--------------
+Service Interest: {{lookingFor}}
+Budget Range: {{budget}}
+
+---
+This email was sent from the MOCKVEL contact form.
+Submitted on: {{date}} at {{time}}
+
