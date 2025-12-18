@@ -29,8 +29,28 @@ const faqs = [
     a: "We stay on for optimization, new launches, and reporting so momentum never stalls after go-live.",
   },
   {
-    q: "Do you offer ongoing support?",
-    a: "We stay on for optimization, new launches, and reporting so momentum never stalls after go-live.",
+    q: "What makes MOCKVEL different?",
+    a: "We think like entrepreneurs, optimize for your P&L, and speak in revenue not jargon. Our background means we understand numbers better than any creative agency.",
+  },
+  {
+    q: "When will we see results?",
+    a: "Social media lifts in 6-8 weeks. Leads start flowing in 7-10 weeks. Weekly reports show real-time progress, not guesswork.",
+  },
+  {
+    q: "Can small businesses afford you?",
+    a: "Packages start at ₹3 Lakh/quater. No contracts, no hidden fees. We scale businesses from ₹5 lakh to ₹5 crore.",
+  },
+  {
+    q: "Who handles our work?",
+    a: "Our 35-person in-house team only. No freelancers, no outsourcing. Direct access to senior strategists.",
+  },
+  {
+    q: "What if something goes wrong?",
+    a: "Zero complaints in 24 months because we fix issues before you notice. Our 93% renewal rate proves we deliver.",
+  },
+  {
+    q: "How do we start?",
+    a: "Free 30-minute strategy call. If we're a fit, we kick off in 48 hours with a dedicated WhatsApp group for daily updates.",
   },
 ];
 
