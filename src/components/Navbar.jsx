@@ -7,7 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
-import logo from "/public/mockvellogo.png";
+import logo from "/public/mockvel new logo.png";
 
 const NAV_LINKS = [
   { label: "About us", href: "#About" },
@@ -186,7 +186,7 @@ const Navbar = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-998 bg-white/90 backdrop-blur-xl"
+            className="fixed inset-0 z-998 bg-white/0 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
