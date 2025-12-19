@@ -355,7 +355,7 @@ const Intro = () => {
             </div>
             <div
               ref={statsRef}
-              className="mt-24 lg:mt-32 pt-16 border-t border-border/50"
+              className="mt-4 lg:mt-32 pt-4 md:pt-16 border-t border-border/50"
             >
               <div className="grid grid-cols-3 gap-4 md:gap-8">
                 {stats.map((stat, i) => (
