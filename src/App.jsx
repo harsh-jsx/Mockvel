@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import PageTransition from "./components/PageTransition";
 import MockvelFooter from "./components/Footer";
+import { ReactLenis, useLenis } from "lenis/react";
+
 import Marquee from "./components/Marquee";
 const AppContent = () => {
   return (
@@ -36,8 +38,14 @@ const AppContent = () => {
 };
 
 const App = () => {
+  const lenis = useLenis((lenis) => {
+    // called every scroll
+    console.log(lenis);
+  });
   return (
     <Router>
+      <ReactLenis root />
+
       <AppContent />
     </Router>
   );
