@@ -20,6 +20,7 @@ const OsmoIcon = ({ className = "" }) => (
 /* ================= LAPTOP VIDEO ================= */
 const LaptopVideo = ({ src }) => {
   const frameRef = useRef(null);
+  const videoRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -30,6 +31,19 @@ const LaptopVideo = ({ src }) => {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  // Ensure video autoplays
+  useEffect(() => {
+    if (videoRef.current) {
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          // Autoplay was prevented, but we'll try again when user interacts
+          console.log("Autoplay prevented:", error);
+        });
+      }
+    }
+  }, [src]);
 
   const updateTransform = (clientX, clientY, isTouch = false) => {
     if (!frameRef.current) return;
@@ -114,12 +128,13 @@ const LaptopVideo = ({ src }) => {
         <div className="absolute inset-0 p-2">
           <div className="w-full h-full rounded-xl overflow-hidden bg-black">
             <video
+              ref={videoRef}
               src={src}
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="auto"
               className="w-full h-full object-cover"
             />
           </div>

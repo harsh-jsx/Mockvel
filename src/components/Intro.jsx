@@ -197,10 +197,15 @@ const Intro = () => {
         {/* Section label */}
         <div className="mb-8 overflow-hidden"></div>
 
-        {/* Main heading */}
+        {/* Main heading - Vertical on side */}
         <h1
           ref={headingRef}
-          className="font-display text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.9] tracking-tight mb-6 lg:mb-24"
+          className="absolute left-0 top-1/2 -translate-y-1/2 font-display text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight whitespace-nowrap"
+          style={{
+            transform: "translateY(-50%) rotate(-90deg)",
+            transformOrigin: "center",
+            left: "-2rem",
+          }}
         >
           {headingText.split("").map((char, i) => (
             <span
@@ -218,13 +223,13 @@ const Intro = () => {
         </h1>
 
         {/* Content grid */}
-        <div className="grid lg:grid-cols-2 lg:gap-24 items-start">
+        <div className="grid lg:grid-cols-2 lg:gap-24 items-start pl-16 md:pl-20 lg:pl-24">
           {/* Left column - Text content */}
           <div className="space-y-12">
             {/* Description */}
             <div className="space-y-6">
               <SplitText
-                text="Fueled by creativity, collaboration, and excellence, Mockvel is a premier digital marketing agency crafting unmatched success for brands and creators alike."
+                text="Mockvel is a premier digital marketing agency crafting unmatched success for brands.."
                 className="text-2xl md:text-3xl lg:text-4xl font-display text-foreground/90 leading-[1.3]"
               />
 
@@ -245,18 +250,6 @@ const Intro = () => {
             </div>
 
             {/* Features list */}
-            <ul className="space-y-4 hidden md:block">
-              {features.map((feature, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-4 text-foreground/80 animate-fade-up"
-                  style={{ animationDelay: `${0.5 + i * 0.1}s`, opacity: 0 }}
-                >
-                  <span className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
-                  <span className="text-lg">{feature}</span>
-                </li>
-              ))}
-            </ul>
 
             {/* CTA Button */}
             <div
@@ -286,21 +279,6 @@ const Intro = () => {
                 <div className="absolute inset-0 bg-primary/10 translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
               </button>
             </div>
-          </div>
-
-          {/* Right column - Video */}
-          <div ref={videoContainerRef} className="relative">
-            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden">
-              <iframe
-                src="https://www.youtube.com/embed/Sjz6uu71ivQ?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&loop=1&playlist=Sjz6uu71ivQ"
-                className="w-full h-full rounded-2xl"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title="YouTube video player"
-              />
-              {/* Corner accent */}
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-primary/30 rounded-2xl -z-10" />
-            </div>
             <div
               ref={statsRef}
               className="mt-4 lg:mt-32 pt-4 md:pt-16 border-t border-border/50"
@@ -325,6 +303,22 @@ const Intro = () => {
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Right column - Video */}
+          <div ref={videoContainerRef} className="relative">
+            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden">
+              <iframe
+                src="https://www.youtube.com/embed/Sjz6uu71ivQ?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&loop=1&playlist=Sjz6uu71ivQ"
+                className="w-full h-full rounded-2xl"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="YouTube video player"
+              />
+              {/* Corner accent */}
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-primary/30 rounded-2xl -z-10" />
+            </div>
+
             {/* Floating label */}
           </div>
         </div>
