@@ -38,10 +38,7 @@ const AppContent = () => {
 };
 
 const App = () => {
-  const lenis = useLenis((lenis) => {
-    // called every scroll
-    console.log(lenis);
-  });
+  const lenis = useLenis((lenis) => {});
   return (
     <Router>
       <ReactLenis root />

@@ -163,10 +163,10 @@ const BrandCarousel = () => {
           {/* Stats row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8  lg:mb-28">
             {[
-              { value: "50+", label: "Awards Won" },
-              { value: "12", label: "Years of Excellence" },
-              { value: "100+", label: "Happy Clients" },
-              { value: "5★", label: "Average Rating" },
+              { value: "3+", label: "Awards Won" },
+              { value: "06", label: "Years of Excellence" },
+              { value: "369+", label: "Happy Clients" },
+              { value: "4.8★", label: "Average Rating" },
             ].map((stat, i) => (
               <div
                 key={stat.label}
@@ -259,7 +259,7 @@ const BrandCarousel = () => {
               onClick={openPopup}
               className="group relative inline-flex items-center gap-4 px-10 py-5 bg-primary text-primary-foreground rounded-full overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-primary/25"
             >
-              <span className="relative z-10 font-medium tracking-wide uppercase text-sm">
+              <span className="relative z-10 font-medium tracking-wide uppercase text-sm text-white">
                 Start Your Project
               </span>
               <svg

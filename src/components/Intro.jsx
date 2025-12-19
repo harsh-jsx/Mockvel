@@ -92,9 +92,15 @@ const SplitText = ({ text, className = "" }) => {
 const Intro = () => {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
+  const videoRef = useRef(null);
   const videoContainerRef = useRef(null);
   const statsRef = useRef(null);
+  const [showModal, setShowModal] = useState(false);
   const { open, openPopup, closePopup } = useContactPopup();
+  const thumbnailUrl =
+    "https://mockvel.com/wp-content/uploads/2025/11/IMG-20250427-WA0020-1024x348.jpg";
+  const vidUrl =
+    "https://webskitters.com/landing-pages/images-ln/A-National-Award-Is-A-Pride-Forever-National-MSME-Award-Winner-Webskitters.mp4";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -170,6 +176,14 @@ const Intro = () => {
     return () => ctx.revert();
   }, []);
 
+  // Modal video controls
+  useEffect(() => {
+    if (!showModal && videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  }, [showModal]);
+
   const headingText = "Who We Are";
 
   const stats = [
@@ -187,7 +201,7 @@ const Intro = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen bg-background overflow-hidden py-12 lg:py-15"
+      className="relative min-h-screen bg-background overflow-hidden py-12 lg:py-32"
     >
       {/* Subtle gradient orb */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
@@ -195,17 +209,22 @@ const Intro = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section label */}
-        <div className="mb-8 overflow-hidden"></div>
+        <div className="mb-8 overflow-hidden">
+          <div
+            className="flex items-center gap-4 animate-fade-up"
+            style={{ animationDelay: "0.1s" }}
+          >
+            <div className="w-12 h-px bg-primary" />
+            <span className="text-primary text-sm font-medium tracking-[0.2em] uppercase">
+              About Us
+            </span>
+          </div>
+        </div>
 
-        {/* Main heading - Vertical on side */}
+        {/* Main heading */}
         <h1
           ref={headingRef}
-          className="absolute left-0 top-1/2 -translate-y-1/2 font-display text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight whitespace-nowrap"
-          style={{
-            transform: "translateY(-50%) rotate(-90deg)",
-            transformOrigin: "center",
-            left: "-2rem",
-          }}
+          className="font-display text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.9] tracking-tight mb-6 lg:mb-24"
         >
           {headingText.split("").map((char, i) => (
             <span
@@ -223,13 +242,13 @@ const Intro = () => {
         </h1>
 
         {/* Content grid */}
-        <div className="grid lg:grid-cols-2 lg:gap-24 items-start pl-16 md:pl-20 lg:pl-24">
+        <div className="grid lg:grid-cols-2 lg:gap-24 items-start">
           {/* Left column - Text content */}
           <div className="space-y-12">
             {/* Description */}
             <div className="space-y-6">
               <SplitText
-                text="Mockvel is a premier digital marketing agency crafting unmatched success for brands.."
+                text="Mockvel is a premier digital marketing agency crafting unmatched success for brands."
                 className="text-2xl md:text-3xl lg:text-4xl font-display text-foreground/90 leading-[1.3]"
               />
 
@@ -261,7 +280,7 @@ const Intro = () => {
                 className="group relative px-10 py-5 bg-transparent border border-foreground/20 rounded-full overflow-hidden transition-all duration-500 hover:border-primary/50"
               >
                 <span className="relative z-10 text-foreground font-medium tracking-wide uppercase text-sm flex items-center gap-3 transition-colors duration-500 group-hover:text-primary">
-                  Learn More
+                  Who We Are
                   <svg
                     className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1"
                     fill="none"
@@ -278,6 +297,49 @@ const Intro = () => {
                 </span>
                 <div className="absolute inset-0 bg-primary/10 translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
               </button>
+            </div>
+          </div>
+
+          {/* Right column - Video */}
+          <div ref={videoContainerRef} className="relative">
+            <div
+              className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer group"
+              onClick={() => setShowModal(true)}
+            >
+              {/* Video thumbnail */}
+              <img
+                src={thumbnailUrl}
+                alt="Award highlight"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+
+              {/* Overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+
+              {/* Play button */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative">
+                  {/* Pulse ring */}
+                  <div
+                    className="absolute inset-0 rounded-full bg-primary/30 animate-ping"
+                    style={{ animationDuration: "2s" }}
+                  />
+
+                  {/* Button */}
+                  <button className="relative w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-primary flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+                    <svg
+                      className="w-8 h-8 lg:w-10 lg:h-10 text-primary-foreground ml-1"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Corner accent */}
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-primary/30 rounded-2xl -z-10" />
             </div>
             <div
               ref={statsRef}
@@ -303,22 +365,6 @@ const Intro = () => {
                 ))}
               </div>
             </div>
-          </div>
-
-          {/* Right column - Video */}
-          <div ref={videoContainerRef} className="relative">
-            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden">
-              <iframe
-                src="https://www.youtube.com/embed/Sjz6uu71ivQ?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&loop=1&playlist=Sjz6uu71ivQ"
-                className="w-full h-full rounded-2xl"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title="YouTube video player"
-              />
-              {/* Corner accent */}
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-primary/30 rounded-2xl -z-10" />
-            </div>
-
             {/* Floating label */}
           </div>
         </div>
@@ -326,6 +372,46 @@ const Intro = () => {
         {/* Stats section */}
       </div>
 
+      {/* Video Modal */}
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-background backdrop-blur-xl px-4"
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className="relative w-full max-w-5xl animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video
+              ref={videoRef}
+              src={vidUrl}
+              className="w-full rounded-2xl"
+              controls
+              playsInline
+              autoPlay
+            />
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute -top-16 right-0 text-foreground/70 hover:text-foreground transition-colors flex items-center gap-2"
+            >
+              <span className="text-sm uppercase tracking-wider">Close</span>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
       <ContactPopup open={open} onClose={closePopup} />
     </section>
   );

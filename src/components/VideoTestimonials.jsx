@@ -53,7 +53,7 @@ const VideoTestimonials = () => {
 
   const getEmbedUrl = (url) => {
     const id = extractYoutubeId(url);
-    return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+    return `https://youtube.com/shorts/i5Ek0RDZDD0?si=Bb8nDnwHEDeUV3G5`;
   };
 
   useEffect(() => {
@@ -269,38 +269,56 @@ const VideoTestimonials = () => {
 
           {/* Bottom CTA */}
           <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-16 lg:mt-24">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-8 p-8 lg:p-10 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm">
-              <div>
-                <h3 className="font-display text-2xl lg:text-3xl text-foreground mb-2">
-                  Ready to tell your story?
-                </h3>
-                <p className="text-muted-foreground">
-                  Let's create something remarkable together
-                </p>
-              </div>
+            <div className="relative group">
+              {/* Gradient background effect */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary/20 via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl" />
 
-              <button
-                onClick={openPopup}
-                className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-full overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-primary/25 flex-shrink-0"
-              >
-                <span className="relative z-10 font-medium tracking-wide uppercase text-sm flex items-center gap-3">
-                  Start a Project
-                  <svg
-                    className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </span>
-                <div className="absolute inset-0 bg-foreground/10 translate-x-full transition-transform duration-500 group-hover:translate-x-0" />
-              </button>
+              {/* Main CTA container */}
+              <div className="relative flex flex-col sm:flex-row items-center justify-between gap-8 p-10 lg:p-12 rounded-3xl bg-gradient-to-br from-card/80 via-card/60 to-card/40 border border-border/30 backdrop-blur-xl shadow-2xl shadow-primary/5 hover:shadow-primary/10 transition-all duration-500 hover:border-primary/30 overflow-hidden">
+                {/* Animated background pattern */}
+                <div className="absolute inset-0 opacity-5">
+                  <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,.1)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px] animate-pulse" />
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10 flex-1">
+                  <h3 className="font-display text-3xl lg:text-4xl xl:text-5xl text-foreground mb-3 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+                    Ready to tell your story?
+                  </h3>
+                  <p className="text-lg lg:text-xl text-muted-foreground/90 font-light">
+                    Let's create something remarkable together
+                  </p>
+                </div>
+
+                {/* CTA Button */}
+                <button
+                  onClick={openPopup}
+                  className="group/btn relative px-10 py-5 bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40 flex-shrink-0 z-10"
+                >
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+                  <span className="relative z-10 font-semibold tracking-wide uppercase text-sm flex items-center gap-3">
+                    Start a Project
+                    <svg
+                      className="w-5 h-5 transition-transform duration-500 group-hover/btn:translate-x-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  </span>
+
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 rounded-full bg-primary opacity-0 group-hover/btn:opacity-50 blur-xl transition-opacity duration-500" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

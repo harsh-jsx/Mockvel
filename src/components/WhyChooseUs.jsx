@@ -144,7 +144,7 @@ export default function WhyChooseUs() {
               </span>
             </h2>
 
-            <div className="flex items-center gap-4 sm:gap-6 lg:gap-8 opacity-60 hover:opacity-80 transition-opacity flex-wrap">
+            <div className="flex items-center gap-4 sm:gap-6 lg:gap-8 opacity-60 hover:opacity-80 transition-opacity ">
               <img
                 src="https://bregobusiness.com/assets/images/meta.png"
                 alt="Meta Ads Partner"

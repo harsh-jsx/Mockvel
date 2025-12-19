@@ -21,12 +21,12 @@ const DATA = {
       title:
         "A guide to sustainable branding in the age of climate consciousness",
       date: "May 23, 2024",
-      image: "https://images.unsplash.com/photo-1521791055366-0d553872125f",
+      image: "https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa",
     },
     {
       title: "Sustainable Branding in the Age of Climate Consciousness",
       date: "April 29, 2024",
-      image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4",
+      image: "https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa",
     },
   ],
   blogs: [

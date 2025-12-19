@@ -36,7 +36,6 @@ const Services = () => {
   return (
     <section id="services" className="min-h-screen bg-black rounded-t-4xl">
       <AnimatedHeaderSection
-        subTitle={"Web Design & Social Media Marketing"}
         title={"Services"}
         text={text}
         textColor={"text-white"}
@@ -81,6 +80,22 @@ const Services = () => {
                   </div>
                 ))}
               </div>
+              <button className=" hover:bg-white/80 transition-all duration-300 flex w-1/5 text-center items-center gap-2 px-4 py-2 bg-white text-black rounded-full">
+                View More
+                <svg
+                  className="relative z-10 w-5 h-5 transition-transform duration-500 group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>

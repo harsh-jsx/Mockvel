@@ -48,10 +48,6 @@ const faqs = [
     q: "What if something goes wrong?",
     a: "Zero complaints in 24 months because we fix issues before you notice. Our 93% renewal rate proves we deliver.",
   },
-  {
-    q: "How do we start?",
-    a: "Free 30-minute strategy call. If we're a fit, we kick off in 48 hours with a dedicated WhatsApp group for daily updates.",
-  },
 ];
 
 const FaqItem = React.forwardRef(({ item, isOpen, onToggle, idx }, ref) => (
@@ -88,9 +84,24 @@ FaqItem.displayName = "FaqItem";
 
 const Faq = () => {
   const [openn, setOpen] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
   const { open, openPopup, closePopup } = useContactPopup();
+
+  // Detect mobile view
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Filter FAQs based on screen size
+  const displayedFaqs = isMobile ? faqs.slice(0, 4) : faqs;
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -118,32 +129,37 @@ const Faq = () => {
         }
       );
 
-      // FAQ CARDS (batch optimized)
-      ScrollTrigger.batch(cardsRef.current, {
-        start: "top 80%",
-        once: true, // IMPORTANT
-        interval: 0.1, // limits batch calls
-        batchMax: 6, // prevents large DOM hits
-        onEnter: (batch) => {
-          gsap.fromTo(
-            batch,
-            { opacity: 0, y: 24 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.45,
-              ease: "power2.out",
-              stagger: 0.06,
-              force3D: true,
-              overwrite: "auto",
-            }
-          );
-        },
-      });
+      // FAQ CARDS (batch optimized) - filter to only displayed items
+      const validRefs = cardsRef.current.filter(
+        (ref) => ref !== null && ref !== undefined
+      );
+      if (validRefs.length > 0) {
+        ScrollTrigger.batch(validRefs, {
+          start: "top 80%",
+          once: true, // IMPORTANT
+          interval: 0.1, // limits batch calls
+          batchMax: 6, // prevents large DOM hits
+          onEnter: (batch) => {
+            gsap.fromTo(
+              batch,
+              { opacity: 0, y: 24 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.45,
+                ease: "power2.out",
+                stagger: 0.06,
+                force3D: true,
+                overwrite: "auto",
+              }
+            );
+          },
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [displayedFaqs.length]);
 
   return (
     <section
@@ -163,7 +179,7 @@ const Faq = () => {
       </div>
 
       <div className="mt-10 grid gap-4 md:grid-cols-2">
-        {faqs.map((item, i) => (
+        {displayedFaqs.map((item, i) => (
           <FaqItem
             key={item.q}
             item={item}
