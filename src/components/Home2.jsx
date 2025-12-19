@@ -145,15 +145,8 @@ const Home2 = () => {
   return (
     <div className="bg-black text-white min-h-screen relative">
       <section className="flex flex-col items-center pt-24 md:pt-32 px-6 text-center">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4">
-          <span>Every</span>
-
-          <span className="relative inline-block">
-            <span className="absolute inset-0 bg-primary -skew-x-6 rounded-md" />
-            <span className="relative px-3">Entrepreneur&apos;s</span>
-          </span>
-
-          <span>Choice</span>
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4 font-hbue">
+          Every Entrepreneur's Choice
         </h1>
 
         <p className="text-base md:text-xl text-gray-400 mt-6 max-w-2xl leading-relaxed">
