@@ -19,24 +19,55 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isCompact, setIsCompact] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const lastScrollY = useRef(0);
+  const ticking = useRef(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { scrollY } = useScroll();
 
-  /* ---------------- Scroll behavior ---------------- */
+  /* ---------------- Mobile detection ---------------- */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const check = () =>
+      setIsMobile(window.matchMedia("(max-width: 1023px)").matches);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  /* ---------------- Optimized scroll behavior ---------------- */
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const delta = latest - lastScrollY.current;
+    if (ticking.current) return;
+    ticking.current = true;
 
-    // Hide / show
-    if (latest > 120 && delta > 5) setIsHidden(true);
-    if (delta < -5) setIsHidden(false);
+    requestAnimationFrame(() => {
+      const delta = latest - lastScrollY.current;
 
-    // Compact mode
-    setIsCompact(latest > 60);
+      // Mobile-optimized thresholds (less sensitive)
+      const hideThreshold = isMobile ? 15 : 5;
+      const showThreshold = isMobile ? -10 : -5;
+      const scrollThreshold = isMobile ? 80 : 120;
+      const compactThreshold = isMobile ? 40 : 60;
 
-    lastScrollY.current = latest;
+      // Hide / show - disabled on mobile for better UX
+      if (!isMobile) {
+        if (latest > scrollThreshold && delta > hideThreshold)
+          setIsHidden(true);
+        if (delta < showThreshold) setIsHidden(false);
+      } else {
+        // On mobile, only hide if scrolling down very fast
+        if (latest > 100 && delta > 20) setIsHidden(true);
+        if (delta < -15) setIsHidden(false);
+      }
+
+      // Compact mode
+      setIsCompact(latest > compactThreshold);
+
+      lastScrollY.current = latest;
+      ticking.current = false;
+    });
   });
 
   /* ---------------- Body lock for mobile menu ---------------- */
@@ -72,18 +103,22 @@ const Navbar = () => {
           y: isHidden ? -120 : 0,
           opacity: 1,
         }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
+        transition={{
+          duration: isMobile ? 0.3 : 0.45,
+          ease: "easeOut",
+        }}
         className="fixed top-0 left-0 w-full z-999"
       >
         <motion.div
           animate={{
-            paddingTop: isCompact ? 10 : 18,
-            paddingBottom: isCompact ? 10 : 18,
+            paddingTop: isCompact ? (isMobile ? 8 : 10) : isMobile ? 14 : 18,
+            paddingBottom: isCompact ? (isMobile ? 8 : 10) : isMobile ? 14 : 18,
             backdropFilter: "blur(3px)",
           }}
           className="
-            mx-auto px-6
+            mx-auto px-4 md:px-6
             text-gray-300
+            bg-black/40 md:bg-transparent
             rounded-4xl
             transition-all
           "
@@ -93,13 +128,13 @@ const Navbar = () => {
             <motion.a
               href="/"
               className="block"
-              animate={{ scale: isCompact ? 0.85 : 1 }}
-              transition={{ duration: 0.3 }}
+              animate={{ scale: isCompact ? (isMobile ? 0.9 : 0.85) : 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
               <img
                 src={logo}
                 alt="logo"
-                className="h-14 lg:h-16 w-auto object-contain"
+                className="h-15 md:h-14 lg:h-16 w-auto object-contain"
               />
             </motion.a>
 
