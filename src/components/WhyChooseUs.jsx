@@ -140,7 +140,7 @@ export default function WhyChooseUs() {
               What Makes Us Different &
               <br />
               <span className="text-white/70">
-                Why It Matters To Your Business .
+                Why It Matters To Your Business
               </span>
             </h2>
 
