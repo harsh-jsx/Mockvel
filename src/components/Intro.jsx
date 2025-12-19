@@ -201,7 +201,7 @@ const Intro = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen bg-background overflow-hidden py-24 lg:py-32"
+      className="relative min-h-screen bg-background overflow-hidden py-12 lg:py-32"
     >
       {/* Subtle gradient orb */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
@@ -224,7 +224,7 @@ const Intro = () => {
         {/* Main heading */}
         <h1
           ref={headingRef}
-          className="font-display text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.9] tracking-tight mb-16 lg:mb-24"
+          className="font-display text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.9] tracking-tight mb-6 lg:mb-24"
         >
           {headingText.split("").map((char, i) => (
             <span
