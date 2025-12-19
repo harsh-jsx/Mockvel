@@ -133,7 +133,7 @@ export default function ClientsMarquee() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-black text-white py-24 md:py-32 px-4 md:px-8"
+      className="relative bg-black text-white  md:py-32 px-4 md:px-8"
     >
       {/* Main Container */}
       <div className="group relative max-w-7xl mx-auto rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden transition-all duration-500">
@@ -293,7 +293,7 @@ export default function ClientsMarquee() {
         </div>
 
         {/* Marquee Rows */}
-        <div className="relative space-y-4 pb-12">
+        <div className="relative space-y-4 md:pb-12">
           <div className="marquee-row">
             <MarqueeRow items={row1} direction="left" speed={40} />
           </div>

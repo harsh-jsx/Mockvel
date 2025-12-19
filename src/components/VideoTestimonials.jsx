@@ -126,7 +126,7 @@ const VideoTestimonials = () => {
     <>
       <section
         ref={sectionRef}
-        className="relative py-32 lg:py-40 bg-background overflow-hidden"
+        className="relative py-12 lg:py-40 bg-background overflow-hidden"
       >
         {/* Background gradient */}
         <div className="absolute inset-0">

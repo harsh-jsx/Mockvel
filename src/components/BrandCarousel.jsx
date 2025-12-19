@@ -113,7 +113,7 @@ const BrandCarousel = () => {
     <>
       <section
         ref={sectionRef}
-        className="relative py-32 lg:py-40 bg-background overflow-hidden"
+        className="relative py-12 lg:py-40 bg-background overflow-hidden"
       >
         {/* Background elements */}
         <div className="absolute inset-0">
@@ -137,7 +137,7 @@ const BrandCarousel = () => {
 
             {/* Main heading */}
             <div ref={headingRef} className="overflow-hidden">
-              <h2 className="font-display text-[8vw] md:text-[6vw] lg:text-[4.8vw] leading-[1.1] tracking-tight">
+              <h2 className="font-display text-[8vw] md:text-[6vw] lg:text-[4.8vw] leading-[1.1]  text-black">
                 {headingText.split("").map((char, i) => (
                   <span
                     key={i}
@@ -161,7 +161,7 @@ const BrandCarousel = () => {
           </div>
 
           {/* Stats row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20 lg:mb-28">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8  lg:mb-28">
             {[
               { value: "50+", label: "Awards Won" },
               { value: "12", label: "Years of Excellence" },
@@ -251,7 +251,7 @@ const BrandCarousel = () => {
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-20 lg:mt-28 text-center">
+          <div className="mt-2 lg:mt-28 text-center">
             <p className="text-muted-foreground mb-8">
               Ready to create award-winning work together?
             </p>
