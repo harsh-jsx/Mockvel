@@ -144,7 +144,7 @@ const Home2 = () => {
 
   return (
     <div className="bg-black text-white min-h-screen relative">
-      <section className="flex flex-col items-center pt-24 md:pt-32 pb-32 px-6 text-center">
+      <section className="flex flex-col items-center pt-24 md:pt-32 px-6 text-center">
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4">
           <span>Every</span>
 
@@ -153,7 +153,6 @@ const Home2 = () => {
             <span className="relative px-3">Entrepreneur&apos;s</span>
           </span>
 
-          <OsmoIcon className="w-10 h-10 md:w-16 md:h-16 text-primary" />
           <span>Choice</span>
         </h1>
 
@@ -162,10 +161,6 @@ const Home2 = () => {
           <span className="text-white bg-white/10 px-2 rounded">growth</span> &
           partners who understand your P&L and deliver results — not excuses.
         </p>
-
-        <div className="mt-6">
-          <HeroButton>View Our Campaigns</HeroButton>
-        </div>
 
         <LaptopVideo src={videoSrc} />
         <div
