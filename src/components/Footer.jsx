@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import logo from "/public/mockvellogo.png";
+import logo from "/public/mockvel new logo.png";
 import { useContactPopup } from "../hooks/useContactPopup";
 import ContactPopup from "./ContactPopup";
 gsap.registerPlugin(ScrollTrigger);
@@ -82,7 +82,7 @@ export default function MockvelFooter() {
         </div>
       </div>
       {/* Content grid */}
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 text-sm font-neue">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-12 text-sm font-neue">
         {[
           {
             title: "Mockvel",
@@ -93,12 +93,12 @@ export default function MockvelFooter() {
             ],
           },
           {
-            title: "Services",
+            title: "our capabilities",
             items: [
-              "Website Development",
-              "Product Design",
-              "Performance Optimization",
-              "GSAP Animations",
+              "Social Media Management",
+              "Need Generation",
+              "Website Design & Development",
+              "Logo Design (Vastu-Aligned)",
             ],
           },
           {
@@ -106,12 +106,21 @@ export default function MockvelFooter() {
             items: ["About", "Careers", "Insights", "Contact"],
           },
           {
-            title: "Locations",
-            items: ["Bengaluru", "Mumbai", "Gurugram", "Remote"],
+            title: "UPDATES",
+            items: ["EVENTS", "NEWS", "BLOGS", "INTERNSHIP"],
           },
           {
             title: "Connect",
             items: ["Instagram", "LinkedIn", "Twitter", "Email"],
+          },
+          {
+            title: "Contact",
+            items: [
+              "Help Desk - +91 7011668984",
+              "Founder Office - +91 8930410212",
+              "REWARI - office no. 4, Garhi Bolni Rd, opp. Eden Gardens, 123401",
+              "GURUGRAM - 2nd floor, Plot No, 90, IDC, DLF Colony, Sector 14, 122007",
+            ],
           },
         ].map((col, i) => (
           <div
@@ -123,17 +132,44 @@ export default function MockvelFooter() {
               {col.title}
             </p>
             <ul className="space-y-2">
-              {col.items.map((item, idx) => (
-                <li
-                  key={idx}
-                  className="group flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
-                >
-                  <span>{item}</span>
-                  <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
-                    →
-                  </span>
-                </li>
-              ))}
+              {col.items.map((item, idx) => {
+                const isPhone = item.includes("+91");
+                const phoneNumber = isPhone
+                  ? item.match(/\+91\s?\d+/)?.[0]
+                  : null;
+                const isAddress =
+                  col.title === "Contact" &&
+                  (item.includes("REWARI") || item.includes("GURUGRAM"));
+
+                return (
+                  <li
+                    key={idx}
+                    className={`group flex items-start gap-2 text-white/80 hover:text-white transition-colors ${
+                      isPhone
+                        ? "cursor-pointer"
+                        : isAddress
+                        ? "text-sm leading-relaxed"
+                        : "cursor-pointer"
+                    }`}
+                  >
+                    {isPhone && phoneNumber ? (
+                      <a
+                        href={`tel:${phoneNumber.replace(/\s/g, "")}`}
+                        className="flex-1 hover:underline"
+                      >
+                        {item}
+                      </a>
+                    ) : (
+                      <span className="flex-1">{item}</span>
+                    )}
+                    {!isAddress && (
+                      <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all flex-shrink-0 mt-1">
+                        →
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}
