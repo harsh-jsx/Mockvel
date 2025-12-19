@@ -88,20 +88,20 @@ export default function InsightsPage() {
     <>
       <section
         ref={containerRef}
-        className="bg-black text-white min-h-screen px-8 md:px-16 py-24"
+        className="bg-black text-white min-h-screen px-4 sm:px-8 md:px-16 py-12 sm:py-16 md:py-24"
       >
         {/* Header */}
-        <div className="flex items-center gap-10 mb-16">
-          <h1 className="text-[10vw] md:text-[6vw] font-semibold tracking-tight font-founders">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10 mb-10 sm:mb-16">
+          <h1 className="text-[12vw] sm:text-[10vw] md:text-[6vw] font-semibold tracking-tight font-founders">
             Insights
           </h1>
 
-          <div className="flex gap-2 text-[3vw] bg-white/5 rounded-full px-10">
+          <div className="flex gap-2 bg-white/5 rounded-full px-4 sm:px-6 md:px-10 py-1 w-fit">
             {["media", "blogs"].map((type) => (
               <button
                 key={type}
                 onClick={() => setActive(type)}
-                className={`px-6 py-2 rounded-full text-sm transition-all ${
+                className={`px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm transition-all whitespace-nowrap ${
                   active === type
                     ? "bg-white text-black"
                     : "text-white/60 hover:text-white"
@@ -114,7 +114,7 @@ export default function InsightsPage() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10">
           {DATA[active].map((item, i) => (
             <article
               key={i}
@@ -122,24 +122,24 @@ export default function InsightsPage() {
               className="group cursor-pointer"
             >
               {/* Image */}
-              <div className="relative overflow-hidden rounded-2xl mb-5">
+              <div className="relative overflow-hidden rounded-2xl mb-4 sm:mb-5">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-[240px] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+                  className="w-full h-[200px] sm:h-[240px] md:h-[280px] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
 
               {/* Content */}
-              <h3 className="text-lg leading-snug font-medium mb-2 group-hover:underline">
+              <h3 className="text-base sm:text-lg leading-snug font-medium mb-2 group-hover:underline">
                 {item.title}
               </h3>
-              <p className="text-white/50 text-sm mb-4">
+              <p className="text-white/50 text-xs sm:text-sm mb-3 sm:mb-4">
                 Published on: {item.date}
               </p>
 
-              <span className="inline-flex items-center gap-2 text-sm text-white/70 group-hover:text-white transition-colors">
+              <span className="inline-flex items-center gap-2 text-xs sm:text-sm text-white/70 group-hover:text-white transition-colors">
                 Read more
                 <span className="transform group-hover:translate-x-1 transition-transform">
                   →
@@ -150,8 +150,8 @@ export default function InsightsPage() {
         </div>
 
         {/* CTA */}
-        <div className="flex justify-center mt-20">
-          <button className="px-8 py-3 rounded-full border border-white/30 hover:border-white transition-all">
+        <div className="flex justify-center mt-12 sm:mt-16 md:mt-20">
+          <button className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full border border-white/30 hover:border-white transition-all text-sm sm:text-base">
             View more
           </button>
         </div>

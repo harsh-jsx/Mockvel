@@ -1,6 +1,8 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useContactPopup } from "../hooks/useContactPopup";
 import ContactPopup from "./ContactPopup";
+
+/* ================= ICON ================= */
 const OsmoIcon = ({ className = "" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -15,136 +17,118 @@ const OsmoIcon = ({ className = "" }) => (
   </svg>
 );
 
+/* ================= LAPTOP VIDEO ================= */
 const LaptopVideo = ({ src }) => {
   const frameRef = useRef(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const check = () =>
+      setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const handleMove = (e) => {
-    if (!frameRef.current) return;
+    if (!frameRef.current || !isDesktop) return;
 
     const rect = frameRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const rx = (y / rect.height - 0.5) * -6 + 12;
-    const ry = (x / rect.width - 0.5) * 8;
+    const rx = (y / rect.height - 0.5) * -8 + 12;
+    const ry = (x / rect.width - 0.5) * 10;
 
     frameRef.current.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
   };
 
   const reset = () => {
-    if (!frameRef.current) return;
+    if (!frameRef.current || !isDesktop) return;
     frameRef.current.style.transform = "rotateX(12deg) rotateY(0deg)";
   };
 
   return (
-    <div className="relative mt-10 md:mt-10" style={{ perspective: "1500px" }}>
-      {/* Background glow layer - behind everything */}
-      <div className="absolute inset-0 -z-10">
-        {/* Top center glow */}
+    <div
+      className="relative mt-14 md:mt-20"
+      style={{ perspective: isDesktop ? "1600px" : "none" }}
+    >
+      {/* GRADIENT GLOWS */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        {/* MOBILE GRADIENT (lightweight, always visible) */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 -top-32 w-[800px] h-[400px] blur-[100px] opacity-60"
+          className="absolute inset-0 md:hidden"
           style={{
             background:
-              "radial-gradient(ellipse at center, hsl(270 100% 50% / 0.8), transparent 70%)",
+              "radial-gradient(80% 60% at 50% 40%, hsl(270 100% 60% / 0.35), transparent 70%)",
           }}
         />
 
-        {/* Left side glow */}
-        <div
-          className="absolute -left-32 top-1/2 -translate-y-1/2 w-[400px] h-[600px] blur-[80px] opacity-70"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, hsl(260 100% 60% / 0.9), transparent 70%)",
-          }}
-        />
+        {/* DESKTOP GRADIENTS */}
+        <div className="hidden md:block">
+          {/* Top glow */}
+          <div className="absolute left-1/2 -translate-x-1/2 -top-40 w-[900px] h-[400px] blur-[120px] opacity-60 bg-purple-600" />
 
-        {/* Right side glow */}
-        <div
-          className="absolute -right-32 top-1/2 -translate-y-1/2 w-[400px] h-[600px] blur-[80px] opacity-70"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, hsl(280 100% 55% / 0.9), transparent 70%)",
-          }}
-        />
+          {/* Left glow */}
+          <div className="absolute -left-40 top-1/2 -translate-y-1/2 w-[400px] h-[600px] blur-[100px] opacity-60 bg-fuchsia-600" />
 
-        {/* Bottom glow */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2 -bottom-40 w-[1000px] h-[300px] blur-[100px] opacity-50"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, hsl(265 100% 55% / 0.7), transparent 70%)",
-          }}
-        />
+          {/* Right glow */}
+          <div className="absolute -right-40 top-1/2 -translate-y-1/2 w-[400px] h-[600px] blur-[100px] opacity-60 bg-indigo-600" />
+        </div>
       </div>
 
-      {/* Laptop frame */}
+      {/* LAPTOP */}
       <div
         ref={frameRef}
         onMouseMove={handleMove}
         onMouseLeave={reset}
-        className="relative w-[85vw] max-w-[1000px] mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden transition-transform duration-300 ease-out"
+        className="relative w-[92vw] max-w-[1100px] mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden transform-gpu will-change-transform transition-transform duration-300"
         style={{
-          transform: "rotateX(12deg) rotateY(0deg)",
-          transformStyle: "preserve-3d",
-          background: "linear-gradient(135deg, hsl(0 0% 15%), hsl(0 0% 8%))",
+          transform: isDesktop ? "rotateX(12deg)" : "none",
+          background: "linear-gradient(135deg, hsl(0 0% 14%), hsl(0 0% 6%))",
           boxShadow: `
-            0 0 0 1px hsl(0 0% 20% / 0.5),
-            0 25px 50px -12px hsl(0 0% 0% / 0.8),
-            0 0 80px -20px hsl(270 100% 50% / 0.3),
-            inset 0 1px 0 hsl(0 0% 100% / 0.05)
+            0 0 0 1px hsl(0 0% 22% / 0.5),
+            0 40px 80px -20px hsl(0 0% 0% / 0.9),
+            0 0 120px -40px hsl(270 100% 50% / 0.35)
           `,
         }}
       >
-        <div className="absolute inset-0 p-1.5 md:p-2">
-          <div className="w-full h-full rounded-xl md:rounded-2xl overflow-hidden bg-black">
+        <div className="absolute inset-0 p-2">
+          <div className="w-full h-full rounded-xl overflow-hidden bg-black">
             <video
               src={src}
               autoPlay
               muted
               loop
               playsInline
+              preload="metadata"
               className="w-full h-full object-cover"
             />
           </div>
         </div>
 
-        {/* Glass reflection overlay */}
+        {/* GLASS REFLECTION */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(135deg, hsl(0 0% 100% / 0.08) 0%, transparent 40%)",
-          }}
-        />
-
-        {/* Edge highlight */}
-        <div
-          className="absolute inset-0 pointer-events-none rounded-2xl md:rounded-3xl"
-          style={{
-            boxShadow: "inset 0 0 0 1px hsl(0 0% 100% / 0.1)",
+              "linear-gradient(135deg, hsl(0 0% 100% / 0.08), transparent 45%)",
           }}
         />
       </div>
-
-      {/* Additional ambient glow layers for depth */}
-      <div
-        className="absolute left-1/2 -translate-x-1/2 top-0 w-[120%] h-full -z-10 blur-[60px] opacity-40"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 50% 50%, hsl(270 100% 50% / 0.5), transparent)",
-        }}
-      />
     </div>
   );
 };
 
+/* ================= CTA ================= */
 const HeroButton = ({ children }) => {
   const { open, openPopup, closePopup } = useContactPopup();
   return (
     <>
       <button
         onClick={openPopup}
-        className="inline-flex items-center justify-center h-12 px-8 text-base font-medium rounded-xl bg-primary text-white hover:bg-primary/80 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+        className="h-12 px-8 rounded-xl bg-primary text-white shadow-lg shadow-primary/30 transition-transform duration-300 md:hover:scale-105"
       >
         {children}
       </button>
@@ -153,65 +137,50 @@ const HeroButton = ({ children }) => {
   );
 };
 
+/* ================= PAGE ================= */
 const Home2 = () => {
   const videoSrc =
     "https://framerusercontent.com/assets/lTxxGNobUSpzb85wovscwKXUP0.mp4";
 
   return (
-    <div className="bg-black text-white min-h-screen overflow-hidden flex flex-col items-center">
-      <section className="w-full flex flex-col items-center pt-24 md:pt-32 pb-32 px-6">
-        <div className="flex flex-col text-white items-center text-center">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white hover:scale-105 transition-all duration-300 py-10">
-            <span className="text-white">Every </span>
+    <div className="bg-black text-white min-h-screen relative">
+      <section className="flex flex-col items-center pt-24 md:pt-32 pb-32 px-6 text-center">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4">
+          <span>Every</span>
 
-            {/* Highlighted word */}
-            <span className="relative inline-block">
-              <span className="absolute inset-0 bg-primary -skew-x-6 rounded-md"></span>
-              <span className="relative px-3 md:px-4 font-semibold">
-                Entrepreneur's
-              </span>
-            </span>
+          <span className="relative inline-block">
+            <span className="absolute inset-0 bg-primary -skew-x-6 rounded-md" />
+            <span className="relative px-3">Entrepreneur&apos;s</span>
+          </span>
 
-            <OsmoIcon className="w-12 h-12 md:w-16 md:h-16 text-primary" />
+          <OsmoIcon className="w-10 h-10 md:w-16 md:h-16 text-primary" />
+          <span>Choice</span>
+        </h1>
 
-            <span className="text-white">Choice</span>
-          </h1>
-        </div>
-
-        <p className="text-lg md:text-xl text-gray-400 mt-6 md:mt-8 text-center max-w-2xl">
-          You're not looking for an agency. You're looking for
-          <span className="text-white bg-white/10 px-2 py-0.5 rounded">
-            growth,
-          </span>{" "}
-          &{" "}
-          <span className="text-white bg-white/10 px-2 py-0.5 rounded">
-            Digital partners
-          </span>{" "}
-          that understand your P&L, respect your budget, and deliver results
-          ..not excuses
+        <p className="text-base md:text-xl text-gray-400 mt-6 max-w-2xl leading-relaxed">
+          You’re not looking for an agency. You’re looking for{" "}
+          <span className="text-white bg-white/10 px-2 rounded">growth</span> &
+          partners who understand your P&L and deliver results — not excuses.
         </p>
 
-        <div className="mt-4 md:mt-5 hover:scale-105 transition-all duration-300">
+        <div className="mt-6">
           <HeroButton>View Our Campaigns</HeroButton>
         </div>
 
         <LaptopVideo src={videoSrc} />
+        <div
+          className="absolute inset-0 md:hidden pointer-events-none"
+          style={{
+            background: `
+      radial-gradient(
+        70% 50% at 50% 35%,
+        hsl(270 100% 60% / 0.55),
+        transparent 75%
+      )
+    `,
+          }}
+        />
       </section>
-
-      {/* Fixed background effects */}
-      <div
-        className="fixed inset-0 pointer-events-none overflow-hidden"
-        style={{ zIndex: -1 }}
-      >
-        <div
-          className="absolute -top-40 -left-40 w-96 h-96 rounded-full blur-3xl opacity-20"
-          style={{ background: "hsl(260 100% 65%)" }}
-        />
-        <div
-          className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full blur-3xl opacity-15"
-          style={{ background: "hsl(280 100% 70%)" }}
-        />
-      </div>
     </div>
   );
 };
