@@ -20,40 +20,55 @@ const OsmoIcon = ({ className = "" }) => (
 /* ================= LAPTOP VIDEO ================= */
 const LaptopVideo = ({ src }) => {
   const frameRef = useRef(null);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const check = () =>
-      setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
+      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const handleMove = (e) => {
-    if (!frameRef.current || !isDesktop) return;
+  const updateTransform = (clientX, clientY, isTouch = false) => {
+    if (!frameRef.current) return;
 
     const rect = frameRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
-    const rx = (y / rect.height - 0.5) * -8 + 12;
-    const ry = (x / rect.width - 0.5) * 10;
+    // More prominent tilt on mobile
+    if (isMobile || isTouch) {
+      const rx = (y / rect.height - 0.5) * -18 + 15;
+      const ry = (x / rect.width - 0.5) * 22;
+      frameRef.current.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    } else {
+      const rx = (y / rect.height - 0.5) * -8 + 12;
+      const ry = (x / rect.width - 0.5) * 10;
+      frameRef.current.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    }
+  };
 
-    frameRef.current.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+  const handleMove = (e) => {
+    updateTransform(e.clientX, e.clientY, false);
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      updateTransform(touch.clientX, touch.clientY, true);
+    }
   };
 
   const reset = () => {
-    if (!frameRef.current || !isDesktop) return;
-    frameRef.current.style.transform = "rotateX(12deg) rotateY(0deg)";
+    if (!frameRef.current) return;
+    const baseAngle = isMobile ? 15 : 12;
+    frameRef.current.style.transform = `rotateX(${baseAngle}deg) rotateY(0deg)`;
   };
 
   return (
-    <div
-      className="relative mt-14 md:mt-20"
-      style={{ perspective: isDesktop ? "1600px" : "none" }}
-    >
+    <div className="relative mt-14 md:mt-20" style={{ perspective: "1600px" }}>
       {/* GRADIENT GLOWS */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         {/* MOBILE GRADIENT (lightweight, always visible) */}
@@ -83,9 +98,11 @@ const LaptopVideo = ({ src }) => {
         ref={frameRef}
         onMouseMove={handleMove}
         onMouseLeave={reset}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={reset}
         className="relative w-[92vw] max-w-[1100px] mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden transform-gpu will-change-transform transition-transform duration-300"
         style={{
-          transform: isDesktop ? "rotateX(12deg)" : "none",
+          transform: isMobile ? "rotateX(20deg)" : "rotateX(12deg)",
           background: "linear-gradient(135deg, hsl(0 0% 14%), hsl(0 0% 6%))",
           boxShadow: `
             0 0 0 1px hsl(0 0% 22% / 0.5),
