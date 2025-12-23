@@ -5,75 +5,104 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const row1 = [
-  { name: "Stage", logo: "https://logo.clearbit.com/stagevideo.com" },
-  { name: "Colors", logo: "https://logo.clearbit.com/colorstv.com" },
-  { name: "Ryze", logo: "https://logo.clearbit.com/ryze.com" },
-  { name: "Xiaomi", logo: "https://logo.clearbit.com/mi.com" },
-  { name: "Colgate", logo: "https://logo.clearbit.com/colgate.com" },
-  { name: "Traya", logo: "https://logo.clearbit.com/traya.health" },
-  { name: "Alps", logo: "https://logo.clearbit.com/alps.com" },
-  { name: "Flo", logo: "https://logo.clearbit.com/flo.health" },
-  { name: "Bingo", logo: "https://logo.clearbit.com/bingo.com" },
+  { name: "Amity", logo: "/public/Clients/Amity.png" },
+  { name: "Amrik Sukhdev", logo: "/public/Clients/Amrik sukhdev.png" },
+  { name: "Barista", logo: "/public/Clients/Barista.png" },
+  { name: "BBT", logo: "/public/Clients/BBT.png" },
+  {
+    name: "CAB Technologies",
+    logo: "/public/Clients/CABTechnologies logo.png",
+  },
+  { name: "Cut & Style", logo: "/public/Clients/Cut & Style.jpg" },
+  { name: "Donear", logo: "/public/Clients/donear.png" },
+  { name: "Ellan", logo: "/public/Clients/Ellan Logo.png" },
+  { name: "Park Rosella", logo: "/public/Clients/Park Rosella.png" },
+  { name: "Png White", logo: "/public/Clients/Png White.png" },
 ];
 
 const row2 = [
-  { name: "Mivi", logo: "https://logo.clearbit.com/mivi.in" },
-  { name: "ManCompany", logo: "https://logo.clearbit.com/themancompany.com" },
-  { name: "Avenger", logo: "https://logo.clearbit.com/marvel.com" },
-  { name: "Crunchyroll", logo: "https://logo.clearbit.com/crunchyroll.com" },
-  { name: "Dennis", logo: "https://logo.clearbit.com/dennis.co.uk" },
-  { name: "ClearGel", logo: "https://logo.clearbit.com/cleargel.com" },
-  { name: "Oppo", logo: "https://logo.clearbit.com/oppo.com" },
-  { name: "Amazon", logo: "https://logo.clearbit.com/amazon.com" },
-  { name: "District", logo: "https://logo.clearbit.com/zomato.com" },
+  { name: "Eve", logo: "/public/Clients/eve logo-01.png" },
+  { name: "Fortune Hotels", logo: "/public/Clients/Fortune hotels.png" },
+  { name: "Goexotic", logo: "/public/Clients/Goexotic.jpeg" },
+  { name: "Greysfield", logo: "/public/Clients/Greysfield.png" },
+  { name: "Haldiram", logo: "/public/Clients/Haldiram.png" },
+  { name: "Heritage Place", logo: "/public/Clients/Heritage Place.png" },
+  { name: "HHK", logo: "/public/Clients/HHK Logo (1) (1).jpg" },
+  { name: "La Pino'z", logo: "/public/Clients/La Pino'z.png" },
+  { name: "Old Rao", logo: "/public/Clients/Old rao Logo.jpeg" },
+  { name: "Positive Energy", logo: "/public/Clients/Positive Energy.png" },
+  {
+    name: "Priyanka Goyal Official",
+    logo: "/public/Clients/Priyanka Goyal Official.png",
+  },
 ];
 
 const row3 = [
-  { name: "Swiggy", logo: "https://logo.clearbit.com/swiggy.com" },
-  { name: "Decathlon", logo: "https://logo.clearbit.com/decathlon.com" },
-  { name: "WildStone", logo: "https://logo.clearbit.com/wildstone.in" },
-  { name: "WishCare", logo: "https://logo.clearbit.com/wishcare.in" },
-  { name: "Vi", logo: "https://logo.clearbit.com/vi.com" },
-  { name: "Toothsi", logo: "https://logo.clearbit.com/toothsi.in" },
-  { name: "Ola", logo: "https://logo.clearbit.com/olacabs.com" },
-  { name: "Cashify", logo: "https://logo.clearbit.com/cashify.in" },
-  { name: "TVS", logo: "https://logo.clearbit.com/tvsmotor.com" },
+  { name: "Om Sweet", logo: "/public/Clients/Om sweet.webp" },
+  { name: "Organic India", logo: "/public/Clients/Organic India.jpg" },
+  { name: "Panchgaon", logo: "/public/Clients/Panchgaon Logo.png" },
+  { name: "RPS", logo: "/public/Clients/RPS.png" },
+  { name: "Sri Chaitanya", logo: "/public/Clients/sri chaitanya logo.png" },
+  { name: "Starex", logo: "/public/Clients/Starex Logo.png" },
+  { name: "Sugandh", logo: "/public/Clients/Sugandh.png" },
+  { name: "Suraj School", logo: "/public/Clients/Suraj school.png" },
+  { name: "GITM", logo: "/public/Clients/updated gitm logo.png" },
+  { name: "Rang Mahal", logo: "/public/Clients/Rang Mahal.png" },
+  { name: "Shri Kanth Hotel", logo: "/public/Clients/Shri kanth hotel.png" },
 ];
 
 const row4 = [
-  { name: "Happn", logo: "https://logo.clearbit.com/happn.com" },
-  { name: "Masai", logo: "https://logo.clearbit.com/masaischool.com" },
-  { name: "MXPlayer", logo: "https://logo.clearbit.com/mxplayer.in" },
-  { name: "Hotstar", logo: "https://logo.clearbit.com/hotstar.com" },
-  { name: "JioCinema", logo: "https://logo.clearbit.com/jiocinema.com" },
-  { name: "Duolingo", logo: "https://logo.clearbit.com/duolingo.com" },
-  { name: "Pintola", logo: "https://logo.clearbit.com/pintola.in" },
-  { name: "MyFitness", logo: "https://logo.clearbit.com/myfitness.in" },
-  { name: "Cadbury", logo: "https://logo.clearbit.com/cadbury.co.uk" },
+  { name: "Urban King", logo: "/public/Clients/Urban King.png" },
+  { name: "Yolocab", logo: "/public/Clients/yolocab_logo.jpeg" },
+  { name: "Stela Furniture", logo: "/public/Clients/Stela furniture.jpeg" },
+  { name: "5G Empire Car", logo: "/public/Clients/5g empire car.jpeg" },
+  { name: "Annapurna Dental", logo: "/public/Clients/Annapurna dental.png" },
+  { name: "BlinkU", logo: "/public/Clients/BlinkU_Logo_Black.png" },
+  { name: "GV School", logo: "/public/Clients/GV SCHOOL.png" },
+  { name: "Marathon", logo: "/public/Clients/Marathon.jpg" },
+  { name: "Yo Dimsum", logo: "/public/Clients/yo dimsum.png" },
+  { name: "Anna Dosa", logo: "/public/Clients/Anna Dosa Png-01.png" },
 ];
 
 const row5 = [
-  { name: "Odoo", logo: "https://logo.clearbit.com/odoo.com" },
-  { name: "Prime Video", logo: "https://logo.clearbit.com/primevideo.com" },
-  { name: "Netflix", logo: "https://logo.clearbit.com/netflix.com" },
-  { name: "PolicyBazaar", logo: "https://logo.clearbit.com/policybazaar.com" },
-  { name: "Lenskart", logo: "https://logo.clearbit.com/lenskart.com" },
-  { name: "Spotify", logo: "https://logo.clearbit.com/spotify.com" },
-  { name: "Google", logo: "https://logo.clearbit.com/google.com" },
-  { name: "Meta", logo: "https://logo.clearbit.com/meta.com" },
-  { name: "Apple", logo: "https://logo.clearbit.com/apple.com" },
+  { name: "Basant Dhaba", logo: "/public/Clients/Basant dhaba logo.png" },
+  { name: "GLH", logo: "/public/Clients/GLH logo.jpg" },
+  { name: "Logo", logo: "/public/Clients/LOGO.png" },
+  { name: "Metalit", logo: "/public/Clients/METALIT.jpg" },
+  { name: "Veranda", logo: "/public/Clients/VERANDA.png" },
+
+  { name: "Castle", logo: "/public/Clients/Castle-Logo.png" },
+  { name: "Pahaditrek", logo: "/public/Clients/pahaditrek.png" },
+  { name: "Woodyfy", logo: "/public/Clients/woodyfy.png" },
+];
+
+const row6 = [
+  { name: "Ambica", logo: "/public/Clients/Ambica Logo.png" },
+  {
+    name: "Bachpan Ki Yaadein",
+    logo: "/public/Clients/Bachpan Ki Yaadein logo.png",
+  },
+  { name: "Every Day", logo: "/public/Clients/every day logo.png" },
+  { name: "IRS", logo: "/public/Clients/IRS_LOGO.png" },
+  { name: "Mastyle", logo: "/public/Clients/Mastyle.png" },
+  { name: "Barmos", logo: "/public/Clients/Barmos.png" },
+  { name: "Glamority", logo: "/public/Clients/Glamority.png" },
+  { name: "Jenny", logo: "/public/Clients/Jenny.png" },
+  { name: "MCA", logo: "/public/Clients/MCA.png" },
 ];
 
 const LogoItem = ({ name, logo }) => (
-  <div className="flex-shrink-0 flex items-center justify-center h-16 w-36 md:h-20 md:w-44 rounded-2xl bg-white/[0.08] border border-white/15 hover:bg-white/15 hover:border-white/30 transition-all duration-300 group cursor-pointer overflow-hidden backdrop-blur-sm">
+  <div className="flex-shrink-0 flex items-center justify-center h-16 w-36 md:h-20 md:w-44 rounded-2xl bg-white/10 border border-white/20 hover:bg-white/15 hover:border-white/40 transition-all duration-300 group cursor-pointer overflow-hidden backdrop-blur-sm">
     <img
       src={logo}
       alt={name}
-      className="h-8 md:h-10 w-auto max-w-[85%] object-contain filter brightness-0 invert opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
+      className="h-8 md:h-10 w-auto max-w-[85%] object-contain opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
       onError={(e) => {
         const target = e.target;
         target.style.display = "none";
-        target.parentElement.innerHTML = `<span class="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">${name}</span>`;
+        if (target.parentElement) {
+          target.parentElement.innerHTML = `<span class="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">${name}</span>`;
+        }
       }}
     />
   </div>
@@ -133,7 +162,7 @@ export default function ClientsMarquee() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-black text-white  md:py-32 px-4 md:px-8"
+      className="relative bg-black text-white md:py-32 px-4 md:px-8"
     >
       {/* Main Container */}
       <div className="group relative max-w-7xl mx-auto rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden transition-all duration-500">
