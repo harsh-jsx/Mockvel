@@ -8,12 +8,15 @@ import MockvelFooter from "./components/Footer";
 import { ReactLenis, useLenis } from "lenis/react";
 
 import Marquee from "./components/Marquee";
+import CaseStudies from "./pages/Case-Studies";
+
 const AppContent = () => {
   return (
     <div className="bg-black">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/case-studies/:slug" element={<CaseStudies />} />
       </Routes>
 
       <MockvelFooter />
@@ -42,7 +45,6 @@ const App = () => {
   return (
     <Router>
       <ReactLenis root />
-
       <AppContent />
     </Router>
   );

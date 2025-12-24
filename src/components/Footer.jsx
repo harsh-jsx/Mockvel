@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import logo from "/public/mockvel new logo.png";
+import logo from "/public/mockvellogo.png";
 import { useContactPopup } from "../hooks/useContactPopup";
 import ContactPopup from "./ContactPopup";
 gsap.registerPlugin(ScrollTrigger);
@@ -148,7 +148,7 @@ export default function MockvelFooter() {
                       isPhone
                         ? "cursor-pointer"
                         : isAddress
-                        ? "text-sm leading-relaxed"
+                        ? ""
                         : "cursor-pointer"
                     }`}
                   >
@@ -163,7 +163,7 @@ export default function MockvelFooter() {
                       <span className="flex-1">{item}</span>
                     )}
                     {!isAddress && (
-                      <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all flex-shrink-0 mt-1">
+                      <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all flex-shrink-0">
                         →
                       </span>
                     )}

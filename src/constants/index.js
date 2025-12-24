@@ -189,3 +189,92 @@ export const socials = [
   { name: "LinkedIn", href: "https://www.linkedin.com/company/redmedia/" },
   { name: "Facebook", href: "https://www.facebook.com/redmedia" },
 ];
+
+// Clients data organized by rows for marquee display
+export const clientsData = [
+  [
+    { name: "Amity", logo: "/public/Clients/Amity.png" },
+    { name: "Amrik Sukhdev", logo: "/public/Clients/Amrik sukhdev.png" },
+    { name: "Barista", logo: "/public/Clients/Barista.png" },
+    { name: "BBT", logo: "/public/Clients/BBT.png" },
+    {
+      name: "CAB Technologies",
+      logo: "/public/Clients/CABTechnologies logo.png",
+    },
+    { name: "Cut & Style", logo: "/public/Clients/Cut & Style.jpg" },
+    { name: "Donear", logo: "/public/Clients/donear.png" },
+    { name: "Ellan", logo: "/public/Clients/Ellan Logo.png" },
+    { name: "Park Rosella", logo: "/public/Clients/Park Rosella.png" },
+    { name: "Png White", logo: "/public/Clients/Png White.png" },
+  ],
+  [
+    { name: "Eve", logo: "/public/Clients/eve logo-01.png" },
+    { name: "Fortune Hotels", logo: "/public/Clients/Fortune hotels.png" },
+    { name: "Goexotic", logo: "/public/Clients/Goexotic.jpeg" },
+    { name: "Greysfield", logo: "/public/Clients/Greysfield.png" },
+    { name: "Haldiram", logo: "/public/Clients/Haldiram.png" },
+    { name: "Heritage Place", logo: "/public/Clients/Heritage Place.png" },
+    { name: "HHK", logo: "/public/Clients/HHK Logo (1) (1).jpg" },
+    { name: "La Pino'z", logo: "/public/Clients/La Pino'z.png" },
+    { name: "Old Rao", logo: "/public/Clients/Old rao Logo.jpeg" },
+    { name: "Positive Energy", logo: "/public/Clients/Positive Energy.png" },
+    {
+      name: "Priyanka Goyal Official",
+      logo: "/public/Clients/Priyanka Goyal Official.png",
+    },
+  ],
+  [
+    { name: "Om Sweet", logo: "/public/Clients/Om sweet.webp" },
+    { name: "Organic India", logo: "/public/Clients/Organic India.jpg" },
+    { name: "Panchgaon", logo: "/public/Clients/Panchgaon Logo.png" },
+    { name: "RPS", logo: "/public/Clients/RPS.png" },
+    { name: "Sri Chaitanya", logo: "/public/Clients/sri chaitanya logo.png" },
+    { name: "Starex", logo: "/public/Clients/Starex Logo.png" },
+    { name: "Sugandh", logo: "/public/Clients/Sugandh.png" },
+    { name: "Suraj School", logo: "/public/Clients/Suraj school.png" },
+    { name: "GITM", logo: "/public/Clients/updated gitm logo.png" },
+    { name: "Rang Mahal", logo: "/public/Clients/Rang Mahal.png" },
+    { name: "Shri Kanth Hotel", logo: "/public/Clients/Shri kanth hotel.png" },
+  ],
+  [
+    { name: "Urban King", logo: "/public/Clients/Urban King.png" },
+    { name: "Yolocab", logo: "/public/Clients/yolocab_logo.jpeg" },
+    { name: "Stela Furniture", logo: "/public/Clients/Stela furniture.jpeg" },
+    { name: "5G Empire Car", logo: "/public/Clients/5g empire car.jpeg" },
+    { name: "Annapurna Dental", logo: "/public/Clients/Annapurna dental.png" },
+    { name: "GV School", logo: "/public/Clients/GV SCHOOL.png" },
+    { name: "Marathon", logo: "/public/Clients/Marathon.jpg" },
+    { name: "Yo Dimsum", logo: "/public/Clients/yo dimsum.png" },
+    { name: "Anna Dosa", logo: "/public/Clients/Anna Dosa Png-01.png" },
+  ],
+  [
+    { name: "Basant Dhaba", logo: "/public/Clients/Basant dhaba logo.png" },
+    { name: "GLH", logo: "/public/Clients/GLH logo.jpg" },
+    { name: "Logo", logo: "/public/Clients/LOGO.png" },
+    { name: "Metalit", logo: "/public/Clients/METALIT.jpg" },
+    { name: "Veranda", logo: "/public/Clients/VERANDA.png" },
+    { name: "Castle", logo: "/public/Clients/Castle-Logo.png" },
+    { name: "Pahaditrek", logo: "/public/Clients/pahaditrek.png" },
+    { name: "Woodyfy", logo: "/public/Clients/woodyfy.png" },
+  ],
+  [
+    { name: "Ambica", logo: "/public/Clients/Ambica Logo.png" },
+    {
+      name: "Bachpan Ki Yaadein",
+      logo: "/public/Clients/Bachpan Ki Yaadein logo.png",
+    },
+    { name: "IRS", logo: "/public/Clients/IRS_LOGO.png" },
+    { name: "Mastyle", logo: "/public/Clients/Mastyle.png" },
+    { name: "Jenny", logo: "/public/Clients/Jenny.png" },
+  ],
+];
+
+// Configuration for marquee rows (direction and speed)
+export const marqueeConfig = [
+  { direction: "left", speed: 40 },
+  { direction: "right", speed: 45 },
+  { direction: "left", speed: 38 },
+  { direction: "right", speed: 42 },
+  { direction: "left", speed: 44 },
+  { direction: "right", speed: 40 },
+];
