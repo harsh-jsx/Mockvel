@@ -23,6 +23,7 @@ const Navbar = () => {
 
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
+
   const location = useLocation();
   const navigate = useNavigate();
   const { scrollY } = useScroll();
@@ -30,14 +31,16 @@ const Navbar = () => {
   /* ---------------- Mobile detection ---------------- */
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     const check = () =>
       setIsMobile(window.matchMedia("(max-width: 1023px)").matches);
+
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  /* ---------------- Optimized scroll behavior ---------------- */
+  /* ---------------- Scroll behavior ---------------- */
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (ticking.current) return;
     ticking.current = true;
@@ -45,24 +48,20 @@ const Navbar = () => {
     requestAnimationFrame(() => {
       const delta = latest - lastScrollY.current;
 
-      // Mobile-optimized thresholds (less sensitive)
       const hideThreshold = isMobile ? 15 : 5;
       const showThreshold = isMobile ? -10 : -5;
       const scrollThreshold = isMobile ? 80 : 120;
       const compactThreshold = isMobile ? 40 : 60;
 
-      // Hide / show - disabled on mobile for better UX
       if (!isMobile) {
         if (latest > scrollThreshold && delta > hideThreshold)
           setIsHidden(true);
         if (delta < showThreshold) setIsHidden(false);
       } else {
-        // On mobile, only hide if scrolling down very fast
         if (latest > 100 && delta > 20) setIsHidden(true);
         if (delta < -15) setIsHidden(false);
       }
 
-      // Compact mode
       setIsCompact(latest > compactThreshold);
 
       lastScrollY.current = latest;
@@ -70,28 +69,41 @@ const Navbar = () => {
     });
   });
 
-  /* ---------------- Body lock for mobile menu ---------------- */
+  /* ---------------- Body lock (mobile menu) ---------------- */
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
   }, [isMenuOpen]);
 
+  /* ---------------- Smooth hash scroll ---------------- */
   const handleSmoothScroll = (hash) => {
     const el = document.querySelector(hash);
     if (!el) return;
+
     window.history.replaceState(null, "", hash);
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  /* ---------------- Unified navigation handler ---------------- */
   const handleNavClick = (href) => {
     setIsMenuOpen(false);
 
+    // Hash links
     if (href.startsWith("#")) {
-      if (location.pathname !== "/") navigate(`/${href}`);
-      else handleSmoothScroll(href);
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => handleSmoothScroll(href), 60);
+      } else {
+        handleSmoothScroll(href);
+      }
       return;
     }
 
-    navigate(href);
+    // Normal routes
+    if (href === "/contact") {
+      window.location.href = "/contact";
+    } else {
+      navigate(href);
+    }
   };
 
   return (
@@ -99,15 +111,9 @@ const Navbar = () => {
       {/* ================= DESKTOP NAVBAR ================= */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
-        animate={{
-          y: isHidden ? -120 : 0,
-          opacity: 1,
-        }}
-        transition={{
-          duration: isMobile ? 0.3 : 0.45,
-          ease: "easeOut",
-        }}
-        className="fixed top-0 left-0 w-full z-999"
+        animate={{ y: isHidden ? -120 : 0, opacity: 1 }}
+        transition={{ duration: isMobile ? 0.3 : 0.45, ease: "easeOut" }}
+        className="fixed top-0 left-0 w-full z-[999]"
       >
         <motion.div
           animate={{
@@ -117,26 +123,25 @@ const Navbar = () => {
           }}
           className="
             mx-auto px-4 md:px-6
-            text-gray-300
             bg-black/40 md:bg-transparent
             rounded-4xl
             transition-all
           "
         >
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <motion.a
-              href="/"
-              className="block"
+            {/* Logo (NO <a href>) */}
+            <motion.div
+              className="cursor-pointer"
               animate={{ scale: isCompact ? (isMobile ? 0.9 : 0.85) : 1 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
+              onClick={() => navigate("/")}
             >
               <img
                 src={logo}
                 alt="logo"
                 className="h-15 md:h-14 lg:h-16 w-auto object-contain"
               />
-            </motion.a>
+            </motion.div>
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-10">
@@ -146,12 +151,11 @@ const Navbar = () => {
                   onClick={() => handleNavClick(link.href)}
                   className="
                     uppercase tracking-[0.25em] text-sm
-                    text-gray-300 hover:text-gray-300
+                    text-gray-300 hover:text-white
                     transition-colors
                   "
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.15 }}
                 >
                   {link.label}
                 </motion.button>
@@ -171,9 +175,9 @@ const Navbar = () => {
               </button>
             </nav>
 
-            {/* Mobile toggle */}
+            {/* Mobile Toggle */}
             <button
-              className="lg:hidden p-3 rounded-full border border-black/20"
+              className="lg:hidden p-3 rounded-full border border-white/20 text-white"
               onClick={() => setIsMenuOpen((p) => !p)}
             >
               {isMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
@@ -186,7 +190,7 @@ const Navbar = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-998 bg-white/0 backdrop-blur-xl"
+            className="fixed inset-0 z-[998] bg-black/20 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -196,7 +200,7 @@ const Navbar = () => {
                 <button
                   key={link.label}
                   onClick={() => handleNavClick(link.href)}
-                  className="text-2xl uppercase tracking-[0.3em]"
+                  className="text-2xl uppercase tracking-[0.3em] text-white"
                 >
                   {link.label}
                 </button>
@@ -206,8 +210,8 @@ const Navbar = () => {
                 onClick={() => handleNavClick("/contact")}
                 className="
                   mt-6 px-8 py-4 rounded-full
-                  border border-black
-                  uppercase tracking-[0.3em]
+                  border border-white
+                  uppercase tracking-[0.3em] text-white
                 "
               >
                 Start a project

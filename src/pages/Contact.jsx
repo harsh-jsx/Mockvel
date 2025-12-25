@@ -24,47 +24,32 @@ const Contact = () => {
   const formRef = useRef(null);
 
   useEffect(() => {
-    let ctx = null;
+    if (!headingRef.current || !formRef.current) return;
 
-    // Small delay to ensure DOM is ready
-    const timer = setTimeout(() => {
-      try {
-        ctx = gsap.context(() => {
-          // Animate heading
-          if (headingRef.current) {
-            const words = headingRef.current.querySelectorAll(".word");
-            if (words && words.length > 0) {
-              gsap.from(words, {
-                y: 100,
-                opacity: 0,
-                rotateX: -45,
-                duration: 1.2,
-                stagger: 0.15,
-                ease: "power4.out",
-              });
-            }
-          }
+    const ctx = gsap.context(() => {
+      const words = headingRef.current.querySelectorAll(".word");
 
-          // Animate form
-          if (formRef.current) {
-            gsap.from(formRef.current, {
-              y: 60,
-              opacity: 0,
-              duration: 1,
-              delay: 0.5,
-              ease: "power3.out",
-            });
-          }
+      if (words.length) {
+        gsap.from(words, {
+          y: 100,
+          opacity: 0,
+          rotateX: -45,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power4.out",
         });
-      } catch (error) {
-        console.error("GSAP animation error:", error);
       }
-    }, 100);
 
-    return () => {
-      clearTimeout(timer);
-      if (ctx) ctx.revert();
-    };
+      gsap.from(formRef.current, {
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        delay: 0.4,
+        ease: "power3.out",
+      });
+    });
+
+    return () => ctx.revert();
   }, []);
 
   useEffect(() => {
