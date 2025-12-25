@@ -13,7 +13,7 @@ import PageTransition from "./components/PageTransition";
 import MockvelFooter from "./components/Footer";
 import { ReactLenis, useLenis } from "lenis/react";
 import Loader from "./components/Loader";
-
+import Contact from "./pages/Contact";
 import Marquee from "./components/Marquee";
 import CaseStudies from "./pages/Case-Studies";
 
@@ -66,6 +66,7 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/case-studies/:slug" element={<CaseStudies />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
 
         <MockvelFooter />

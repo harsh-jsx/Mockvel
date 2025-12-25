@@ -85,7 +85,7 @@ const Loader = ({ onComplete }) => {
         // 2. Dive into letters
         .to(zoomWrapperRef.current, {
           scale: 11,
-          duration: 2.5,
+          duration: 1.8,
           ease: "power2.in",
           force3D: true,
         })
@@ -95,7 +95,7 @@ const Loader = ({ onComplete }) => {
           stageRef.current,
           {
             scale: 1.15,
-            duration: 2.5,
+            duration: 1.8,
             ease: "power2.in",
           },
           "<"
@@ -106,9 +106,9 @@ const Loader = ({ onComplete }) => {
           zoomWrapperRef.current,
           {
             filter: "blur(2px)",
-            duration: 0.8,
+            duration: 0.5,
           },
-          "-=0.8"
+          "-=0.5"
         )
 
         // 3. Exit

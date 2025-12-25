@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import logo from "/public/mockvellogo.png";
+import logo from "/public/mockvel new logo.png";
 import { useContactPopup } from "../hooks/useContactPopup";
 import ContactPopup from "./ContactPopup";
 gsap.registerPlugin(ScrollTrigger);
