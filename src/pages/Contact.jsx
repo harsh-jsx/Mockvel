@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
 import gsap from "gsap";
+import emailjs from "@emailjs/browser";
 import CursorFollowingOwl from "../components/CursorFollowingOwl";
 
 const Contact = () => {
@@ -10,62 +10,192 @@ const Contact = () => {
     lastName: "",
     phone: "",
     email: "",
-    businessName: "",
-    website: "",
-    projectType: "",
+    company: "",
+    lookingFor: "",
     budget: "",
-    message: "",
   });
+  const [showLookingForDropdown, setShowLookingForDropdown] = useState(false);
+  const [showBudgetDropdown, setShowBudgetDropdown] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' or 'error'
+  const [errorMessage, setErrorMessage] = useState("");
 
   const headingRef = useRef(null);
   const formRef = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate heading
-      if (headingRef.current) {
-        const words = headingRef.current.querySelectorAll(".word");
-        gsap.from(words, {
-          y: 100,
-          opacity: 0,
-          rotateX: -45,
-          duration: 1.2,
-          stagger: 0.15,
-          ease: "power4.out",
-        });
-      }
+    let ctx = null;
 
-      // Animate form
-      if (formRef.current) {
-        gsap.from(formRef.current, {
-          y: 60,
-          opacity: 0,
-          duration: 1,
-          delay: 0.5,
-          ease: "power3.out",
-        });
-      }
-    });
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      try {
+        ctx = gsap.context(() => {
+          // Animate heading
+          if (headingRef.current) {
+            const words = headingRef.current.querySelectorAll(".word");
+            if (words && words.length > 0) {
+              gsap.from(words, {
+                y: 100,
+                opacity: 0,
+                rotateX: -45,
+                duration: 1.2,
+                stagger: 0.15,
+                ease: "power4.out",
+              });
+            }
+          }
 
-    return () => ctx.revert();
+          // Animate form
+          if (formRef.current) {
+            gsap.from(formRef.current, {
+              y: 60,
+              opacity: 0,
+              duration: 1,
+              delay: 0.5,
+              ease: "power3.out",
+            });
+          }
+        });
+      } catch (error) {
+        console.error("GSAP animation error:", error);
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      if (ctx) ctx.revert();
+    };
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        (showLookingForDropdown || showBudgetDropdown) &&
+        !e.target.closest(".dropdown-container")
+      ) {
+        setShowLookingForDropdown(false);
+        setShowBudgetDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showLookingForDropdown, showBudgetDropdown]);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (submitStatus === "error") {
+      setSubmitStatus(null);
+      setErrorMessage("");
+    }
   };
 
   const handleNext = () => {
-    if (step < 3) setStep(step + 1);
+    if (step < 2) setStep(step + 1);
   };
 
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission
+
+    // Get form values
+    const submitData = {
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      company: formData.company.trim(),
+      lookingFor: formData.lookingFor,
+      budget: formData.budget,
+    };
+
+    // Validate all required fields
+    const missingFields = [];
+    if (!submitData.firstName) missingFields.push("First Name");
+    if (!submitData.lastName) missingFields.push("Last Name");
+    if (!submitData.email) missingFields.push("Email");
+    if (!submitData.phone) missingFields.push("Phone");
+    if (!submitData.company) missingFields.push("Company");
+    if (!submitData.lookingFor) missingFields.push("Service Interest");
+    if (!submitData.budget) missingFields.push("Budget");
+
+    if (missingFields.length > 0) {
+      setErrorMessage(`Please fill: ${missingFields.join(", ")}`);
+      setSubmitStatus("error");
+      setTimeout(() => {
+        setSubmitStatus(null);
+        setErrorMessage("");
+      }, 3000);
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(submitData.email)) {
+      setErrorMessage("Please enter a valid email address");
+      setSubmitStatus("error");
+      setTimeout(() => {
+        setSubmitStatus(null);
+        setErrorMessage("");
+      }, 3000);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const templateParams = {
+        firstName: submitData.firstName,
+        lastName: submitData.lastName,
+        email: submitData.email,
+        phone: submitData.phone,
+        company: submitData.company,
+        lookingFor: submitData.lookingFor,
+        budget: submitData.budget,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+      };
+
+      await emailjs.send(
+        "service_5q5qqr9",
+        "template_nf7kzcf",
+        templateParams,
+        "qqtzycs61FniSNL1R"
+      );
+
+      setSubmitStatus("success");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        company: "",
+        lookingFor: "",
+        budget: "",
+      });
+      setStep(1);
+
+      setTimeout(() => {
+        setSubmitStatus(null);
+      }, 3000);
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      setErrorMessage(
+        error.text ||
+          error.message ||
+          "Failed to send message. Please try again."
+      );
+      setSubmitStatus("error");
+      setTimeout(() => {
+        setSubmitStatus(null);
+        setErrorMessage("");
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -120,7 +250,7 @@ const Contact = () => {
               <div className="bg-card rounded-3xl p-6 lg:p-8 border border-border/20">
                 {/* Step indicator */}
                 <div className="flex items-center gap-2 mb-6">
-                  {[1, 2, 3].map((s) => (
+                  {[1, 2].map((s) => (
                     <div
                       key={s}
                       className={`h-1 flex-1 rounded-full transition-colors ${
@@ -187,30 +317,17 @@ const Contact = () => {
                             placeholder="john@company.com"
                           />
                         </div>
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 md:col-span-2">
                           <label className="text-sm text-primary">
-                            Business Name
+                            Company Name
                           </label>
                           <input
                             type="text"
-                            name="businessName"
-                            value={formData.businessName}
+                            name="company"
+                            value={formData.company}
                             onChange={handleInputChange}
                             className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors"
                             placeholder="Your Company"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-sm text-primary">
-                            Website
-                          </label>
-                          <input
-                            type="text"
-                            name="website"
-                            value={formData.website}
-                            onChange={handleInputChange}
-                            className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors"
-                            placeholder="yourcompany.com"
                           />
                         </div>
                       </div>
@@ -225,86 +342,134 @@ const Contact = () => {
                       </h2>
 
                       <div className="space-y-4">
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 relative dropdown-container">
                           <label className="text-sm text-primary">
-                            Project Type
+                            What are you looking for?
                           </label>
-                          <select
-                            name="projectType"
-                            value={formData.projectType}
-                            onChange={handleInputChange}
-                            className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors cursor-pointer"
+                          <input
+                            type="hidden"
+                            name="lookingFor"
+                            value={formData.lookingFor}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowLookingForDropdown(
+                                !showLookingForDropdown
+                              );
+                              setShowBudgetDropdown(false);
+                            }}
+                            className={`w-full bg-transparent border-b border-border/50 pb-2 text-left text-foreground focus:outline-none focus:border-primary transition-colors flex items-center justify-between ${
+                              !formData.lookingFor && submitStatus === "error"
+                                ? "border-red-500/50"
+                                : ""
+                            }`}
                           >
-                            <option value="" className="bg-card">
-                              Select project type
-                            </option>
-                            <option value="website" className="bg-card">
-                              Website Design
-                            </option>
-                            <option value="branding" className="bg-card">
-                              Branding
-                            </option>
-                            <option value="video" className="bg-card">
-                              Video Production
-                            </option>
-                            <option value="marketing" className="bg-card">
-                              Digital Marketing
-                            </option>
-                            <option value="other" className="bg-card">
-                              Other
-                            </option>
-                          </select>
+                            <span
+                              className={
+                                formData.lookingFor
+                                  ? "text-foreground"
+                                  : "text-foreground/50"
+                              }
+                            >
+                              {formData.lookingFor || "Select service"}
+                            </span>
+                            <span className="text-foreground/50">▼</span>
+                          </button>
+                          {showLookingForDropdown && (
+                            <div className="absolute z-10 w-full mt-1 rounded-lg bg-card border border-border/50 max-h-60 overflow-y-auto shadow-lg">
+                              {[
+                                "AI & Automation Enablement",
+                                "Start-up Marketing Consultancy",
+                                "Personal Branding & PR",
+                                "Performance Marketing",
+                                "AI-Powered Videos",
+                                "Social Media Management",
+                                "Website Design & Development",
+                                "Logo & Brand Identity Design (Vastu-Aligned)",
+                                "WhatsApp Marketing Automation",
+                                "Search Engine Optimization",
+                                "Advertisement & Commercial Shoot",
+                              ].map((option) => (
+                                <button
+                                  key={option}
+                                  type="button"
+                                  onClick={() => {
+                                    setFormData({
+                                      ...formData,
+                                      lookingFor: option,
+                                    });
+                                    setShowLookingForDropdown(false);
+                                    if (submitStatus === "error")
+                                      setSubmitStatus(null);
+                                  }}
+                                  className="w-full px-4 py-2 text-left text-foreground hover:bg-primary/10 transition-colors"
+                                >
+                                  {option}
+                                </button>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                        <div className="space-y-1.5">
-                          <label className="text-sm text-primary">
-                            Budget Range
-                          </label>
-                          <select
+                        <div className="space-y-1.5 relative dropdown-container">
+                          <label className="text-sm text-primary">Budget</label>
+                          <input
+                            type="hidden"
                             name="budget"
                             value={formData.budget}
-                            onChange={handleInputChange}
-                            className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors cursor-pointer"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowBudgetDropdown(!showBudgetDropdown);
+                              setShowLookingForDropdown(false);
+                            }}
+                            className={`w-full bg-transparent border-b border-border/50 pb-2 text-left text-foreground focus:outline-none focus:border-primary transition-colors flex items-center justify-between ${
+                              !formData.budget && submitStatus === "error"
+                                ? "border-red-500/50"
+                                : ""
+                            }`}
                           >
-                            <option value="" className="bg-card">
-                              Select budget range
-                            </option>
-                            <option value="5k-10k" className="bg-card">
-                              $5,000 - $10,000
-                            </option>
-                            <option value="10k-25k" className="bg-card">
-                              $10,000 - $25,000
-                            </option>
-                            <option value="25k-50k" className="bg-card">
-                              $25,000 - $50,000
-                            </option>
-                            <option value="50k+" className="bg-card">
-                              $50,000+
-                            </option>
-                          </select>
+                            <span
+                              className={
+                                formData.budget
+                                  ? "text-foreground"
+                                  : "text-foreground/50"
+                              }
+                            >
+                              {formData.budget || "Select budget"}
+                            </span>
+                            <span className="text-foreground/50">▼</span>
+                          </button>
+                          {showBudgetDropdown && (
+                            <div className="absolute z-10 w-full mt-1 rounded-lg bg-card border border-border/50 shadow-lg">
+                              {[
+                                "1L - 2L",
+                                "2L - 3L",
+                                "3L - 5L",
+                                "5L - 10L",
+                                "Other",
+                              ].map((option) => (
+                                <button
+                                  key={option}
+                                  type="button"
+                                  onClick={() => {
+                                    setFormData({
+                                      ...formData,
+                                      budget: option,
+                                    });
+                                    setShowBudgetDropdown(false);
+                                    if (submitStatus === "error")
+                                      setSubmitStatus(null);
+                                  }}
+                                  className="w-full px-4 py-2 text-left text-foreground hover:bg-primary/10 transition-colors"
+                                >
+                                  {option}
+                                </button>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step 3: Message */}
-                  {step === 3 && (
-                    <div className="space-y-5">
-                      <h2 className="text-lg font-semibold text-foreground">
-                        3. Your Message
-                      </h2>
-
-                      <div className="space-y-1.5">
-                        <label className="text-sm text-primary">
-                          Tell us about your project
-                        </label>
-                        <textarea
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          rows={4}
-                          className="w-full bg-transparent border border-border/50 rounded-xl p-3 text-foreground focus:outline-none focus:border-primary transition-colors resize-none"
-                          placeholder="Share your vision, goals, and any specific requirements..."
-                        />
                       </div>
                     </div>
                   )}
@@ -323,7 +488,7 @@ const Contact = () => {
                       <div />
                     )}
 
-                    {step < 3 ? (
+                    {step < 2 ? (
                       <button
                         type="button"
                         onClick={handleNext}
@@ -334,12 +499,27 @@ const Contact = () => {
                     ) : (
                       <button
                         type="submit"
-                        className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity"
+                        disabled={isSubmitting}
+                        className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Send Message
+                        {isSubmitting ? "Sending..." : "Send Message"}
                       </button>
                     )}
                   </div>
+
+                  {/* Status messages */}
+                  {submitStatus === "success" && (
+                    <p className="text-green-400 text-sm text-center mt-4">
+                      ✓ Message sent successfully!
+                    </p>
+                  )}
+                  {submitStatus === "error" && (
+                    <p className="text-red-400 text-sm text-center mt-4 animate-pulse">
+                      ✗{" "}
+                      {errorMessage ||
+                        "Please fill all required fields and try again."}
+                    </p>
+                  )}
                 </form>
               </div>
             </div>
