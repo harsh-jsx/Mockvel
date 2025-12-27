@@ -214,6 +214,26 @@ const Intro = () => {
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/3 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Mobile heading - Top of section on mobile only */}
+        <h1
+          ref={mobileHeadingRef}
+          className="lg:hidden font-display text-[12vw] md:text-[10vw] leading-[0.9] tracking-tight mb-12 text-center"
+        >
+          {headingText.split("").map((char, i) => (
+            <span
+              key={`mobile-${i}`}
+              className="char inline-block"
+              style={{
+                transformOrigin: "center bottom",
+                color: char === " " ? "transparent" : undefined,
+                marginRight: char === " " ? "0.15em" : undefined,
+              }}
+            >
+              {char === " " ? "\u00A0" : char}
+            </span>
+          ))}
+        </h1>
+
         <div className="flex">
           {/* Vertical heading on the left - Desktop only */}
           <div className="hidden lg:flex items-start justify-center pr-8 lg:pr-16 sticky top-32 self-start">
@@ -241,26 +261,6 @@ const Intro = () => {
               ))}
             </h1>
           </div>
-
-          {/* Mobile heading */}
-          <h1
-            ref={mobileHeadingRef}
-            className="lg:hidden font-display text-[12vw] md:text-[10vw] leading-[0.9] tracking-tight mb-12"
-          >
-            {headingText.split("").map((char, i) => (
-              <span
-                key={`mobile-${i}`}
-                className="char inline-block"
-                style={{
-                  transformOrigin: "center bottom",
-                  color: char === " " ? "transparent" : undefined,
-                  marginRight: char === " " ? "0.15em" : undefined,
-                }}
-              >
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
-          </h1>
 
           {/* Main content area */}
           <div className="flex-1">
