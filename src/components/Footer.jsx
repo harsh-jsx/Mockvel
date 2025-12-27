@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import logo from "/public/mockvel new logo.png";
 import { useContactPopup } from "../hooks/useContactPopup";
 import ContactPopup from "./ContactPopup";
+import babalogo from "/public/shyaam-baba.png";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function MockvelFooter() {
@@ -231,17 +232,39 @@ export default function MockvelFooter() {
         ))}
       </div>
       {/* Footer bottom */}
-      <div className="relative z-10 mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between gap-6 text-xs text-white/40">
-        <p>© {new Date().getFullYear()} Mockvel. All rights reserved.</p>
-        <div className="flex gap-6">
-          <a href="/privacy" className="hover:text-white transition-colors">
-            Privacy
-          </a>
-          <a href="/terms" className="hover:text-white transition-colors">
-            Terms
-          </a>
+      <div className="relative z-10 mt-20 pt-8 border-t border-white/10">
+        <div className="flex flex-col md:flex-row justify-between gap-6 text-xs text-white/40 mb-4">
+          <p>© {new Date().getFullYear()} Mockvel. All rights reserved.</p>
+          <div className="flex gap-6">
+            <a href="/privacy" className="hover:text-white transition-colors">
+              Privacy
+            </a>
+            <a href="/terms" className="hover:text-white transition-colors">
+              Terms
+            </a>
+          </div>
+        </div>
+        <div className="text-center text-lg text-white/80">
+          <p>
+            Made with <span className="text-red-400">❤️</span> by{" "}
+            <a
+              href="https://403labs.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className=" hover:text-white transition-colors underline underline-offset-2"
+            >
+              tech partner 403labs
+            </a>
+          </p>
         </div>
       </div>{" "}
+      <div className="flex items-center justify-center md:justify-start ">
+        <img
+          src={babalogo}
+          alt="baba logo"
+          className="w-20 h-20 object-contain"
+        />
+      </div>
       <ContactPopup open={open} onClose={closePopup} />
     </footer>
   );
