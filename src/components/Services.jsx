@@ -1,52 +1,36 @@
 import { useRef } from "react";
 import AnimatedHeaderSection from "./AnimatedHeaderSection";
 import { servicesData } from "../constants";
-import { useMediaQuery } from "react-responsive";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+gsap.registerPlugin(ScrollTrigger);
 import gsap from "gsap";
-import { motion } from "framer-motion";
 const Services = () => {
   const text = ``;
   const serviceRefs = useRef([]);
-  const isDesktop = useMediaQuery({ minWidth: "48rem" }); //768px
   useGSAP(() => {
     serviceRefs.current.forEach((el) => {
       if (!el) return;
 
-      if (isDesktop) {
-        // Desktop: scrubbed animation with snap
-        gsap.from(el, {
-          y: 200,
-          duration: 1,
-          ease: "circ.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 80%",
-            end: "top 30%",
-            scrub: true,
-            snap: {
-              snapTo: 1,
-              duration: 0.5,
-              ease: "power2.out",
-            },
+      // Desktop: scrubbed animation with snap
+      gsap.from(el, {
+        y: 200,
+        duration: 1,
+        ease: "circ.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          end: "top 30%",
+          scrub: true,
+          snap: {
+            snapTo: 1,
+            duration: 0.5,
+            ease: "power2.out",
           },
-        });
-      } else {
-        // Mobile: simple fade-in animation
-        gsap.from(el, {
-          y: 60,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            once: true,
-          },
-        });
-      }
+        },
+      });
     });
-  }, [isDesktop]);
+  }, []);
   return (
     <section
       id="services"
@@ -59,27 +43,15 @@ const Services = () => {
         withScrollTrigger={true}
       />
       {servicesData.map((service, index) => {
-        const isLast = index === servicesData.length - 1;
         return (
           <div
             ref={(el) => (serviceRefs.current[index] = el)}
             key={index}
-            className={`${
-              isDesktop ? "sticky" : "relative"
-            } px-6 sm:px-10 pt-6 pb-12 text-white bg-black border-t-2 border-white/30 ${
-              isLast && !isDesktop ? "mb-0" : ""
-            }`}
-            style={
-              isDesktop
-                ? {
-                    top: `calc(10vh + ${index * 5}em)`,
-                    marginBottom: `${(servicesData.length - index - 1) * 5}rem`,
-                  }
-                : {
-                    position: "relative",
-                    marginBottom: isLast ? "0" : "2rem",
-                  }
-            }
+            className="sticky px-6 sm:px-10 pt-6 pb-12 text-white bg-black border-t-2 border-white/30"
+            style={{
+              top: `calc(10vh + ${index * 5}em)`,
+              marginBottom: `${(servicesData.length - index - 1) * 5}rem`,
+            }}
           >
             <div className="flex items-center justify-between gap-4 font-light">
               <div className="flex flex-col gap-6">
@@ -106,7 +78,7 @@ const Services = () => {
                     </div>
                   ))}
                 </div>
-                <button className="group w-1/3 hover:bg-white/80 transition-all duration-300 flex items-center justify-center gap-2 md:gap-3 px-6 py-3 md:px-4 md:py-2 bg-white text-black rounded-full font-medium text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+                <button className="group md:w-1/3 w-full hover:bg-white/80 transition-all duration-300 flex items-center justify-center gap-2 md:gap-3 px-6 py-3 md:px-4 md:py-2 bg-white text-black rounded-full font-medium text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
                   <span>View More</span>
                   <svg
                     className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-1"
