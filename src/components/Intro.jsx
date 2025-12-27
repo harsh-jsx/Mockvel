@@ -227,17 +227,17 @@ const Intro = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen bg-background overflow-hidden py-24 lg:py-32"
+      className="relative min-h-screen lg:h-screen bg-background overflow-y-auto lg:overflow-hidden py-4 lg:py-6"
     >
       {/* Subtle gradient orb */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/3 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 h-full lg:h-full min-h-full flex flex-col">
         {/* Mobile heading - Top of section on mobile only */}
         <h1
           ref={mobileHeadingRef}
-          className="lg:hidden font-display text-[12vw] md:text-[10vw] leading-[0.9] tracking-tight mb-12 text-center"
+          className="lg:hidden font-display text-[10vw] sm:text-[8vw] leading-[0.9] tracking-tight mb-2 sm:mb-3 text-center flex-shrink-0"
         >
           {headingText.split("").map((char, i) => (
             <span
@@ -257,11 +257,11 @@ const Intro = () => {
         {/* Mobile video - Right after heading on mobile only */}
         <div
           ref={mobileVideoContainerRef}
-          className="lg:hidden relative flex justify-center mb-12"
+          className="lg:hidden relative flex justify-center mb-2 sm:mb-3 flex-shrink-0"
         >
-          <div className="relative w-full max-w-[280px]">
+          <div className="relative w-full max-w-[220px] sm:max-w-[250px]">
             {/* Portrait video container */}
-            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border/50 shadow-2xl">
+            <div className="relative aspect-[9/16] rounded-xl overflow-hidden bg-card border border-border/50 shadow-xl">
               <iframe
                 src={`https://www.youtube.com/embed/${youtubeShortId}?autoplay=1&mute=1&loop=1&playlist=${youtubeShortId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
                 className="absolute inset-0 w-full h-full"
@@ -275,12 +275,12 @@ const Intro = () => {
           </div>
         </div>
 
-        <div className="flex">
+        <div className="flex flex-1 min-h-0 lg:min-h-0">
           {/* Vertical heading on the left - Desktop only */}
-          <div className="hidden lg:flex items-start justify-center pr-8 lg:pr-16 sticky top-32 self-start">
+          <div className="hidden lg:flex items-start justify-center pr-6 lg:pr-10 sticky top-24 self-start">
             <h1
               ref={desktopHeadingRef}
-              className="font-display text-[5rem] xl:text-[6rem] leading-[0.85] tracking-tight text-foreground"
+              className="font-display text-[4rem] xl:text-[5rem] leading-[0.85] tracking-tight text-foreground"
               style={{
                 writingMode: "vertical-rl",
                 textOrientation: "mixed",
@@ -304,33 +304,36 @@ const Intro = () => {
           </div>
 
           {/* Main content area */}
-          <div className="flex-1">
+          <div className="flex-1 flex flex-col min-h-0 w-full">
             {/* Content grid */}
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <div className="grid lg:grid-cols-2 gap-3 lg:gap-4 items-start w-full">
               {/* Left column - Text content */}
-              <div className="space-y-8">
+              <div className="space-y-2 sm:space-y-3 lg:space-y-4 flex flex-col justify-center w-full">
                 {/* Description */}
                 <SplitText
                   text="Fueled by creativity, collaboration, and excellence, Mockvel is a premier digital marketing agency crafting unmatched success for brands and creators alike."
-                  className="text-2xl md:text-3xl lg:text-4xl font-display text-foreground/90 leading-[1.3]"
+                  className="text-base sm:text-lg md:text-xl lg:text-2xl font-display text-foreground/90 leading-[1.3]"
                 />
 
                 {/* Stats section - directly beneath SplitText */}
-                <div ref={statsRef} className="pt-8 border-t border-border/50">
-                  <div className="grid grid-cols-3 gap-2">
+                <div
+                  ref={statsRef}
+                  className="pt-2 sm:pt-3 lg:pt-4 border-t border-border/50"
+                >
+                  <div className="grid grid-cols-3 gap-1 sm:gap-2">
                     {stats.map((stat, i) => (
                       <div
                         key={stat.label}
-                        className="stat-card p-2 rounded-xl transition-all duration-500 hover:-translate-y-1"
+                        className="stat-card p-1.5 sm:p-2 rounded-lg transition-all duration-500 hover:-translate-y-1"
                       >
-                        <div className="text-3xl md:text-4xl lg:text-5xl font-display text-foreground mb-2">
+                        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-foreground mb-1 sm:mb-2">
                           <AnimatedCounter
                             target={stat.value}
                             suffix={stat.suffix}
                             duration={2 + i * 0.3}
                           />
                         </div>
-                        <div className="text-muted-foreground text-xs lg:text-sm uppercase tracking-wider">
+                        <div className="text-muted-foreground text-[10px] sm:text-xs lg:text-sm uppercase tracking-wider">
                           {stat.label}
                         </div>
                       </div>
@@ -339,7 +342,7 @@ const Intro = () => {
                 </div>
 
                 <p
-                  className="text-muted-foreground text-lg leading-relaxed max-w-xl animate-fade-up"
+                  className="text-muted-foreground text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl animate-fade-up"
                   style={{ animationDelay: "0.4s", opacity: 0 }}
                 >
                   We build brand experiences that blend strategy, design, and
@@ -349,18 +352,20 @@ const Intro = () => {
                 </p>
 
                 {/* Features list */}
-                <ul className="space-y-4">
+                <ul className="space-y-1 sm:space-y-2">
                   {features.map((feature, i) => (
                     <li
                       key={i}
-                      className="flex items-start gap-4 text-foreground/80 animate-fade-up"
+                      className="flex items-start gap-2 sm:gap-3 text-foreground/80 animate-fade-up"
                       style={{
                         animationDelay: `${0.5 + i * 0.1}s`,
                         opacity: 0,
                       }}
                     >
-                      <span className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
-                      <span className="text-lg">{feature}</span>
+                      <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary mt-2 sm:mt-2.5 flex-shrink-0" />
+                      <span className="text-sm sm:text-base lg:text-lg">
+                        {feature}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -370,11 +375,11 @@ const Intro = () => {
                   className="animate-fade-up"
                   style={{ animationDelay: "0.8s", opacity: 0 }}
                 >
-                  <button className="group relative px-10 py-5 bg-transparent border border-foreground/20 rounded-full overflow-hidden transition-all duration-500 hover:border-primary/50">
-                    <span className="relative z-10 text-foreground font-medium tracking-wide uppercase text-sm flex items-center gap-3 transition-colors duration-500 group-hover:text-primary">
+                  <button className="group relative px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 bg-transparent border border-foreground/20 rounded-full overflow-hidden transition-all duration-500 hover:border-primary/50">
+                    <span className="relative z-10 text-foreground font-medium tracking-wide uppercase text-xs sm:text-sm flex items-center gap-2 sm:gap-3 transition-colors duration-500 group-hover:text-primary">
                       Learn More
                       <svg
-                        className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1"
+                        className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-500 group-hover:translate-x-1"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -395,11 +400,11 @@ const Intro = () => {
               {/* Right column - Portrait YouTube Shorts Video - Desktop only */}
               <div
                 ref={desktopVideoContainerRef}
-                className="hidden lg:flex relative justify-center lg:justify-end"
+                className="hidden lg:flex relative justify-center lg:justify-end items-center"
               >
-                <div className="relative w-full max-w-[280px] lg:max-w-[500px]">
+                <div className="relative w-full max-w-[360px] xl:max-w-[420px] 2xl:max-w-[480px]">
                   {/* Portrait video container */}
-                  <div className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border/50 shadow-2xl">
+                  <div className="relative aspect-[9/16] rounded-xl overflow-hidden bg-card border border-border/50 shadow-xl">
                     <iframe
                       src={`https://www.youtube.com/embed/${youtubeShortId}?autoplay=1&mute=1&loop=1&playlist=${youtubeShortId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
                       className="absolute inset-0 w-full h-full"

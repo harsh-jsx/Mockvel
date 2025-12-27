@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import emailjs from "@emailjs/browser";
-import CursorFollowingOwl from "../components/CursorFollowingOwl";
 
 const Contact = () => {
   const [step, setStep] = useState(1);
@@ -184,62 +183,42 @@ const Contact = () => {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Navigation */}
-
-      {/* Background elements - LaptopVideo gradient */}
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 text-gray-900 relative overflow-hidden">
+      {/* Background elements - Corporate blue gradient */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* MOBILE GRADIENT (lightweight, always visible) */}
+        {/* Subtle blue gradient overlay */}
         <div
-          className="absolute inset-0 md:hidden"
+          className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(80% 60% at 50% 40%, hsl(270 100% 60% / 0.35), transparent 70%)",
+              "radial-gradient(ellipse at top, rgba(37, 99, 235, 0.1), transparent 50%)",
           }}
         />
-
-        {/* DESKTOP GRADIENTS */}
-        <div className="hidden md:block">
-          {/* Top glow */}
-          <div className="absolute left-1/2 -translate-x-1/2 -top-40 w-[900px] h-[400px] blur-[120px] opacity-60 bg-purple-600" />
-
-          {/* Left glow */}
-          <div className="absolute -left-40 top-1/2 -translate-y-1/2 w-[400px] h-[600px] blur-[100px] opacity-60 bg-fuchsia-600" />
-
-          {/* Right glow */}
-          <div className="absolute -right-40 top-1/2 -translate-y-1/2 w-[400px] h-[600px] blur-[100px] opacity-60 bg-indigo-600" />
-        </div>
       </div>
 
-      <div className="relative z-10 pt-32 pb-20 px-6 lg:px-12">
+      <div className="relative z-10 pt-24 pb-20 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
           {/* Heading */}
-          <div ref={headingRef} className="mb-16">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-px bg-primary-foreground/50" />
-              <span className="text-primary-foreground/70 text-sm tracking-[0.2em] uppercase">
-                Get in Touch
-              </span>
-            </div>
+          <div ref={headingRef} className="mb-12">
             <div className="overflow-hidden">
-              <h1 className="word font-display text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.9] text-primary-foreground">
+              <h1 className="word font-display text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.9] text-blue-900 font-bold">
                 Let's talk.
               </h1>
             </div>
           </div>
 
           {/* Content Grid */}
-          <div className="grid lg:grid-cols-[1fr,400px] gap-12 lg:gap-5 items-start">
+          <div className="grid lg:grid-cols-[1fr,1fr] gap-12 lg:gap-20 items-start">
             {/* Form Card */}
-            <div ref={formRef}>
-              <div className="bg-card rounded-3xl p-6 lg:p-8 border border-border/20">
+            <div ref={formRef} className="max-w-lg">
+              <div className="bg-white rounded-3xl p-8 lg:p-10 shadow-2xl border border-blue-100">
                 {/* Step indicator */}
                 <div className="flex items-center gap-2 mb-6">
                   {[1, 2].map((s) => (
                     <div
                       key={s}
-                      className={`h-1 flex-1 rounded-full transition-colors ${
-                        s <= step ? "bg-primary" : "bg-border"
+                      className={`h-1.5 flex-1 rounded-full transition-colors ${
+                        s <= step ? "bg-blue-600" : "bg-gray-200"
                       }`}
                     />
                   ))}
@@ -249,13 +228,13 @@ const Contact = () => {
                   {/* Step 1: Your Details */}
                   {step === 1 && (
                     <div className="space-y-5">
-                      <h2 className="text-lg font-semibold text-foreground">
+                      <h2 className="text-lg font-semibold text-gray-900 mb-5">
                         1. Your Details
                       </h2>
 
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-1.5">
-                          <label className="text-sm text-primary">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-blue-900">
                             First Name
                           </label>
                           <input
@@ -263,12 +242,12 @@ const Contact = () => {
                             name="firstName"
                             value={formData.firstName}
                             onChange={handleInputChange}
-                            className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-transparent border-b-2 border-gray-300 pb-2 text-gray-900 focus:outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
                             placeholder="John"
                           />
                         </div>
-                        <div className="space-y-1.5">
-                          <label className="text-sm text-primary">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-blue-900">
                             Last Name
                           </label>
                           <input
@@ -276,34 +255,38 @@ const Contact = () => {
                             name="lastName"
                             value={formData.lastName}
                             onChange={handleInputChange}
-                            className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-transparent border-b-2 border-gray-300 pb-2 text-gray-900 focus:outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
                             placeholder="Doe"
                           />
                         </div>
-                        <div className="space-y-1.5">
-                          <label className="text-sm text-primary">Phone</label>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-blue-900">
+                            Phone
+                          </label>
                           <input
                             type="tel"
                             name="phone"
                             value={formData.phone}
                             onChange={handleInputChange}
-                            className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors"
-                            placeholder="+1 (555) 000-0000"
+                            className="w-full bg-transparent border-b-2 border-gray-300 pb-2 text-gray-900 focus:outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
+                            placeholder="+91 7011668984"
                           />
                         </div>
-                        <div className="space-y-1.5">
-                          <label className="text-sm text-primary">Email</label>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-blue-900">
+                            Email
+                          </label>
                           <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-transparent border-b-2 border-gray-300 pb-2 text-gray-900 focus:outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
                             placeholder="john@company.com"
                           />
                         </div>
-                        <div className="space-y-1.5 md:col-span-2">
-                          <label className="text-sm text-primary">
+                        <div className="space-y-2 col-span-2">
+                          <label className="text-sm font-medium text-blue-900">
                             Company Name
                           </label>
                           <input
@@ -311,7 +294,7 @@ const Contact = () => {
                             name="company"
                             value={formData.company}
                             onChange={handleInputChange}
-                            className="w-full bg-transparent border-b border-border/50 pb-2 text-foreground focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-transparent border-b-2 border-gray-300 pb-2 text-gray-900 focus:outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
                             placeholder="Your Company"
                           />
                         </div>
@@ -322,13 +305,13 @@ const Contact = () => {
                   {/* Step 2: Project Info */}
                   {step === 2 && (
                     <div className="space-y-5">
-                      <h2 className="text-lg font-semibold text-foreground">
+                      <h2 className="text-lg font-semibold text-gray-900 mb-5">
                         2. Project Info
                       </h2>
 
-                      <div className="space-y-4">
-                        <div className="space-y-1.5 relative dropdown-container">
-                          <label className="text-sm text-primary">
+                      <div className="space-y-5">
+                        <div className="space-y-2 relative dropdown-container">
+                          <label className="text-sm font-medium text-blue-900">
                             What are you looking for?
                           </label>
                           <input
@@ -344,25 +327,25 @@ const Contact = () => {
                               );
                               setShowBudgetDropdown(false);
                             }}
-                            className={`w-full bg-transparent border-b border-border/50 pb-2 text-left text-foreground focus:outline-none focus:border-primary transition-colors flex items-center justify-between ${
+                            className={`w-full bg-transparent border-b-2 border-gray-300 pb-2 text-left text-gray-900 focus:outline-none focus:border-blue-600 transition-colors flex items-center justify-between ${
                               !formData.lookingFor && submitStatus === "error"
-                                ? "border-red-500/50"
+                                ? "border-red-500"
                                 : ""
                             }`}
                           >
                             <span
                               className={
                                 formData.lookingFor
-                                  ? "text-foreground"
-                                  : "text-foreground/50"
+                                  ? "text-gray-900"
+                                  : "text-gray-400"
                               }
                             >
                               {formData.lookingFor || "Select service"}
                             </span>
-                            <span className="text-foreground/50">▼</span>
+                            <span className="text-gray-400">▼</span>
                           </button>
                           {showLookingForDropdown && (
-                            <div className="absolute z-10 w-full mt-1 rounded-lg bg-card border border-border/50 max-h-60 overflow-y-auto shadow-lg">
+                            <div className="absolute z-10 w-full mt-1 rounded-lg bg-white border-2 border-blue-100 max-h-60 overflow-y-auto shadow-xl">
                               {[
                                 "AI & Automation Enablement",
                                 "Start-up Marketing Consultancy",
@@ -388,7 +371,7 @@ const Contact = () => {
                                     if (submitStatus === "error")
                                       setSubmitStatus(null);
                                   }}
-                                  className="w-full px-4 py-2 text-left text-foreground hover:bg-primary/10 transition-colors"
+                                  className="w-full px-4 py-3 text-left text-gray-900 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
                                 >
                                   {option}
                                 </button>
@@ -396,8 +379,10 @@ const Contact = () => {
                             </div>
                           )}
                         </div>
-                        <div className="space-y-1.5 relative dropdown-container">
-                          <label className="text-sm text-primary">Budget</label>
+                        <div className="space-y-2 relative dropdown-container">
+                          <label className="text-sm font-medium text-blue-900">
+                            Budget
+                          </label>
                           <input
                             type="hidden"
                             name="budget"
@@ -409,25 +394,25 @@ const Contact = () => {
                               setShowBudgetDropdown(!showBudgetDropdown);
                               setShowLookingForDropdown(false);
                             }}
-                            className={`w-full bg-transparent border-b border-border/50 pb-2 text-left text-foreground focus:outline-none focus:border-primary transition-colors flex items-center justify-between ${
+                            className={`w-full bg-transparent border-b-2 border-gray-300 pb-2 text-left text-gray-900 focus:outline-none focus:border-blue-600 transition-colors flex items-center justify-between ${
                               !formData.budget && submitStatus === "error"
-                                ? "border-red-500/50"
+                                ? "border-red-500"
                                 : ""
                             }`}
                           >
                             <span
                               className={
                                 formData.budget
-                                  ? "text-foreground"
-                                  : "text-foreground/50"
+                                  ? "text-gray-900"
+                                  : "text-gray-400"
                               }
                             >
                               {formData.budget || "Select budget"}
                             </span>
-                            <span className="text-foreground/50">▼</span>
+                            <span className="text-gray-400">▼</span>
                           </button>
                           {showBudgetDropdown && (
-                            <div className="absolute z-10 w-full mt-1 rounded-lg bg-card border border-border/50 shadow-lg">
+                            <div className="absolute z-10 w-full mt-1 rounded-lg bg-white border-2 border-blue-100 shadow-xl">
                               {[
                                 "1L - 2L",
                                 "2L - 3L",
@@ -447,7 +432,7 @@ const Contact = () => {
                                     if (submitStatus === "error")
                                       setSubmitStatus(null);
                                   }}
-                                  className="w-full px-4 py-2 text-left text-foreground hover:bg-primary/10 transition-colors"
+                                  className="w-full px-4 py-3 text-left text-gray-900 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
                                 >
                                   {option}
                                 </button>
@@ -465,7 +450,7 @@ const Contact = () => {
                       <button
                         type="button"
                         onClick={handleBack}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        className="text-gray-600 hover:text-blue-900 transition-colors font-medium text-sm"
                       >
                         ← Back
                       </button>
@@ -477,7 +462,7 @@ const Contact = () => {
                       <button
                         type="button"
                         onClick={handleNext}
-                        className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity"
+                        className="px-8 py-2.5 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl text-sm"
                       >
                         Next
                       </button>
@@ -485,7 +470,7 @@ const Contact = () => {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-8 py-2.5 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                       >
                         {isSubmitting ? "Sending..." : "Send Message"}
                       </button>
@@ -494,12 +479,12 @@ const Contact = () => {
 
                   {/* Status messages */}
                   {submitStatus === "success" && (
-                    <p className="text-green-400 text-sm text-center mt-4">
+                    <p className="text-green-600 text-sm text-center mt-4 font-medium">
                       ✓ Message sent successfully!
                     </p>
                   )}
                   {submitStatus === "error" && (
-                    <p className="text-red-400 text-sm text-center mt-4 animate-pulse">
+                    <p className="text-red-600 text-sm text-center mt-4 font-medium">
                       ✗{" "}
                       {errorMessage ||
                         "Please fill all required fields and try again."}
@@ -509,54 +494,140 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Sidebar */}
-            <div className="lg:sticky lg:top-32 space-y-12">
-              {/* Support text */}
-              <div>
-                <p className="text-xl lg:text-2xl text-primary-foreground/90 leading-relaxed font-display italic">
+            {/* Right Side - Contact Info and Video */}
+            <div className="lg:sticky lg:top-32 flex flex-col h-full">
+              {/* Support text - Top */}
+              <div className="mb-8">
+                <p className="text-xl lg:text-2xl text-blue-900 leading-relaxed font-semibold">
                   Whether you have a question or need support, we're here to
                   help.
                 </p>
               </div>
 
-              {/* Contact Info */}
-              <div className="grid grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-primary-foreground font-semibold mb-2">
-                      Phone
-                    </h3>
-                    <p className="text-primary-foreground/70">
-                      +1 (555) 123-4567
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-primary-foreground font-semibold mb-2">
-                      Email
-                    </h3>
-                    <a
-                      href="mailto:hello@studio.com"
-                      className="text-primary-foreground/70 hover:underline"
-                    >
-                      hello@studio.com
-                    </a>
-                  </div>
+              {/* Contact Info - Middle */}
+              <div className="space-y-6 mb-8">
+                <div>
+                  <h3 className="text-blue-900 font-bold mb-3 text-base">
+                    Phone
+                  </h3>
+                  <a
+                    href="tel:+917011668984"
+                    className="text-blue-700 hover:text-blue-900 transition-colors block mb-2 text-base"
+                  >
+                    Help Desk - +91 7011668984
+                  </a>
+                  <a
+                    href="tel:+918930410212"
+                    className="text-blue-700 hover:text-blue-900 transition-colors block text-base"
+                  >
+                    Founder Office - +91 8930410212
+                  </a>
                 </div>
                 <div>
-                  <h3 className="text-primary-foreground font-semibold mb-2">
+                  <h3 className="text-blue-900 font-bold mb-3 text-base">
+                    Email
+                  </h3>
+                  <a
+                    href="mailto:hello@mockvel.com"
+                    className="text-blue-700 hover:text-blue-900 transition-colors text-base"
+                  >
+                    hello@mockvel.com
+                  </a>
+                </div>
+                <div>
+                  <h3 className="text-blue-900 font-bold mb-3 text-base">
                     Address
                   </h3>
-                  <p className="text-primary-foreground/70">
-                    123 Creative Ave
-                    <br />
-                    New York, NY 10001
-                  </p>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-blue-900 font-bold text-sm mb-1">
+                        REWARI
+                      </p>
+                      <p className="text-blue-700 text-base">
+                        office no. 4, Garhi Bolni Rd, opp. Eden Gardens, 123401
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-blue-900 font-bold text-sm mb-1">
+                        GURUGRAM
+                      </p>
+                      <p className="text-blue-700 text-base">
+                        2nd floor, Plot No, 90, IDC, DLF Colony, Sector 14,
+                        122007
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Owl Character */}
-              <div className="flex justify-center lg:justify-end mt-8">
-                <CursorFollowingOwl />
+              {/* Video Character - Bottom Right */}
+              <div className="flex justify-start mt-auto">
+                <div className="relative w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border-4 border-blue-200 bg-blue-50 p-4">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-auto object-cover rounded-2xl"
+                  >
+                    <source
+                      src="https://www.yakk.com.au/wp-content/uploads/2025/08/Yak-Wave-Refined-and-Cropped-1.webm"
+                      type="video/webm"
+                    />
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Google Maps Section */}
+          <div className="mt-20 space-y-8">
+            <h2 className="text-3xl lg:text-4xl font-bold text-blue-900 text-center mb-12">
+              Our Offices
+            </h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* REWARI Office Map */}
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-blue-900">
+                  REWARI Office
+                </h3>
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-blue-200 aspect-video">
+                  <iframe
+                    src="https://www.google.com/maps?q=office+no.+4,+Garhi+Bolni+Rd,+opp.+Eden+Gardens,+Rewari,+Haryana+123401&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="REWARI Office"
+                  />
+                </div>
+                <p className="text-blue-700 text-sm">
+                  office no. 4, Garhi Bolni Rd, opp. Eden Gardens, 123401
+                </p>
+              </div>
+
+              {/* GURUGRAM Office Map */}
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-blue-900">
+                  GURUGRAM Office
+                </h3>
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-blue-200 aspect-video">
+                  <iframe
+                    src="https://www.google.com/maps?q=Plot+No+90,+IDC,+DLF+Colony,+Sector+14,+Gurugram,+Haryana+122007&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="GURUGRAM Office"
+                  />
+                </div>
+                <p className="text-blue-700 text-sm">
+                  2nd floor, Plot No, 90, IDC, DLF Colony, Sector 14, 122007
+                </p>
               </div>
             </div>
           </div>

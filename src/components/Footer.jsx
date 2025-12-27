@@ -246,15 +246,11 @@ export default function MockvelFooter() {
         </div>
         <div className="text-center text-lg text-white/80">
           <p>
-            Made with <span className="text-red-400">❤️</span> by{" "}
-            <a
-              href="https://403labs.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className=" hover:text-white transition-colors underline underline-offset-2"
-            >
-              tech partner 403labs
-            </a>
+            Made with <span className="text-red-400">❤️</span> by Tech Partner{" "}
+            <span className="  hover:text-white transition-colors">
+              {" "}
+              403labs
+            </span>
           </p>
         </div>
       </div>{" "}
