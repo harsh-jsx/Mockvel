@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useContactPopup } from "../hooks/useContactPopup";
 import ContactPopup from "./ContactPopup";
+import AnimatedCounter from "./AnimatedCounter";
 gsap.registerPlugin(ScrollTrigger);
 
 const AWARDS = [
@@ -107,7 +108,7 @@ const BrandCarousel = () => {
     return () => ctx.revert();
   }, []);
 
-  const headingText = "Industry Leaders Trust Us. The Numbers Prove Why";
+  const headingText = "Industry Leaders Trust Us.";
 
   return (
     <>
@@ -128,13 +129,18 @@ const BrandCarousel = () => {
           <div className="text-center mb-20 lg:mb-28">
             {/* Label */}
             <div className="flex items-center justify-center gap-4 mb-8">
-              <div className="w-12 h-px bg-primary" />
-              <span className="text-primary text-sm font-medium tracking-[0.2em] uppercase">
+              <div className="w-12 h-px bg-blue-500" />
+              <span className="text-blue-500 text-sm font-medium tracking-[0.2em] uppercase">
                 Recognition
               </span>
-              <div className="w-12 h-px bg-primary" />
-            </div>
 
+              <div className="w-12 h-px bg-blue-500" />
+            </div>
+            <p className="mt-6 text-muted-foreground text-lg max-w-2xl mx-auto">
+              Credibility isn't claimed. It's earned one delivered project, one
+              happy client, one referral at a time. Six years in, the scoreboard
+              speaks for itself.
+            </p>
             {/* Main heading */}
             <div ref={headingRef} className="overflow-hidden">
               <h2 className="font-display text-[8vw] md:text-[6vw] lg:text-[4.8vw] leading-[1.1]  text-black">
@@ -150,18 +156,16 @@ const BrandCarousel = () => {
                   </span>
                 ))}
               </h2>
+              <h3 className="text-4xl md:text-5xl lg:text-6xl pt-2 font-light leading-[1.1] mb-6 sm:mb-8 lg:mb-10">
+                The Numbers Prove Why
+              </h3>
             </div>
 
             {/* Subtext */}
-            <p className="mt-6 text-muted-foreground text-lg max-w-2xl mx-auto">
-              Credibility isn't claimed. It's earned one delivered project, one
-              happy client, one referral at a time. Six years in, the scoreboard
-              speaks for itself.
-            </p>
           </div>
 
           {/* Stats row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8  lg:mb-28">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8  lg:mb-2">
             {[
               { value: "3+", label: "Awards Won" },
               { value: "06", label: "Years of Excellence" },
@@ -174,7 +178,7 @@ const BrandCarousel = () => {
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <div className="text-4xl md:text-5xl font-display text-foreground mb-2 transition-colors duration-300 group-hover:text-primary">
-                  {stat.value}
+                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
                 <div className="text-sm text-muted-foreground uppercase tracking-wider">
                   {stat.label}
@@ -182,7 +186,6 @@ const BrandCarousel = () => {
               </div>
             ))}
           </div>
-
           {/* Marquee container */}
           <div className="relative">
             {/* Gradient masks */}
@@ -251,7 +254,7 @@ const BrandCarousel = () => {
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-2 lg:mt-28 text-center">
+          <div className="mt-2 lg:mt-8 text-center">
             <p className="text-muted-foreground mb-8">
               Ready to create award-winning work together?
             </p>

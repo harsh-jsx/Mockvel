@@ -69,7 +69,6 @@ const AppContent = () => {
           <Route path="/contact" element={<Contact />} />
         </Routes>
 
-        <MockvelFooter />
         <Marquee
           items={[
             "Social Media Strategy",

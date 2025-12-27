@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useContactPopup } from "../hooks/useContactPopup";
@@ -9,8 +9,10 @@ const VideoTestimonials = () => {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   const trackRef = useRef(null);
+  const marqueeAnimationRef = useRef(null);
   const [activeVideo, setActiveVideo] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
   const { open, openPopup, closePopup } = useContactPopup();
   const videos = [
     {
@@ -56,6 +58,84 @@ const VideoTestimonials = () => {
     return `https://youtube.com/shorts/i5Ek0RDZDD0?si=Bb8nDnwHEDeUV3G5`;
   };
 
+  const handleNext = useCallback(() => {
+    const track = trackRef.current;
+    if (!track || !marqueeAnimationRef.current) return;
+
+    const groups = gsap.utils.toArray(".video-group");
+    if (groups.length < 1) return;
+
+    const firstCard = groups[0].querySelector("div");
+    if (!firstCard) return;
+
+    const cardWidth = firstCard.offsetWidth || 450;
+    const gap = 32; // gap-8 = 32px
+    const scrollAmount = cardWidth + gap;
+
+    const currentX = gsap.getProperty(track, "x") || 0;
+    const newX = currentX - scrollAmount;
+
+    // Pause auto-scroll temporarily
+    if (marqueeAnimationRef.current) {
+      marqueeAnimationRef.current.pause();
+      setIsPaused(true);
+    }
+
+    gsap.to(track, {
+      x: newX,
+      duration: 0.8,
+      ease: "power2.out",
+      onComplete: () => {
+        // Resume auto-scroll after a delay
+        setTimeout(() => {
+          if (marqueeAnimationRef.current) {
+            setIsPaused(false);
+            marqueeAnimationRef.current.resume();
+          }
+        }, 2000);
+      },
+    });
+  }, []);
+
+  const handlePrevious = useCallback(() => {
+    const track = trackRef.current;
+    if (!track || !marqueeAnimationRef.current) return;
+
+    const groups = gsap.utils.toArray(".video-group");
+    if (groups.length < 1) return;
+
+    const firstCard = groups[0].querySelector("div");
+    if (!firstCard) return;
+
+    const cardWidth = firstCard.offsetWidth || 450;
+    const gap = 32;
+    const scrollAmount = cardWidth + gap;
+
+    const currentX = gsap.getProperty(track, "x") || 0;
+    const newX = currentX + scrollAmount;
+
+    // Pause auto-scroll temporarily
+    if (marqueeAnimationRef.current) {
+      marqueeAnimationRef.current.pause();
+      setIsPaused(true);
+    }
+
+    gsap.to(track, {
+      x: newX,
+      duration: 0.8,
+      ease: "power2.out",
+      onComplete: () => {
+        // Resume auto-scroll after a delay
+        setTimeout(() => {
+          if (marqueeAnimationRef.current) {
+            setIsPaused(false);
+            marqueeAnimationRef.current.resume();
+          }
+        }, 2000);
+      },
+    });
+  }, []);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Heading animation
@@ -90,7 +170,7 @@ const VideoTestimonials = () => {
 
         const groupWidth = groups[0].offsetWidth;
 
-        gsap.to(track, {
+        marqueeAnimationRef.current = gsap.to(track, {
           x: -groupWidth,
           duration: 35,
           ease: "none",
@@ -267,18 +347,112 @@ const VideoTestimonials = () => {
             </div>
           </div>
 
+          {/* Navigation Buttons */}
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-8 lg:mt-12 flex items-center justify-center gap-4">
+            <button
+              onClick={handlePrevious}
+              className="group relative w-14 h-14 lg:w-16 lg:h-16 rounded-full border border-border/50 bg-card/80 backdrop-blur-sm flex items-center justify-center transition-all duration-500 hover:border-primary/50 hover:bg-primary/10 hover:scale-110 hover:shadow-lg hover:shadow-primary/20 active:scale-95"
+              aria-label="Previous video"
+            >
+              {/* Glow effect */}
+              <div className="absolute inset-0 rounded-full bg-primary/0 group-hover:bg-primary/20 blur-xl transition-all duration-500" />
+
+              {/* Icon */}
+              <svg
+                className="w-5 h-5 lg:w-6 lg:h-6 text-foreground/70 group-hover:text-primary transition-all duration-500 group-hover:-translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Divider */}
+            <div className="w-px h-8 bg-border/50" />
+
+            <button
+              onClick={handleNext}
+              className="group relative w-14 h-14 lg:w-16 lg:h-16 rounded-full border border-border/50 bg-card/80 backdrop-blur-sm flex items-center justify-center transition-all duration-500 hover:border-primary/50 hover:bg-primary/10 hover:scale-110 hover:shadow-lg hover:shadow-primary/20 active:scale-95"
+              aria-label="Next video"
+            >
+              {/* Glow effect */}
+              <div className="absolute inset-0 rounded-full bg-primary/0 group-hover:bg-primary/20 blur-xl transition-all duration-500" />
+
+              {/* Icon */}
+              <svg
+                className="w-5 h-5 lg:w-6 lg:h-6 text-foreground/70 group-hover:text-primary transition-all duration-500 group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+
           {/* Bottom CTA */}
           <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-16 lg:mt-24">
             <div className="relative group">
-              {/* Gradient background effect */}
+              {/* Background gradient glows - similar to home page */}
+              <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden rounded-3xl">
+                {/* Top glow */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-20 w-[600px] h-[300px] blur-[100px] opacity-40 bg-purple-600" />
+                
+                {/* Left glow */}
+                <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-[300px] h-[400px] blur-[80px] opacity-30 bg-fuchsia-600" />
+                
+                {/* Right glow */}
+                <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-[300px] h-[400px] blur-[80px] opacity-30 bg-indigo-600" />
+                
+                {/* Center radial gradient */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at center, hsl(270 100% 50% / 0.15), transparent 70%)",
+                  }}
+                />
+              </div>
+
+              {/* Gradient background effect on hover */}
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary/20 via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl" />
 
               {/* Main CTA container */}
-              <div className="relative flex flex-col sm:flex-row items-center justify-between gap-8 p-10 lg:p-12 rounded-3xl bg-gradient-to-br from-card/80 via-card/60 to-card/40 border border-border/30 backdrop-blur-xl shadow-2xl shadow-primary/5 hover:shadow-primary/10 transition-all duration-500 hover:border-primary/30 overflow-hidden">
+              <div
+                className="relative flex flex-col sm:flex-row items-center justify-between gap-8 p-10 lg:p-12 rounded-3xl bg-gradient-to-br from-card/80 via-card/60 to-card/40 border border-border/30 backdrop-blur-xl transition-all duration-500 hover:border-primary/30 overflow-hidden"
+                style={{
+                  boxShadow: `
+                    0 0 0 1px hsl(0 0% 100% / 0.05),
+                    0 20px 60px -20px hsl(0 0% 0% / 0.6),
+                    0 0 100px -30px hsl(270 100% 50% / 0.2),
+                    inset 0 1px 0 0 hsl(0 0% 100% / 0.1)
+                  `,
+                }}
+              >
                 {/* Animated background pattern */}
                 <div className="absolute inset-0 opacity-5">
                   <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,.1)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px] animate-pulse" />
                 </div>
+
+                {/* Glass reflection effect */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, hsl(0 0% 100% / 0.08), transparent 45%)",
+                  }}
+                />
 
                 {/* Content */}
                 <div className="relative z-10 flex-1">
@@ -293,7 +467,13 @@ const VideoTestimonials = () => {
                 {/* CTA Button */}
                 <button
                   onClick={openPopup}
-                  className="group/btn relative px-10 py-5 bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40 flex-shrink-0 z-10"
+                  className="group/btn relative px-10 py-5 bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground rounded-full overflow-hidden transition-all duration-500 hover:scale-105 flex-shrink-0 z-10"
+                  style={{
+                    boxShadow: `
+                      0 10px 40px -10px hsl(270 100% 50% / 0.4),
+                      0 0 60px -20px hsl(270 100% 50% / 0.3)
+                    `,
+                  }}
                 >
                   {/* Shimmer effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />

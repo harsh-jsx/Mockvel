@@ -46,13 +46,13 @@ const DATA = {
       title:
         "Digital Marketing for Pharma Industry: Build Visibility, Trust & Growth",
       date: "November 28, 2025",
-      image: "https://images.unsplash.com/photo-1581091012184-7c54b1d7c3f3",
+      image: "https://images.unsplash.com/photo-1521334884684-d80222895322",
     },
     {
       title:
         "Digital Marketing for Healthcare Industry: Growth & Patient Trust",
       date: "November 21, 2025",
-      image: "https://images.unsplash.com/photo-1580281657527-47d45c0b0b33",
+      image: "https://images.unsplash.com/photo-1521334884684-d80222895322",
     },
   ],
 };

@@ -132,7 +132,7 @@ const Loader = ({ onComplete }) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+      className="fixed inset-0 z-[9999] bg-white text-black flex items-center justify-center"
       style={{
         willChange: "transform, opacity",
         backfaceVisibility: "hidden",
@@ -157,7 +157,7 @@ const Loader = ({ onComplete }) => {
           {/* First message */}
           <h1
             ref={firstTextRef}
-            className="font-founders font-bold text-white
+            className="font-founders font-bold text-black
                        text-3xl md:text-5xl lg:text-7xl tracking-tight whitespace-nowrap"
             style={{
               WebkitFontSmoothing: "antialiased",
@@ -169,7 +169,7 @@ const Loader = ({ onComplete }) => {
           {/* Second message - positioned in same place */}
           <h2
             ref={secondTextRef}
-            className="absolute font-founders font-bold text-white tracking-tight whitespace-nowrap text-3xl md:text-5xl lg:text-7xl"
+            className="absolute font-founders font-bold text-black tracking-tight whitespace-nowrap text-3xl md:text-5xl lg:text-7xl"
           >
             Every Entrepreneur's Choice
           </h2>

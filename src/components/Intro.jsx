@@ -1,8 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useContactPopup } from "../hooks/useContactPopup";
-import ContactPopup from "./ContactPopup";
+
 gsap.registerPlugin(ScrollTrigger);
 
 // Counter animation component
@@ -91,22 +90,19 @@ const SplitText = ({ text, className = "" }) => {
 
 const Intro = () => {
   const sectionRef = useRef(null);
-  const headingRef = useRef(null);
-  const videoRef = useRef(null);
+  const desktopHeadingRef = useRef(null);
+  const mobileHeadingRef = useRef(null);
   const videoContainerRef = useRef(null);
   const statsRef = useRef(null);
-  const [showModal, setShowModal] = useState(false);
-  const { open, openPopup, closePopup } = useContactPopup();
-  const thumbnailUrl =
-    "https://mockvel.com/wp-content/uploads/2025/11/IMG-20250427-WA0020-1024x348.jpg";
-  const vidUrl =
-    "https://webskitters.com/landing-pages/images-ln/A-National-Award-Is-A-Pride-Forever-National-MSME-Award-Winner-Webskitters.mp4";
+
+  // YouTube Shorts video ID (portrait format)
+  const youtubeShortId = "i5Ek0RDZDD0"; // Replace with your actual YouTube Shorts ID
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Main heading animation - character split
-      if (headingRef.current) {
-        const chars = headingRef.current.querySelectorAll(".char");
+      // Desktop heading animation - character split
+      if (desktopHeadingRef.current) {
+        const chars = desktopHeadingRef.current.querySelectorAll(".char");
         gsap.set(chars, { y: 120, opacity: 0, rotateX: -90 });
 
         gsap.to(chars, {
@@ -117,7 +113,25 @@ const Intro = () => {
           stagger: 0.03,
           ease: "power4.out",
           scrollTrigger: {
-            trigger: headingRef.current,
+            trigger: desktopHeadingRef.current,
+            start: "top 85%",
+          },
+        });
+      }
+
+      // Mobile heading animation - character split
+      if (mobileHeadingRef.current) {
+        const chars = mobileHeadingRef.current.querySelectorAll(".char");
+        gsap.set(chars, { y: 60, opacity: 0 });
+
+        gsap.to(chars, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.02,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: mobileHeadingRef.current,
             start: "top 85%",
           },
         });
@@ -176,243 +190,196 @@ const Intro = () => {
     return () => ctx.revert();
   }, []);
 
-  // Modal video controls
-  useEffect(() => {
-    if (!showModal && videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-  }, [showModal]);
-
   const headingText = "Who We Are";
 
   const stats = [
     { value: 3.4, suffix: "x", label: "Campaign ROI" },
-    { value: 369, suffix: "+", label: "Projects Shipped" },
-    { value: 101, suffix: "%", label: "Satisfaction Rate" },
+    { value: 180, suffix: "+", label: "Projects Shipped" },
+    { value: 62, suffix: "", label: "Client NPS" },
   ];
 
   const features = [
-    "we optimize for your bottom line, not our portfolio",
-    "From scrappy startup launches to enterprise rebrands ..we've been in the trenches, and we know what works",
-    "Our clients don't just stick around. They refer us. That's the only score that matters",
+    "Performance-first creative and media",
+    "Full-funnel storytelling across channels",
+    "Fast experiments, clear reporting, real results",
   ];
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen bg-background overflow-hidden py-12 lg:py-32"
+      className="relative min-h-screen bg-background overflow-hidden py-24 lg:py-32"
     >
       {/* Subtle gradient orb */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/3 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Section label */}
-        <div className="mb-8 overflow-hidden">
-          <div
-            className="flex items-center gap-4 animate-fade-up"
-            style={{ animationDelay: "0.1s" }}
-          >
-            <div className="w-12 h-px bg-primary" />
-            <span className="text-primary text-sm font-medium tracking-[0.2em] uppercase">
-              About Us
-            </span>
-          </div>
-        </div>
-
-        {/* Main heading */}
-        <h1
-          ref={headingRef}
-          className="font-display text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.9] tracking-tight mb-6 lg:mb-24"
-        >
-          {headingText.split("").map((char, i) => (
-            <span
-              key={i}
-              className="char inline-block"
+        <div className="flex">
+          {/* Vertical heading on the left - Desktop only */}
+          <div className="hidden lg:flex items-start justify-center pr-8 lg:pr-16 sticky top-32 self-start">
+            <h1
+              ref={desktopHeadingRef}
+              className="font-display text-[5rem] xl:text-[6rem] leading-[0.85] tracking-tight text-foreground"
               style={{
-                transformOrigin: "center bottom",
-                color: char === " " ? "transparent" : undefined,
-                marginRight: char === " " ? "0.15em" : undefined,
+                writingMode: "vertical-rl",
+                textOrientation: "mixed",
+                transform: "rotate(180deg)",
               }}
             >
-              {char === " " ? "\u00A0" : char}
-            </span>
-          ))}
-        </h1>
-
-        {/* Content grid */}
-        <div className="grid lg:grid-cols-2 lg:gap-24 items-start">
-          {/* Left column - Text content */}
-          <div className="space-y-12">
-            {/* Description */}
-            <div className="space-y-6">
-              <SplitText
-                text="Mockvel is a premier digital marketing agency crafting unmatched success for brands."
-                className="text-2xl md:text-3xl lg:text-4xl font-display text-foreground/90 leading-[1.3]"
-              />
-
-              <p
-                className="text-muted-foreground text-lg leading-relaxed max-w-xl animate-fade-up"
-                style={{ animationDelay: "0.4s", opacity: 0 }}
-              >
-                We started MOCKVEL after watching great businesses fail—not
-                because their products were weak, but because their marketing
-                was. Too many agencies focus on looking clever instead of
-                delivering results. We built MOCKVEL differently. We think like
-                entrepreneurs because we are. We understand cash-flow pressure,
-                failed campaigns, and the weight of every marketing decision.
-                That’s why we don’t chase vanity metrics or pretty decks. We
-                build marketing that actually moves your business forward—more
-                customers, stronger positioning, and real growth.
-              </p>
-            </div>
-
-            {/* Features list */}
-
-            {/* CTA Button */}
-            <div
-              className="animate-fade-up"
-              style={{ animationDelay: "0.8s", opacity: 0 }}
-            >
-              <button
-                onClick={openPopup}
-                className="group relative px-10 py-5 bg-transparent border border-foreground/20 rounded-full overflow-hidden transition-all duration-500 hover:border-primary/50"
-              >
-                <span className="relative z-10 text-foreground font-medium tracking-wide uppercase text-sm flex items-center gap-3 transition-colors duration-500 group-hover:text-primary">
-                  Who We Are
-                  <svg
-                    className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
+              {headingText.split("").map((char, i) => (
+                <span
+                  key={`desktop-${i}`}
+                  className="char inline-block"
+                  style={{
+                    transformOrigin: "center bottom",
+                    color: char === " " ? "transparent" : undefined,
+                    marginBottom: char === " " ? "0.25em" : undefined,
+                  }}
+                >
+                  {char === " " ? "\u00A0" : char}
                 </span>
-                <div className="absolute inset-0 bg-primary/10 translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
-              </button>
-            </div>
+              ))}
+            </h1>
           </div>
 
-          {/* Right column - Video */}
-          <div ref={videoContainerRef} className="relative">
-            <div
-              className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer group"
-              onClick={() => setShowModal(true)}
-            >
-              {/* Video thumbnail */}
-              <img
-                src={thumbnailUrl}
-                alt="Award highlight"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+          {/* Mobile heading */}
+          <h1
+            ref={mobileHeadingRef}
+            className="lg:hidden font-display text-[12vw] md:text-[10vw] leading-[0.9] tracking-tight mb-12"
+          >
+            {headingText.split("").map((char, i) => (
+              <span
+                key={`mobile-${i}`}
+                className="char inline-block"
+                style={{
+                  transformOrigin: "center bottom",
+                  color: char === " " ? "transparent" : undefined,
+                  marginRight: char === " " ? "0.15em" : undefined,
+                }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+          </h1>
 
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+          {/* Main content area */}
+          <div className="flex-1">
+            {/* Content grid */}
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+              {/* Left column - Text content */}
+              <div className="space-y-8">
+                {/* Description */}
+                <SplitText
+                  text="Fueled by creativity, collaboration, and excellence, Mockvel is a premier digital marketing agency crafting unmatched success for brands and creators alike."
+                  className="text-2xl md:text-3xl lg:text-4xl font-display text-foreground/90 leading-[1.3]"
+                />
 
-              {/* Play button */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative">
-                  {/* Pulse ring */}
-                  <div
-                    className="absolute inset-0 rounded-full bg-primary/30 animate-ping"
-                    style={{ animationDuration: "2s" }}
-                  />
+                {/* Stats section - directly beneath SplitText */}
+                <div ref={statsRef} className="pt-8 border-t border-border/50">
+                  <div className="grid grid-cols-3 gap-2">
+                    {stats.map((stat, i) => (
+                      <div
+                        key={stat.label}
+                        className="stat-card p-2 rounded-xl transition-all duration-500 hover:-translate-y-1"
+                      >
+                        <div className="text-3xl md:text-4xl lg:text-5xl font-display text-foreground mb-2">
+                          <AnimatedCounter
+                            target={stat.value}
+                            suffix={stat.suffix}
+                            duration={2 + i * 0.3}
+                          />
+                        </div>
+                        <div className="text-muted-foreground text-xs lg:text-sm uppercase tracking-wider">
+                          {stat.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-                  {/* Button */}
-                  <button className="relative w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-primary flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
-                    <svg
-                      className="w-8 h-8 lg:w-10 lg:h-10 text-primary-foreground ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
+                <p
+                  className="text-muted-foreground text-lg leading-relaxed max-w-xl animate-fade-up"
+                  style={{ animationDelay: "0.4s", opacity: 0 }}
+                >
+                  We build brand experiences that blend strategy, design, and
+                  performance marketing. From launch to scale, our team partners
+                  with you to ship campaigns, content, and products that
+                  convert.
+                </p>
+
+                {/* Features list */}
+                <ul className="space-y-4">
+                  {features.map((feature, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start gap-4 text-foreground/80 animate-fade-up"
+                      style={{
+                        animationDelay: `${0.5 + i * 0.1}s`,
+                        opacity: 0,
+                      }}
                     >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
+                      <span className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
+                      <span className="text-lg">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA Button */}
+                <div
+                  className="animate-fade-up"
+                  style={{ animationDelay: "0.8s", opacity: 0 }}
+                >
+                  <button className="group relative px-10 py-5 bg-transparent border border-foreground/20 rounded-full overflow-hidden transition-all duration-500 hover:border-primary/50">
+                    <span className="relative z-10 text-foreground font-medium tracking-wide uppercase text-sm flex items-center gap-3 transition-colors duration-500 group-hover:text-primary">
+                      Learn More
+                      <svg
+                        className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
+                      </svg>
+                    </span>
+                    <div className="absolute inset-0 bg-primary/10 translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
                   </button>
                 </div>
               </div>
 
-              {/* Corner accent */}
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-primary/30 rounded-2xl -z-10" />
-            </div>
-            <div
-              ref={statsRef}
-              className="mt-4 lg:mt-32 pt-4 md:pt-16 border-t border-border/50"
-            >
-              <div className="grid grid-cols-3 gap-4 md:gap-8">
-                {stats.map((stat, i) => (
-                  <div
-                    key={stat.label}
-                    className="stat-card p-4 md:p-8 rounded-2xl transition-all duration-500 hover:-translate-y-2"
-                  >
-                    <div className="text-2xl md:text-6xl lg:text-7xl font-display text-foreground mb-2 md:mb-4">
-                      <AnimatedCounter
-                        target={stat.value}
-                        suffix={stat.suffix}
-                        duration={2 + i * 0.3}
-                      />
-                    </div>
-                    <div className="text-muted-foreground text-xs md:text-sm uppercase tracking-wider">
-                      {stat.label}
-                    </div>
+              {/* Right column - Portrait YouTube Shorts Video */}
+              <div
+                ref={videoContainerRef}
+                className="relative flex justify-center lg:justify-end"
+              >
+                <div className="relative w-full max-w-[280px] lg:max-w-[500px]">
+                  {/* Portrait video container */}
+                  <div className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border/50 shadow-2xl">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${youtubeShortId}?autoplay=1&mute=1&loop=1&playlist=${youtubeShortId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+                      className="absolute inset-0 w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="YouTube Shorts"
+                    />
+
+                    {/* Subtle overlay gradient at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
                   </div>
-                ))}
+
+                  {/* Corner accent */}
+
+                  {/* Floating label */}
+                </div>
               </div>
             </div>
-            {/* Floating label */}
           </div>
         </div>
-
-        {/* Stats section */}
       </div>
-
-      {/* Video Modal */}
-      {showModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-background backdrop-blur-xl px-4"
-          onClick={() => setShowModal(false)}
-        >
-          <div
-            className="relative w-full max-w-5xl animate-scale-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <video
-              ref={videoRef}
-              src={vidUrl}
-              className="w-full rounded-2xl"
-              controls
-              playsInline
-              autoPlay
-            />
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute -top-16 right-0 text-foreground/70 hover:text-foreground transition-colors flex items-center gap-2"
-            >
-              <span className="text-sm uppercase tracking-wider">Close</span>
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
-      <ContactPopup open={open} onClose={closePopup} />
     </section>
   );
 };

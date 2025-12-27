@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -91,25 +91,74 @@ const row6 = [
   { name: "MCA", logo: "/Clients/MCA.jpg" },
 ];
 
-const LogoItem = ({ name, logo }) => (
-  <div className="flex-shrink-0 flex items-center justify-center h-16 w-36 md:h-20 md:w-44 rounded-2xl bg-white/10 border border-white/20 hover:bg-white/15 hover:border-white/40 transition-all duration-300 group cursor-pointer overflow-hidden backdrop-blur-sm">
-    <img
-      src={logo}
-      alt={name}
-      className="h-8 md:h-10 w-auto max-w-[85%] object-contain opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
-      onError={(e) => {
-        const target = e.target;
-        target.style.display = "none";
-        if (target.parentElement) {
-          target.parentElement.innerHTML = `<span class="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">${name}</span>`;
-        }
-      }}
-    />
-  </div>
-);
+const LogoItem = ({ name, logo, isVisible }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const imgRef = useRef(null);
 
-const MarqueeRow = ({ items, direction = "left", speed = 30 }) => {
-  const duplicatedItems = [...items, ...items, ...items];
+  useEffect(() => {
+    if (isVisible && imgRef.current) {
+      // Check if image is already loaded (cached)
+      if (imgRef.current.complete && imgRef.current.naturalHeight !== 0) {
+        setImageLoaded(true);
+      } else {
+        // If not loaded, wait a bit and check again (for slow connections)
+        const checkLoaded = () => {
+          if (
+            imgRef.current &&
+            imgRef.current.complete &&
+            imgRef.current.naturalHeight !== 0
+          ) {
+            setImageLoaded(true);
+          }
+        };
+        const timeout = setTimeout(checkLoaded, 100);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [isVisible]);
+
+  return (
+    <div className="flex-shrink-0 flex items-center justify-center h-16 w-36 md:h-20 md:w-44 rounded-2xl bg-white/10 border border-white/20 hover:bg-white/15 hover:border-white/40 transition-all duration-300 group cursor-pointer overflow-hidden backdrop-blur-sm relative">
+      {!imageLoaded && !imageError && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="h-8 md:h-10 w-24 md:w-32 bg-white/5 animate-pulse rounded" />
+        </div>
+      )}
+      {isVisible && (
+        <img
+          ref={imgRef}
+          src={logo}
+          alt={name}
+          loading="lazy"
+          decoding="async"
+          className={`h-8 md:h-10 w-auto max-w-[85%] object-contain group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 ${
+            imageLoaded ? "opacity-90" : "opacity-0"
+          }`}
+          onLoad={() => setImageLoaded(true)}
+          onError={() => {
+            setImageError(true);
+            setImageLoaded(false);
+          }}
+        />
+      )}
+      {imageError && (
+        <span className="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">
+          {name}
+        </span>
+      )}
+    </div>
+  );
+};
+
+const MarqueeRow = ({
+  items,
+  direction = "left",
+  speed = 30,
+  isVisible = false,
+}) => {
+  // Reduce duplicates from 3 to 2 for better performance (still seamless)
+  const duplicatedItems = [...items, ...items];
 
   return (
     <div className="relative overflow-hidden py-2">
@@ -119,13 +168,17 @@ const MarqueeRow = ({ items, direction = "left", speed = 30 }) => {
             ? "animate-marquee-left"
             : "animate-marquee-right"
         }`}
-        style={{ animationDuration: `${speed}s` }}
+        style={{
+          animationDuration: `${speed}s`,
+          willChange: "transform",
+        }}
       >
         {duplicatedItems.map((item, i) => (
           <LogoItem
             key={`${item.name}-${i}`}
             name={item.name}
             logo={item.logo}
+            isVisible={isVisible}
           />
         ))}
       </div>
@@ -135,8 +188,47 @@ const MarqueeRow = ({ items, direction = "left", speed = 30 }) => {
 
 export default function ClientsMarquee() {
   const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Check if section is already visible on mount
+    if (sectionRef.current) {
+      const rect = sectionRef.current.getBoundingClientRect();
+      const isInViewport =
+        rect.top < window.innerHeight + 200 && rect.bottom > -200;
+
+      if (isInViewport) {
+        setIsVisible(true);
+        return;
+      }
+    }
+
+    // Intersection Observer for lazy loading images
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        rootMargin: "200px", // Start loading 200px before section is visible
+        threshold: 0.1,
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".marquee-row",
@@ -157,7 +249,7 @@ export default function ClientsMarquee() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isVisible]);
 
   return (
     <section
@@ -296,12 +388,6 @@ export default function ClientsMarquee() {
 
         <div className="relative pt-20 pb-8 px-6">
           {/* Badge */}
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
-              <div className="w-2 h-2 rounded-full bg-primary" />
-              <span className="text-sm text-gray-300">Our Clients</span>
-            </div>
-          </div>
 
           {/* Heading */}
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-center mb-4">
@@ -322,21 +408,49 @@ export default function ClientsMarquee() {
         </div>
 
         {/* Marquee Rows */}
-        <div className="relative space-y-4 md:pb-12">
+        <div
+          className="relative space-y-4 md:pb-12"
+          style={{ contain: "layout style paint" }}
+        >
           <div className="marquee-row">
-            <MarqueeRow items={row1} direction="left" speed={40} />
+            <MarqueeRow
+              items={row1}
+              direction="left"
+              speed={5}
+              isVisible={isVisible}
+            />
           </div>
           <div className="marquee-row">
-            <MarqueeRow items={row2} direction="right" speed={45} />
+            <MarqueeRow
+              items={row2}
+              direction="right"
+              speed={9}
+              isVisible={isVisible}
+            />
           </div>
           <div className="marquee-row">
-            <MarqueeRow items={row3} direction="left" speed={38} />
+            <MarqueeRow
+              items={row3}
+              direction="left"
+              speed={12}
+              isVisible={isVisible}
+            />
           </div>
           <div className="marquee-row">
-            <MarqueeRow items={row4} direction="right" speed={42} />
+            <MarqueeRow
+              items={row4}
+              direction="right"
+              speed={15}
+              isVisible={isVisible}
+            />
           </div>
           <div className="marquee-row">
-            <MarqueeRow items={row5} direction="left" speed={44} />
+            <MarqueeRow
+              items={row5}
+              direction="left"
+              speed={9}
+              isVisible={isVisible}
+            />
           </div>
 
           {/* Side fades inside container */}

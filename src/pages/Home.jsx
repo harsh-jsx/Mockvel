@@ -23,8 +23,8 @@ const Home = () => {
       <Home2 />
 
       <Intro />
-      <WhyChooseUs />
       <ClientsMarquee />
+      <WhyChooseUs />
 
       <BrandCarousel />
       {/* <RotatingTalents /> */}

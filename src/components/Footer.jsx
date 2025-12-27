@@ -57,7 +57,6 @@ export default function MockvelFooter() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-white/5 blur-[180px]" />
         <div className="absolute bottom-[-30%] right-[-20%] w-[720px] h-[720px] bg-[#5b4bff]/15 blur-[220px]" />
-        <div className="absolute top-12 left-10 w-3 h-3 rounded-full bg-white shadow-[0_0_30px_rgba(255,255,255,0.6)]" />
       </div>
       {/* CTA */}
       <div className="relative z-10 mb-24">
@@ -85,11 +84,13 @@ export default function MockvelFooter() {
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-12 text-sm font-neue">
         {[
           {
-            title: "Mockvel",
+            title: "our capabilities",
             items: [
-              "High-performance web",
-              "Brand-driven UX",
-              "Scalable systems",
+              "AI & Automation",
+              "Start-up Marketing Consultancy",
+              "Personal Branding & PR",
+              "AI-Powered Videos",
+              "WhatsApp Marketing",
             ],
           },
           {
@@ -116,10 +117,24 @@ export default function MockvelFooter() {
           {
             title: "Contact",
             items: [
-              "Help Desk - +91 7011668984",
-              "Founder Office - +91 8930410212",
-              "REWARI - office no. 4, Garhi Bolni Rd, opp. Eden Gardens, 123401",
-              "GURUGRAM - 2nd floor, Plot No, 90, IDC, DLF Colony, Sector 14, 122007",
+              { type: "phone", label: "Help Desk", number: "+91 7011668984" },
+              {
+                type: "phone",
+                label: "Founder Office",
+                number: "+91 8930410212",
+              },
+              {
+                type: "address",
+                city: "REWARI",
+                address:
+                  "office no. 4, Garhi Bolni Rd, opp. Eden Gardens, 123401",
+              },
+              {
+                type: "address",
+                city: "GURUGRAM",
+                address:
+                  "2nd floor, Plot No, 90, IDC, DLF Colony, Sector 14, 122007",
+              },
             ],
           },
         ].map((col, i) => (
@@ -131,14 +146,55 @@ export default function MockvelFooter() {
             <p className="text-white/50 uppercase tracking-wider text-xs">
               {col.title}
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {col.items.map((item, idx) => {
-                const isPhone = item.includes("+91");
+                // Handle new Contact structure
+                if (col.title === "Contact" && typeof item === "object") {
+                  if (item.type === "phone") {
+                    const phoneNumber = item.number.replace(/\s/g, "");
+                    return (
+                      <li key={idx} className="group">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-white/50 text-xs uppercase tracking-wider">
+                            {item.label}
+                          </span>
+                          <a
+                            href={`tel:${phoneNumber}`}
+                            className="text-white/90 hover:text-white transition-colors flex items-center gap-2 group-hover:gap-3"
+                          >
+                            <span className="font-medium">{item.number}</span>
+                            <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-sm">
+                              →
+                            </span>
+                          </a>
+                        </div>
+                      </li>
+                    );
+                  } else if (item.type === "address") {
+                    return (
+                      <li key={idx} className="group">
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-white/50 text-xs uppercase tracking-wider font-semibold">
+                            {item.city}
+                          </span>
+                          <span className="text-white/70 text-sm leading-relaxed">
+                            {item.address}
+                          </span>
+                        </div>
+                      </li>
+                    );
+                  }
+                }
+
+                // Handle other columns (original logic)
+                const isPhone =
+                  typeof item === "string" && item.includes("+91");
                 const phoneNumber = isPhone
                   ? item.match(/\+91\s?\d+/)?.[0]
                   : null;
                 const isAddress =
                   col.title === "Contact" &&
+                  typeof item === "string" &&
                   (item.includes("REWARI") || item.includes("GURUGRAM"));
 
                 return (

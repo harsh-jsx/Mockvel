@@ -6,9 +6,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
 const Services = () => {
-  const text = `We create stunning digital experiences
-    that elevate your brand and drive results
-    not just websites.`;
+  const text = ``;
   const serviceRefs = useRef([]);
   const isDesktop = useMediaQuery({ minWidth: "48rem" }); //768px
   useGSAP(() => {
@@ -80,7 +78,7 @@ const Services = () => {
                   </div>
                 ))}
               </div>
-              <button className="group w-full md:w-auto hover:bg-white/80 transition-all duration-300 flex items-center justify-center gap-2 md:gap-3 px-6 py-3 md:px-4 md:py-2 bg-white text-black rounded-full font-medium text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+              <button className="group w-1/3 hover:bg-white/80 transition-all duration-300 flex items-center justify-center gap-2 md:gap-3 px-6 py-3 md:px-4 md:py-2 bg-white text-black rounded-full font-medium text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
                 <span>View More</span>
                 <svg
                   className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-1"

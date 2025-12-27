@@ -139,7 +139,7 @@ const Navbar = () => {
               <img
                 src={logo}
                 alt="logo"
-                className="h-15 md:h-14 lg:h-16 w-auto object-contain"
+                className="h-10 md:h-12 lg:h-14 w-auto object-contain"
               />
             </motion.div>
 

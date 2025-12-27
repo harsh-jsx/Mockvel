@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -30,6 +30,8 @@ const CaseStudiesScroller = () => {
   const cursorRef = useRef(null);
   const scrollTriggerRef = useRef(null);
   const resizeObserverRef = useRef(null);
+  const cursorTweenRef = useRef(null);
+  const rafRef = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -38,65 +40,126 @@ const CaseStudiesScroller = () => {
     if (!section || !track || !cursor) return;
 
     const ctx = gsap.context(() => {
-      // custom cursor follow
-      const moveCursor = (e) => {
-        const rect = section.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        gsap.to(cursor, {
-          x,
-          y,
-          duration: 0.3,
-          ease: "power3.out",
+      // Optimized cursor follow using requestAnimationFrame
+      let cursorX = 0;
+      let cursorY = 0;
+      let targetX = 0;
+      let targetY = 0;
+
+      const updateCursor = () => {
+        const dx = targetX - cursorX;
+        const dy = targetY - cursorY;
+        cursorX += dx * 0.15;
+        cursorY += dy * 0.15;
+
+        gsap.set(cursor, {
+          x: cursorX,
+          y: cursorY,
+          force3D: true,
         });
+
+        if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+          rafRef.current = requestAnimationFrame(updateCursor);
+        }
       };
 
-      const handleEnter = () => cursor.classList.remove("opacity-0");
-      const handleLeave = () => cursor.classList.add("opacity-0");
+      const moveCursor = (e) => {
+        const rect = section.getBoundingClientRect();
+        targetX = e.clientX - rect.left;
+        targetY = e.clientY - rect.top;
 
-      section.addEventListener("mousemove", moveCursor);
+        if (!rafRef.current) {
+          rafRef.current = requestAnimationFrame(updateCursor);
+        }
+      };
+
+      const handleEnter = () => {
+        cursor.classList.remove("opacity-0");
+        const rect = section.getBoundingClientRect();
+        cursorX = targetX = rect.width / 2;
+        cursorY = targetY = rect.height / 2;
+      };
+
+      const handleLeave = () => {
+        cursor.classList.add("opacity-0");
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
+      };
+
+      section.addEventListener("mousemove", moveCursor, { passive: true });
       section.addEventListener("mouseenter", handleEnter);
       section.addEventListener("mouseleave", handleLeave);
 
       const getScrollWidth = () =>
         Math.max(track.scrollWidth - section.clientWidth, 0);
 
-      gsap.set(track, { x: 0 });
+      // Set initial position with force3D for better performance
+      gsap.set(track, { x: 0, force3D: true });
+
+      // Debounce resize observer
+      let resizeTimeout;
+      const handleResizeObserver = () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 150);
+      };
 
       scrollTriggerRef.current = gsap.to(track, {
         x: () => -getScrollWidth(),
         ease: "none",
+        force3D: true,
         scrollTrigger: {
           trigger: section,
           start: "top top",
           end: () => `+=${getScrollWidth()}`,
           pin: true,
+          anticipatePin: 1,
           scrub: 1,
           invalidateOnRefresh: true,
+          refreshPriority: -1,
         },
       });
 
-      // keep ScrollTrigger accurate when card count or sizes change
-      resizeObserverRef.current = new ResizeObserver(() => {
-        ScrollTrigger.refresh();
-      });
+      // Keep ScrollTrigger accurate when card count or sizes change
+      resizeObserverRef.current = new ResizeObserver(handleResizeObserver);
       resizeObserverRef.current.observe(track);
+      resizeObserverRef.current.observe(section);
 
-      const handleResize = () => ScrollTrigger.refresh();
-      window.addEventListener("resize", handleResize);
+      const handleResize = () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 150);
+      };
+
+      window.addEventListener("resize", handleResize, { passive: true });
 
       return () => {
         section.removeEventListener("mousemove", moveCursor);
         section.removeEventListener("mouseenter", handleEnter);
         section.removeEventListener("mouseleave", handleLeave);
         window.removeEventListener("resize", handleResize);
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+        }
+        clearTimeout(resizeTimeout);
       };
     }, section);
 
     return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
       resizeObserverRef.current?.disconnect();
-      scrollTriggerRef.current?.scrollTrigger?.kill();
-      scrollTriggerRef.current?.kill();
+      if (scrollTriggerRef.current?.scrollTrigger) {
+        scrollTriggerRef.current.scrollTrigger.kill();
+      }
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill();
+      }
       ctx.revert();
     };
   }, []);
@@ -146,20 +209,32 @@ const CaseStudiesScroller = () => {
           </article>
         ))}
 
-        <article className="relative w-[70vw] sm:w-[320px] lg:w-[380px] aspect-[3/4] flex-shrink-0 rounded-3xl border border-white/15 bg-white/5 p-6 sm:p-8 flex flex-col justify-between">
-          <div className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.28em] text-white/60">
+        <article className="group relative w-[70vw] sm:w-[320px] lg:w-[380px] aspect-[3/4] flex-shrink-0 rounded-3xl border border-white/15 bg-white/5 p-6 sm:p-8 flex flex-col justify-between overflow-hidden transition-all duration-500 ease-out hover:-translate-y-4 hover:scale-[1.03] hover:border-white/30 hover:bg-white/10">
+          {/* Hover glow effect */}
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/5 via-transparent to-white/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+          {/* Animated border glow */}
+          <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-r from-white/20 via-white/10 to-white/20 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100 -z-10" />
+
+          <div className="space-y-4 relative z-10">
+            <p className="text-sm uppercase tracking-[0.28em] text-white/60 group-hover:text-white/80 transition-colors duration-300">
               More Work
             </p>
-            <h3 className="text-3xl sm:text-4xl font-founders leading-tight">
+            <h3 className="text-3xl sm:text-4xl font-founders leading-tight group-hover:text-white transition-colors duration-300">
               Much more magnificence still to be discovered.
             </h3>
           </div>
           <a
             href="#"
-            className="inline-flex items-center gap-2 text-lg font-semibold"
+            className="inline-flex items-center gap-2 text-3xl font-semibold relative z-10 group-hover:gap-3 transition-all duration-300"
           >
-            More Work <span aria-hidden>→</span>
+            More Work{" "}
+            <span
+              aria-hidden
+              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+            >
+              →
+            </span>
           </a>
         </article>
       </div>

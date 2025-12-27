@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { useContactPopup } from "../hooks/useContactPopup";
 import ContactPopup from "./ContactPopup";
+import MockvelFooter from "./Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -162,71 +163,68 @@ const Faq = () => {
   }, [displayedFaqs.length]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden bg-white px-6 py-16 sm:px-10 lg:px-16"
-    >
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_10%,rgba(79,70,229,0.06),transparent_32%),radial-gradient(circle_at_88%_12%,rgba(16,185,129,0.07),transparent_30%)]" />
-      <div className="absolute inset-0 -z-10 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-size-[120px_120px]" />
+    <>
+      <section
+        ref={sectionRef}
+        className="relative overflow-hidden bg-white px-6 py-16 sm:px-10 lg:px-16"
+      >
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_10%,rgba(79,70,229,0.06),transparent_32%),radial-gradient(circle_at_88%_12%,rgba(16,185,129,0.07),transparent_30%)]" />
+        <div className="absolute inset-0 -z-10 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-size-[120px_120px]" />
 
-      <div className="faq-header flex flex-col items-center text-center gap-3">
-        <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
-          FAQs
-        </p>
-        <h2 className="font-founders text-4xl sm:text-5xl lg:text-9xl font-bold text-slate-900">
-          Frequently Asked Questions
-        </h2>
-      </div>
+        <div className="faq-header flex flex-col items-center text-center gap-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
+            FAQs
+          </p>
+          <h2 className="font-founders text-4xl sm:text-5xl lg:text-9xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+        </div>
 
-      <div className="mt-10 grid gap-4 md:grid-cols-2">
-        {displayedFaqs.map((item, i) => (
-          <FaqItem
-            key={item.q}
-            item={item}
-            idx={i}
-            isOpen={openn === i}
-            onToggle={() => setOpen(openn === i ? -1 : i)}
-            ref={(el) => (cardsRef.current[i] = el)}
-          />
-        ))}
-      </div>
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {displayedFaqs.map((item, i) => (
+            <FaqItem
+              key={item.q}
+              item={item}
+              idx={i}
+              isOpen={openn === i}
+              onToggle={() => setOpen(openn === i ? -1 : i)}
+              ref={(el) => (cardsRef.current[i] = el)}
+            />
+          ))}
+        </div>
 
-      <h1 className="text-[6vw] text-center font-founders font-bold text-slate-900">
-        Ready to build something bold?
-      </h1>
-      <div className="flex items-center justify-center gap-10 relative">
-        <button
-          onClick={openPopup}
-          className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300"
-        >
-          Yes
-        </button>
-        <button
-          className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300 hover:text-black transition-all duration-300"
-          style={{
-            transform: `translate(${(Math.random() * 40 - 20).toFixed(1)}px, ${(
-              Math.random() * 30 -
-              15
-            ).toFixed(1)}px)`,
-          }}
-          onMouseEnter={(e) => {
-            const btn = e.currentTarget;
-            const dx = Math.random() * 120 - 60;
-            const dy = Math.random() * 60 - 30;
-            btn.style.transform = `translate(${dx}px, ${dy}px)`;
-          }}
-          onClick={(e) => {
-            const btn = e.currentTarget;
-            const dx = Math.random() * 140 - 110;
-            const dy = Math.random() * 70 - 35;
-            btn.style.transform = `translate(${dx}px, ${dy}px)`;
-          }}
-        >
-          No
-        </button>
-      </div>
-      <ContactPopup open={open} onClose={closePopup} />
-    </section>
+        <h1 className="text-[6vw] text-center font-founders font-bold text-slate-900">
+          Ready to build something bold?
+        </h1>
+        <div className="flex items-center justify-center gap-10 relative">
+          <button
+            onClick={openPopup}
+            className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300  hover:text-black transition-all duration-300"
+          >
+            Yes
+          </button>
+          <button
+            className="bg-black text-white px-10 py-4 rounded-full font-founders text-lg uppercase tracking-wider hover:bg-gray-300 hover:text-black transition-all duration-300"
+            onMouseEnter={(e) => {
+              const btn = e.currentTarget;
+              const dx = Math.random() * 120 - 60;
+              const dy = Math.random() * 60 - 30;
+              btn.style.transform = `translate(${dx}px, ${dy}px)`;
+            }}
+            onClick={(e) => {
+              const btn = e.currentTarget;
+              const dx = Math.random() * 140 - 110;
+              const dy = Math.random() * 70 - 35;
+              btn.style.transform = `translate(${dx}px, ${dy}px)`;
+            }}
+          >
+            No
+          </button>
+        </div>
+        <ContactPopup open={open} onClose={closePopup} />
+      </section>
+      <MockvelFooter />
+    </>
   );
 };
 

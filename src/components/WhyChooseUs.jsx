@@ -1,55 +1,55 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import AnimatedCounter from "./AnimatedCounter";
 gsap.registerPlugin(ScrollTrigger);
 
-const AnimatedCounter = ({ target, suffix = "", duration = 2 }) => {
-  const countRef = useRef(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
+// const AnimatedCounter = ({ target, suffix = "", duration = 2 }) => {
+//   const countRef = useRef(null);
+//   const [hasAnimated, setHasAnimated] = useState(false);
 
-  useEffect(() => {
-    if (!countRef.current || hasAnimated) return;
+//   useEffect(() => {
+//     if (!countRef.current || hasAnimated) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated) {
-            setHasAnimated(true);
-            gsap.fromTo(
-              countRef.current,
-              { textContent: "0" },
-              {
-                textContent: target,
-                duration: duration,
-                ease: "power2.out",
-                snap: { textContent: 1 },
-                onUpdate: function () {
-                  if (countRef.current) {
-                    countRef.current.textContent = Math.round(
-                      parseFloat(countRef.current.textContent || "0")
-                    ).toString();
-                  }
-                },
-              }
-            );
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         entries.forEach((entry) => {
+//           if (entry.isIntersecting && !hasAnimated) {
+//             setHasAnimated(true);
+//             gsap.fromTo(
+//               countRef.current,
+//               { textContent: "0" },
+//               {
+//                 textContent: target,
+//                 duration: duration,
+//                 ease: "power2.out",
+//                 snap: { textContent: 1 },
+//                 onUpdate: function () {
+//                   if (countRef.current) {
+//                     countRef.current.textContent = Math.round(
+//                       parseFloat(countRef.current.textContent || "0")
+//                     ).toString();
+//                   }
+//                 },
+//               }
+//             );
+//           }
+//         });
+//       },
+//       { threshold: 0.3 }
+//     );
 
-    observer.observe(countRef.current);
-    return () => observer.disconnect();
-  }, [target, duration, hasAnimated]);
+//     observer.observe(countRef.current);
+//     return () => observer.disconnect();
+//   }, [target, duration, hasAnimated]);
 
-  return (
-    <span>
-      <span ref={countRef}>0</span>
-      {suffix}
-    </span>
-  );
-};
+//   return (
+//     <span>
+//       <span ref={countRef}>0</span>
+//       {suffix}
+//     </span>
+//   );
+// };
 
 const reasons = [
   {
@@ -131,8 +131,8 @@ export default function WhyChooseUs() {
         {/* Top layout */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 sm:gap-12 lg:gap-16 mb-12 sm:mb-16 lg:mb-24">
           {/* Left: Heading + Logos */}
-          <div className="flex-1 w-full">
-            <p className="text-xs sm:text-sm tracking-[0.2em] text-primary uppercase mb-3 sm:mb-4 font-medium">
+          <div className="flex-1 w-full ">
+            <p className=" text-blue-500 text-xs sm:text-sm tracking-[0.2em] uppercase mb-3 sm:mb-4 font-medium ">
               Why Choose Us
             </p>
 

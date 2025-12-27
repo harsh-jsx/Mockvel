@@ -180,13 +180,12 @@ const Home2 = () => {
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4 font-hbue">
           Every Entrepreneur's Choice
         </h1>
-
         <p className="text-base md:text-xl text-gray-400 mt-6 max-w-2xl leading-relaxed">
           You’re not looking for an agency. You’re looking for{" "}
           <span className="text-white bg-white/10 px-2 rounded">growth</span> &
-          partners who understand your P&L and deliver results — not excuses.
-        </p>
-
+          <span className="text-white bg-white/10 px-2 rounded">partners</span>{" "}
+          who understand your P&L and deliver results not excuses.
+        </p>{" "}
         <LaptopVideo src={videoSrc} />
         <div
           className="absolute inset-0 md:hidden pointer-events-none"
