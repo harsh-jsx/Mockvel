@@ -92,7 +92,8 @@ const Intro = () => {
   const sectionRef = useRef(null);
   const desktopHeadingRef = useRef(null);
   const mobileHeadingRef = useRef(null);
-  const videoContainerRef = useRef(null);
+  const mobileVideoContainerRef = useRef(null);
+  const desktopVideoContainerRef = useRef(null);
   const statsRef = useRef(null);
 
   // YouTube Shorts video ID (portrait format)
@@ -137,10 +138,10 @@ const Intro = () => {
         });
       }
 
-      // Video container parallax
-      if (videoContainerRef.current) {
+      // Mobile video container animation
+      if (mobileVideoContainerRef.current) {
         gsap.fromTo(
-          videoContainerRef.current,
+          mobileVideoContainerRef.current,
           { y: 100, opacity: 0, scale: 0.9 },
           {
             y: 0,
@@ -149,18 +150,37 @@ const Intro = () => {
             duration: 1.5,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: videoContainerRef.current,
+              trigger: mobileVideoContainerRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+
+      // Desktop video container parallax
+      if (desktopVideoContainerRef.current) {
+        gsap.fromTo(
+          desktopVideoContainerRef.current,
+          { y: 100, opacity: 0, scale: 0.9 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: desktopVideoContainerRef.current,
               start: "top 85%",
             },
           }
         );
 
         // Parallax effect on scroll
-        gsap.to(videoContainerRef.current, {
+        gsap.to(desktopVideoContainerRef.current, {
           y: -50,
           ease: "none",
           scrollTrigger: {
-            trigger: videoContainerRef.current,
+            trigger: desktopVideoContainerRef.current,
             start: "top bottom",
             end: "bottom top",
             scrub: 1,
@@ -233,6 +253,27 @@ const Intro = () => {
             </span>
           ))}
         </h1>
+
+        {/* Mobile video - Right after heading on mobile only */}
+        <div
+          ref={mobileVideoContainerRef}
+          className="lg:hidden relative flex justify-center mb-12"
+        >
+          <div className="relative w-full max-w-[280px]">
+            {/* Portrait video container */}
+            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border/50 shadow-2xl">
+              <iframe
+                src={`https://www.youtube.com/embed/${youtubeShortId}?autoplay=1&mute=1&loop=1&playlist=${youtubeShortId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+                className="absolute inset-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="YouTube Shorts"
+              />
+              {/* Subtle overlay gradient at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
+            </div>
+          </div>
+        </div>
 
         <div className="flex">
           {/* Vertical heading on the left - Desktop only */}
@@ -351,10 +392,10 @@ const Intro = () => {
                 </div>
               </div>
 
-              {/* Right column - Portrait YouTube Shorts Video */}
+              {/* Right column - Portrait YouTube Shorts Video - Desktop only */}
               <div
-                ref={videoContainerRef}
-                className="relative flex justify-center lg:justify-end"
+                ref={desktopVideoContainerRef}
+                className="hidden lg:flex relative justify-center lg:justify-end"
               >
                 <div className="relative w-full max-w-[280px] lg:max-w-[500px]">
                   {/* Portrait video container */}
@@ -370,10 +411,6 @@ const Intro = () => {
                     {/* Subtle overlay gradient at bottom */}
                     <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
                   </div>
-
-                  {/* Corner accent */}
-
-                  {/* Floating label */}
                 </div>
               </div>
             </div>

@@ -107,7 +107,7 @@ const LaptopVideo = ({ src }) => {
         </div>
       </div>
 
-      {/* LAPTOP */}
+      {/* VIDEO */}
       <div
         ref={frameRef}
         onMouseMove={handleMove}
@@ -117,36 +117,21 @@ const LaptopVideo = ({ src }) => {
         className="relative w-[92vw] max-w-[1100px] mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden transform-gpu will-change-transform transition-transform duration-300"
         style={{
           transform: isMobile ? "rotateX(20deg)" : "rotateX(12deg)",
-          background: "linear-gradient(135deg, hsl(0 0% 14%), hsl(0 0% 6%))",
           boxShadow: `
-            0 0 0 1px hsl(0 0% 22% / 0.5),
-            0 40px 80px -20px hsl(0 0% 0% / 0.9),
-            0 0 120px -40px hsl(270 100% 50% / 0.35)
+            0 20px 60px -20px hsl(0 0% 0% / 0.5),
+            0 0 100px -30px hsl(270 100% 50% / 0.2)
           `,
         }}
       >
-        <div className="absolute inset-0 p-2">
-          <div className="w-full h-full rounded-xl overflow-hidden bg-black">
-            <video
-              ref={videoRef}
-              src={src}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-
-        {/* GLASS REFLECTION */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(135deg, hsl(0 0% 100% / 0.08), transparent 45%)",
-          }}
+        <video
+          ref={videoRef}
+          src={src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="w-full h-full object-cover"
         />
       </div>
     </div>

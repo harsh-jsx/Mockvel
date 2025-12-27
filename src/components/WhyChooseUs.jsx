@@ -164,11 +164,11 @@ export default function WhyChooseUs() {
           </div>
 
           {/* Right: Stats */}
-          <div className="flex flex-row items-end justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10 w-full lg:w-auto">
+          <div className="flex flex-row items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10 w-full lg:w-auto">
             {stats.map((stat, i) => (
               <div
                 key={stat.label}
-                className="relative group p-4 sm:p-5 md:p-6 lg:p-8 rounded-xl sm:rounded-2xl transition-all duration-500 hover:-translate-y-2 flex-1 sm:flex-none min-w-0"
+                className="relative group p-4 sm:p-5 md:p-6 lg:p-8 rounded-xl sm:rounded-2xl transition-all duration-500 hover:-translate-y-2 flex-1 sm:flex-none aspect-square flex flex-col items-center justify-center text-center"
                 style={{
                   background:
                     "linear-gradient(135deg, hsl(0 0% 100% / 0.06), hsl(0 0% 100% / 0.02))",

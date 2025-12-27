@@ -156,7 +156,7 @@ const BrandCarousel = () => {
                   </span>
                 ))}
               </h2>
-              <h3 className="text-4xl md:text-5xl lg:text-6xl pt-2 font-light leading-[1.1] mb-6 sm:mb-8 lg:mb-10">
+              <h3 className="text-2xl md:text-5xl lg:text-6xl pt-2 font-light leading-[1.1] mb-6 sm:mb-8 lg:mb-10">
                 The Numbers Prove Why
               </h3>
             </div>
