@@ -193,7 +193,7 @@ const Faq = () => {
           ))}
         </div>
 
-        <h1 className="text-[6vw] text-center font-founders font-bold text-slate-900">
+        <h1 className="text-[9vw] md:text-[6vw]  text-center font-founders font-bold text-black">
           Ready to build something bold?
         </h1>
         <div className="flex items-center justify-center gap-10 relative">

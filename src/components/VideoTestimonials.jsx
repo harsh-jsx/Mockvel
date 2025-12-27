@@ -402,19 +402,19 @@ const VideoTestimonials = () => {
           </div>
 
           {/* Bottom CTA */}
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-16 lg:mt-24">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-16 lg:mt-24 hidden md:block">
             <div className="relative group">
               {/* Background gradient glows - similar to home page */}
               <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden rounded-3xl">
                 {/* Top glow */}
                 <div className="absolute left-1/2 -translate-x-1/2 -top-20 w-[600px] h-[300px] blur-[100px] opacity-40 bg-purple-600" />
-                
+
                 {/* Left glow */}
                 <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-[300px] h-[400px] blur-[80px] opacity-30 bg-fuchsia-600" />
-                
+
                 {/* Right glow */}
                 <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-[300px] h-[400px] blur-[80px] opacity-30 bg-indigo-600" />
-                
+
                 {/* Center radial gradient */}
                 <div
                   className="absolute inset-0"

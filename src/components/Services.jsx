@@ -13,24 +13,40 @@ const Services = () => {
     serviceRefs.current.forEach((el) => {
       if (!el) return;
 
-      gsap.from(el, {
-        y: 200,
-        duration: 1,
-        ease: "circ.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 80%",
-          end: "top 30%",
-          scrub: true,
-          snap: {
-            snapTo: 1, // 👈 one snap per card
-            duration: 0.5,
-            ease: "power2.out",
+      // Different animation for mobile vs desktop
+      if (isDesktop) {
+        gsap.from(el, {
+          y: 200,
+          duration: 1,
+          ease: "circ.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 80%",
+            end: "top 30%",
+            scrub: true,
+            snap: {
+              snapTo: 1,
+              duration: 0.5,
+              ease: "power2.out",
+            },
           },
-        },
-      });
+        });
+      } else {
+        // Mobile: smoother, non-scrubbed animation
+        gsap.from(el, {
+          y: 60,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
+        });
+      }
     });
-  }, []);
+  }, [isDesktop]);
   return (
     <section id="services" className="min-h-screen bg-black rounded-t-4xl">
       <AnimatedHeaderSection
@@ -43,14 +59,19 @@ const Services = () => {
         <div
           ref={(el) => (serviceRefs.current[index] = el)}
           key={index}
-          className="sticky px-10 pt-6 pb-12 text-white bg-black border-t-2 border-white/30"
+          className={`${
+            isDesktop ? "sticky" : ""
+          } px-6 sm:px-10 pt-6 pb-12 text-white bg-black border-t-2 border-white/30`}
           style={
             isDesktop
               ? {
                   top: `calc(10vh + ${index * 5}em)`,
                   marginBottom: `${(servicesData.length - index - 1) * 5}rem`,
                 }
-              : { top: 0 }
+              : {
+                  position: "relative",
+                  marginBottom: index < servicesData.length - 1 ? "2rem" : "0",
+                }
           }
         >
           <div className="flex items-center justify-between gap-4 font-light">
@@ -78,7 +99,7 @@ const Services = () => {
                   </div>
                 ))}
               </div>
-              <button className="group w-1/3 hover:bg-white/80 transition-all duration-300 flex items-center justify-center gap-2 md:gap-3 px-6 py-3 md:px-4 md:py-2 bg-white text-black rounded-full font-medium text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+              <button className="group w-full sm:w-auto md:w-1/3 hover:bg-white/80 transition-all duration-300 flex items-center justify-center gap-2 md:gap-3 px-6 py-3 md:px-4 md:py-2 bg-white text-black rounded-full font-medium text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 mt-2">
                 <span>View More</span>
                 <svg
                   className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-1"
@@ -98,6 +119,7 @@ const Services = () => {
           </div>
         </div>
       ))}
+      <hr className="border-white" />
     </section>
   );
 };

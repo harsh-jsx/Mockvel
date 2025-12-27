@@ -59,8 +59,23 @@ const DATA = {
 
 export default function InsightsPage() {
   const [active, setActive] = useState("media");
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
+
+  // Detect mobile view
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Get items to display (3 on mobile, all on desktop)
+  const displayedItems = isMobile ? DATA[active].slice(0, 3) : DATA[active];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -82,7 +97,7 @@ export default function InsightsPage() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [active]);
+  }, [active, isMobile]);
 
   return (
     <>
@@ -115,7 +130,7 @@ export default function InsightsPage() {
 
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10">
-          {DATA[active].map((item, i) => (
+          {displayedItems.map((item, i) => (
             <article
               key={i}
               ref={(el) => (cardsRef.current[i] = el)}

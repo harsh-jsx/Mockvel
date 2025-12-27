@@ -69,7 +69,7 @@ export default function MockvelFooter() {
             />
           </h2>
 
-          <a
+          {/* <a
             onClick={openPopup}
             className="group relative flex items-center justify-center w-16 h-16 rounded-full border border-white/30 transition-all hover:border-white"
           >
@@ -77,7 +77,7 @@ export default function MockvelFooter() {
             <span className="relative z-10 text-xl text-white group-hover:text-black transition-colors">
               →
             </span>
-          </a>
+          </a> */}
         </div>
       </div>
       {/* Content grid */}
