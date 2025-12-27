@@ -390,8 +390,10 @@ export default function ClientsMarquee() {
           {/* Badge */}
 
           {/* Heading */}
-
-          <h3 className="text-4xl md:text-5xl lg:text-6xl font-display text-center mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-center mb-4">
+            <span className="italic">They Took a Bet on Us.</span>
+          </h2>
+          <h3 className="text-3xl md:text-4xl lg:text-5xl font-display text-center text-white/60 mb-8">
             We Made Them Winners.
           </h3>
 
