@@ -254,7 +254,7 @@ const BrandCarousel = () => {
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-2 lg:mt-8 text-center">
+          <div className="mt-2 lg:mt-8 text-center md:hidden">
             <p className="text-muted-foreground mb-8">
               Ready to create award-winning work together?
             </p>
