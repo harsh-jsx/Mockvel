@@ -177,7 +177,7 @@ const Home2 = () => {
   return (
     <div className="bg-black text-white min-h-screen relative">
       <section className="flex flex-col items-center pt-24 md:pt-32 px-6 text-center">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 md:gap-4 font-hbue">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold flex flex-wrap items-center justify-center gap-3 pt-2 md:pt-0 md:gap-4 font-hbue">
           Every Entrepreneur's Choice
         </h1>
         <p className="text-base md:text-xl text-gray-400 mt-6 max-w-2xl leading-relaxed">
